@@ -275,14 +275,14 @@ export const krk: IslandContent = {
   /* ---------- Shops & groceries ---------- */
   shops: [
     {
-      id: 'studenac-njivice',
-      name: 'Studenac — Njivice',
+      id: 'trgovina-krk-njivice',
+      name: 'Trgovina Krk — Njivice',
       category: 'supermarket',
       description: {
-        en: 'Branch of the Studenac chain in Njivice for daily groceries, drinks and everyday essentials, within walking distance of the apartments.',
-        de: 'Filiale der Studenac-Kette in Njivice für täglichen Einkauf, Getränke und Dinge des täglichen Bedarfs, fußläufig von den Apartments.',
+        en: 'Local Trgovina Krk shop in Njivice for daily groceries, drinks and everyday essentials, within walking distance of the apartments.',
+        de: 'Lokaler Trgovina-Krk-Markt in Njivice für täglichen Einkauf, Getränke und Dinge des täglichen Bedarfs, fußläufig von den Apartments.',
       },
-      maps: 'Studenac Njivice',
+      maps: 'Trgovina Krk Njivice',
       gradient: 'from-sea-400 to-sea-600',
     },
     {
@@ -298,14 +298,14 @@ export const krk: IslandContent = {
       gradient: 'from-sand-300 to-sand-500',
     },
     {
-      id: 'konzum-omisalj',
-      name: 'Konzum — Omišalj',
+      id: 'lidl-omisalj',
+      name: 'Lidl — Omišalj',
       category: 'supermarket',
       description: {
-        en: 'Large Konzum at the Omišalj roundabout, just after the Krk Bridge, with fresh meat, produce and bakery counters. Open daily 8:00–22:00 — the nearest big supermarket to Njivice.',
-        de: 'Großer Konzum am Kreisverkehr von Omišalj, kurz hinter der Krk-Brücke, mit Frischfleisch, Obst/Gemüse und Backwaren. Täglich 8:00–22:00 Uhr geöffnet — der nächste große Supermarkt zu Njivice.',
+        en: 'Large Lidl near the Omišalj roundabout, just after the Krk Bridge, with a wide range, fresh bakery and good prices — one of the nearest big supermarkets to Njivice.',
+        de: 'Großer Lidl beim Kreisverkehr von Omišalj, kurz hinter der Krk-Brücke, mit großer Auswahl, frischer Backstube und guten Preisen — einer der nächsten großen Supermärkte zu Njivice.',
       },
-      maps: 'Konzum Omisalj Krk',
+      maps: 'Lidl Omisalj Krk',
       gradient: 'from-sea-300 to-sand-400',
     },
     {
@@ -319,6 +319,28 @@ export const krk: IslandContent = {
       maps: 'Plodine Malinska',
       website: 'https://www.plodine.hr/supermarketi/34/supermarket-malinska',
       gradient: 'from-sea-500 to-sea-700',
+    },
+    {
+      id: 'tommy-malinska',
+      name: 'Tommy — Malinska',
+      category: 'supermarket',
+      description: {
+        en: 'Tommy supermarket in Malinska, about a 10-minute drive from Njivice, with a full grocery range for the weekly shop.',
+        de: 'Tommy-Supermarkt in Malinska, etwa 10 Autominuten von Njivice, mit komplettem Lebensmittelangebot für den Wocheneinkauf.',
+      },
+      maps: 'Tommy Malinska',
+      gradient: 'from-sea-400 to-sea-600',
+    },
+    {
+      id: 'trgovina-krk-malinska',
+      name: 'Trgovina Krk — Malinska',
+      category: 'supermarket',
+      description: {
+        en: 'Trgovina Krk shop in Malinska for daily groceries, drinks and everyday essentials, about a 10-minute drive from Njivice.',
+        de: 'Trgovina-Krk-Markt in Malinska für täglichen Einkauf, Getränke und Dinge des täglichen Bedarfs, etwa 10 Autominuten von Njivice.',
+      },
+      maps: 'Trgovina Krk Malinska',
+      gradient: 'from-sand-300 to-sand-500',
     },
   ],
 

@@ -190,7 +190,7 @@ export const demoGuide = {
     {
       icon: 'shop' as IconName,
       title: 'Trgovine, ljekarna i bankomat',
-      body: 'Studenac u Njivicama — par minuta hoda. Veći Konzum u Omišlju (5 km). Ljekarna i bankomati u centru Njivica.',
+      body: 'Trgovina Krk u Njivicama — par minuta hoda. Veći Lidl u Omišlju (5 km). Ljekarna i bankomati u centru Njivica.',
     },
     {
       icon: 'compass' as IconName,

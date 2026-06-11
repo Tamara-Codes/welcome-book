@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  // Only apply `hover:` utilities on devices that truly support hovering, so
+  // touch screens don't trigger (and "stick") hover states on tap.
+  future: { hoverOnlyWhenSupported: true },
   theme: {
     extend: {
       colors: {

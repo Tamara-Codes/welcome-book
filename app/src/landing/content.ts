@@ -31,7 +31,7 @@ import type { IconName } from '../components/Icon'
  *  If no key is configured, the form falls back to opening the visitor's email
  *  app with a pre-filled message (and says so honestly on submit).
  */
-const WEB3FORMS_ACCESS_KEY = '' // 👈 PASTE YOUR WEB3FORMS ACCESS KEY HERE
+const WEB3FORMS_ACCESS_KEY = '9e0122d0-526c-4631-bb70-b3cfe8d96fc0' // 👈 PASTE YOUR WEB3FORMS ACCESS KEY HERE
 const FALLBACK_EMAIL = 'codewithtamara@gmail.com' // address used by the mailto fallback
 
 export const inquiryConfig = {
@@ -149,7 +149,7 @@ export const demoGuide = {
   /** Header inside the phone frame. */
   propertyName: 'Apartmani Mila',
   propertyPlace: 'Njivice, otok Krk',
-  propertyTagline: 'Vaš mirni kutak uz more.',
+  propertyTagline: 'Vaš dom uz Jadran u Njivicama, na otoku Krku.',
   /** Each section shown inside the demo guide. `icon` ∈ IconName. */
   sections: [
     {

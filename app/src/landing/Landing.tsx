@@ -126,11 +126,11 @@ export default function Landing() {
 
 function Wordmark({ light = false }: { light?: boolean }) {
   return (
-    <a href="#top" className="flex items-center gap-2.5">
-      <span className={`grid h-9 w-9 place-items-center rounded-xl ${light ? 'bg-shell text-ink' : 'bg-ink text-shell'}`}>
+    <a href="#top" className="flex min-w-0 items-center gap-2 sm:gap-2.5">
+      <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl sm:h-9 sm:w-9 ${light ? 'bg-shell text-ink' : 'bg-ink text-shell'}`}>
         <Icon name="waves" className="h-5 w-5" />
       </span>
-      <span className={`font-fraunces text-xl font-medium tracking-tight ${light ? 'text-shell' : 'text-ink'}`}>
+      <span className={`truncate font-fraunces text-lg font-medium tracking-tight sm:text-xl ${light ? 'text-shell' : 'text-ink'}`}>
         {brand.name}
       </span>
     </a>
@@ -169,7 +169,7 @@ function Header() {
           href={DEMO_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 font-hanken text-sm font-semibold text-shell transition-all hover:bg-ink-700 active:scale-[0.98]"
+          className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-ink px-4 py-2 font-hanken text-[13px] font-semibold text-shell transition-all hover:bg-ink-700 active:scale-[0.98] sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
         >
           {hero.primaryCta}
           <Icon name="chevronRight" className="h-4 w-4" />
@@ -607,18 +607,20 @@ function Footer() {
             ))}
           </nav>
           <div className="flex items-center gap-2.5">
-            {socials.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.label}
-                className="grid h-9 w-9 place-items-center rounded-full bg-shell/[0.06] text-shell/60 transition-all hover:bg-clay-500 hover:text-white"
-              >
-                <Icon name={s.icon} className="h-4 w-4" />
-              </a>
-            ))}
+            {[...contact.methods, ...socials].map((c) => {
+              const external = c.href.startsWith('http')
+              return (
+                <a
+                  key={c.label}
+                  href={c.href}
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  aria-label={`${c.label}: ${c.value}`}
+                  className="grid h-9 w-9 place-items-center rounded-full bg-shell/[0.06] text-shell/60 transition-all hover:bg-clay-500 hover:text-white"
+                >
+                  <Icon name={c.icon} className="h-4 w-4" />
+                </a>
+              )
+            })}
           </div>
         </div>
 

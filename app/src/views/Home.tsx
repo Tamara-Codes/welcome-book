@@ -27,7 +27,7 @@ const QUICK_BUTTONS: QuickButton[] = [
 export function Home() {
   const { t, tc } = useLang()
   const { go } = useNav()
-  const { property } = useProperty()
+  const { property, reviews } = useProperty()
 
   function open(b: QuickButton) {
     go(b.view)
@@ -76,6 +76,30 @@ export function Home() {
           </button>
         ))}
       </div>
+
+      {/* Gentle review reminder — only when the property has review links */}
+      {reviews && reviews.length > 0 && (
+        <section className="mt-7 rounded-3xl border border-sea-100 bg-sea-50 p-5 text-center">
+          <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-sea-600 text-white">
+            <Icon name="star" className="h-6 w-6" />
+          </span>
+          <h3 className="mt-3 font-display text-lg font-bold text-sea-900">{t('home.review.title')}</h3>
+          <p className="mx-auto mt-1.5 max-w-sm text-sm leading-relaxed text-slate-600">{t('home.review.body')}</p>
+          <div className="mt-4 flex flex-wrap justify-center gap-2.5">
+            {reviews.map((r) => (
+              <a
+                key={r.id}
+                href={r.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-soft px-4 py-2.5 text-sm"
+              >
+                <Icon name="star" className="h-4 w-4" /> {r.label}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   )
 }

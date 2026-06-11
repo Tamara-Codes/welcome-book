@@ -12,7 +12,7 @@ const Guide = lazy(() => import('./Guide.tsx'))
 
 // Multi-tenant routing from the URL path:
 //   /            → owner-facing landing / demo page
-//   /<slug>      → that property's guest guide  (e.g. /danica)
+//   /<slug>      → that property's guest guide  (e.g. /mila)
 //   /<unknown>   → not-found
 const slug = slugFromPath(window.location.pathname)
 const content = slug ? resolveProperty(slug) : undefined

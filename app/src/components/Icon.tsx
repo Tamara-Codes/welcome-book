@@ -23,6 +23,8 @@ export type IconName =
   | 'phone'
   | 'whatsapp'
   | 'ferry'
+  | 'plane'
+  | 'bus'
   | 'info'
   | 'compass'
   | 'home'
@@ -53,6 +55,8 @@ export type IconName =
   | 'link'
   | 'globe'
   | 'chat'
+  | 'linkedin'
+  | 'twitter'
 
 const ICONS: Record<IconName, ReactNode> = {
   wifi: (
@@ -138,6 +142,20 @@ const ICONS: Record<IconName, ReactNode> = {
       <path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76" />
       <path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6" />
       <path d="M12 2v3" />
+    </>
+  ),
+  plane: (
+    <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
+  ),
+  bus: (
+    <>
+      <path d="M8 6v6" />
+      <path d="M15 6v6" />
+      <path d="M2 12h19.6" />
+      <path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3" />
+      <circle cx="7" cy="18" r="2" />
+      <path d="M9 18h5" />
+      <circle cx="16" cy="18" r="2" />
     </>
   ),
   info: (
@@ -320,6 +338,16 @@ const ICONS: Record<IconName, ReactNode> = {
   ),
   chat: (
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  ),
+  linkedin: (
+    <>
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-9h4v1.5" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
+    </>
+  ),
+  twitter: (
+    <path d="M4 3h4.2l4.5 6 5.3-6H21l-7 7.9L21.5 21h-4.2l-5-6.7L6 21H3l7.4-8.4z" />
   ),
 }
 

@@ -2,54 +2,54 @@ import type { Localized } from '../../i18n/types'
 import type { Property } from '../content'
 
 /* ============================================================================
- *  📖  PROPERTY: Apartmani Danica  (slug: "danica")
+ *  📖  PROPERTY: Apartmani Mila  (slug: "mila")
  * ----------------------------------------------------------------------------
  *  This is the ONLY file you edit to customise THIS building's guide. It holds
  *  just what's unique to the building — host, wifi/check-in, apartments and
  *  prices. Everything around it (restaurants, beaches, activities, shops,
- *  contacts, ferries) comes from its ISLAND: see the `island` field below and
- *  src/data/islands/pasman.ts.
+ *  contacts, arrival) comes from its ISLAND: see the `island` field below and
+ *  src/data/islands/krk.ts.
  *
  *  • Phone numbers: full international format, e.g. "+385 91 123 4567".
  *  • WhatsApp: digits only with country code, no "+", e.g. "385911234567".
  *  • Descriptions use { en: "..." } and fall back to English. To translate,
  *    add more keys, e.g. { en: "Sea view", de: "Meerblick" }.
  *
- *  To add ANOTHER building on Pašman: copy this file to a new slug
- *  (e.g. galeb.ts), keep `island: 'pasman'`, edit it, and register it in
- *  src/data/content.ts — it inherits all of Pašman's amenities for free.
+ *  To add ANOTHER building on Krk: copy this file to a new slug
+ *  (e.g. galeb.ts), keep `island: 'krk'`, edit it, and register it in
+ *  src/data/content.ts — it inherits all of Krk's amenities for free.
  * ========================================================================== */
 
-export const danica: Property = {
+export const mila: Property = {
   /* The island this building sits on — a key in `islands` (src/data/content.ts).
      Its amenities are merged into this guide automatically. */
-  island: 'pasman',
+  island: 'krk',
 
   /* ---------- Property & host ---------- */
   property: {
-    name: 'Apartmani Danica',
+    name: 'Apartmani Mila',
     tagline: {
-      en: 'Your home by the Adriatic in Ždrelac, on the island of Pašman.',
-      de: 'Ihr Zuhause an der Adria in Ždrelac, auf der Insel Pašman.',
-      it: 'La vostra casa sull’Adriatico a Ždrelac, sull’isola di Pašman.',
-      sl: 'Vaš dom ob Jadranu v Ždrelcu, na otoku Pašman.',
-      pl: 'Wasz dom nad Adriatykiem w Ždrelacu, na wyspie Pašman.',
-      cs: 'Váš domov u Jaderského moře ve Ždrelaci, na ostrově Pašman.',
+      en: 'Your home by the Adriatic in Njivice, on the island of Krk.',
+      de: 'Ihr Zuhause an der Adria in Njivice, auf der Insel Krk.',
+      it: 'La vostra casa sull’Adriatico a Njivice, sull’isola di Krk.',
+      sl: 'Vaš dom ob Jadranu v Njivicah, na otoku Krk.',
+      pl: 'Wasz dom nad Adriatykiem w Njivicach, na wyspie Krk.',
+      cs: 'Váš domov u Jaderského moře v Njivicích, na ostrově Krk.',
     },
   },
 
   host: {
-    name: 'Family host',
-    phone: '+385 91 000 0000', // TODO: replace with the real number
-    whatsapp: '385910000000', // TODO: digits only, no "+"
-    email: 'host@example.com', // TODO: replace or remove
+    name: 'Marija Matijević',
+    phone: '+385 91 234 5678',
+    whatsapp: '385912345678',
+    email: 'info@apartmani-mila.hr',
   },
 
   /* ---------- Apartment info / house rules ---------- */
   apartmentInfo: {
     wifi: {
-      network: 'FamilyApartments-WiFi', // TODO
-      password: 'welcome2024', // TODO
+      network: 'ApartmaniMila',
+      password: 'more2026',
     },
     checkIn: '15:00',
     checkOut: '10:00',
@@ -88,27 +88,27 @@ export const danica: Property = {
   /* ---------- Apartments & prices ---------- */
   apartments: [
     {
-      id: 'a',
-      name: 'Apartment A',
+      id: 'lavanda',
+      name: 'Lavanda',
       capacity: 2,
       bedrooms: 1,
       amenities: ['wifi', 'ac', 'seaView', 'terrace', 'kitchen', 'parking', 'tv'],
       description: {
-        en: 'A cosy apartment for two with a sunny terrace and a lovely view over the sea — perfect for couples.',
-        de: 'Ein gemütliches Apartment für zwei mit sonniger Terrasse und schönem Meerblick — ideal für Paare.',
+        en: 'A cosy apartment for two with a sunny terrace and a lovely view over the bay — perfect for couples.',
+        de: 'Ein gemütliches Apartment für zwei mit sonniger Terrasse und schönem Blick über die Bucht — ideal für Paare.',
       },
       prices: [
-        { season: 'mayJune', pricePerNight: 70 },
-        { season: 'julyAugust', pricePerNight: 110 },
-        { season: 'september', pricePerNight: 80 },
+        { season: 'mayJune', pricePerNight: 75 },
+        { season: 'julyAugust', pricePerNight: 115 },
+        { season: 'september', pricePerNight: 85 },
       ],
       cleaningFee: 40,
-      image: '/properties/danica/apartment-a.png',
+      image: '/properties/mila/apartment-a.png',
       gradient: 'from-sea-300 to-sea-500',
     },
     {
-      id: 'b',
-      name: 'Apartment B',
+      id: 'maslina',
+      name: 'Maslina',
       capacity: 4,
       bedrooms: 2,
       amenities: ['wifi', 'ac', 'terrace', 'kitchen', 'parking', 'tv', 'washingMachine'],
@@ -117,32 +117,43 @@ export const danica: Property = {
         de: 'Ein komfortables Apartment mit zwei Schlafzimmern für Familien oder kleine Gruppen, mit voll ausgestatteter Küche und schattiger Terrasse.',
       },
       prices: [
-        { season: 'mayJune', pricePerNight: 80 },
-        { season: 'julyAugust', pricePerNight: 130 },
-        { season: 'september', pricePerNight: 90 },
+        { season: 'mayJune', pricePerNight: 85 },
+        { season: 'julyAugust', pricePerNight: 135 },
+        { season: 'september', pricePerNight: 95 },
       ],
       cleaningFee: 45,
-      image: '/properties/danica/apartment-b.png',
+      image: '/properties/mila/apartment-b.png',
       gradient: 'from-sea-400 to-sea-600',
     },
     {
-      id: 'c',
-      name: 'Apartment C',
+      id: 'more',
+      name: 'More',
       capacity: 6,
       bedrooms: 3,
       amenities: ['wifi', 'ac', 'seaView', 'balcony', 'kitchen', 'parking', 'tv', 'washingMachine', 'dishwasher'],
       description: {
-        en: 'Our largest apartment with three bedrooms and a balcony overlooking the bay — plenty of space for the whole family.',
-        de: 'Unser größtes Apartment mit drei Schlafzimmern und Balkon mit Blick auf die Bucht — viel Platz für die ganze Familie.',
+        en: 'Our largest apartment with three bedrooms and a balcony overlooking the sea — plenty of space for the whole family.',
+        de: 'Unser größtes Apartment mit drei Schlafzimmern und Balkon mit Meerblick — viel Platz für die ganze Familie.',
       },
       prices: [
-        { season: 'mayJune', pricePerNight: 100 },
-        { season: 'julyAugust', pricePerNight: 160 },
-        { season: 'september', pricePerNight: 120 },
+        { season: 'mayJune', pricePerNight: 105 },
+        { season: 'julyAugust', pricePerNight: 165 },
+        { season: 'september', pricePerNight: 125 },
       ],
       cleaningFee: 50,
-      image: '/properties/danica/apartment-c.png',
+      image: '/properties/mila/apartment-c.png',
       gradient: 'from-sea-500 to-sea-700',
     },
+  ],
+
+  /* ---------- Review links ----------
+     Shown as a gentle "leave a review" reminder on the home screen. Replace
+     these demo URLs with your real Booking / Airbnb / Google review links;
+     remove a line to hide that channel, or delete `reviews` entirely to hide
+     the reminder. */
+  reviews: [
+    { id: 'booking', label: 'Booking.com', url: 'https://www.booking.com' },
+    { id: 'airbnb', label: 'Airbnb', url: 'https://www.airbnb.com' },
+    { id: 'google', label: 'Google', url: 'https://www.google.com/maps' },
   ],
 }

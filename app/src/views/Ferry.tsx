@@ -2,41 +2,34 @@ import { useLang } from '../i18n/LanguageContext'
 import { SectionHeader } from '../components/SectionHeader'
 import { Icon } from '../components/Icon'
 import { useProperty } from '../property'
+import type { UIKey } from '../i18n/ui'
 
 export function Ferry() {
   const { t } = useLang()
-  const { ferryLinks } = useProperty()
+  const { arrivalLinks } = useProperty()
 
   return (
     <div>
-      <SectionHeader icon="ferry" title={t('ferry.title')} subtitle={t('ferry.subtitle')} />
+      <SectionHeader icon="compass" title={t('ferry.title')} subtitle={t('ferry.subtitle')} />
 
       <article className="card p-5">
         <p className="text-sm leading-relaxed text-slate-600">{t('ferry.description')}</p>
 
         <div className="mt-5 space-y-3">
-          <a
-            href={ferryLinks.biogradTkon}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary w-full justify-between"
-          >
-            <span className="flex items-center gap-2">
-              <Icon name="ferry" className="h-5 w-5" /> {t('ferry.biogradTkon')}
-            </span>
-            <Icon name="chevronRight" className="h-5 w-5" />
-          </a>
-          <a
-            href={ferryLinks.zadarPreko}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary w-full justify-between"
-          >
-            <span className="flex items-center gap-2">
-              <Icon name="ferry" className="h-5 w-5" /> {t('ferry.zadarPreko')}
-            </span>
-            <Icon name="chevronRight" className="h-5 w-5" />
-          </a>
+          {arrivalLinks.map((link) => (
+            <a
+              key={link.id}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary w-full justify-between"
+            >
+              <span className="flex items-center gap-2">
+                <Icon name={link.icon ?? 'ferry'} className="h-5 w-5" /> {t(link.labelKey as UIKey)}
+              </span>
+              <Icon name="chevronRight" className="h-5 w-5" />
+            </a>
+          ))}
         </div>
       </article>
 

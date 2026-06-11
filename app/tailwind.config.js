@@ -26,10 +26,30 @@ export default {
           400: '#e0bf78',
           500: '#d4a850',
         },
+        // Landing-page brand tokens ("Coastal Blue" — matches the guest app)
+        ink: {
+          DEFAULT: '#0c4a6e', // deep sea navy — text + strong sections
+          800: '#0a3f5e',
+          700: '#0e5a85', // lighter navy for hover
+        },
+        shell: {
+          DEFAULT: '#f7fbfe', // light cool white — page
+          100: '#eef6fc', // light blue — panels
+          200: '#e0f0fa',
+        },
+        clay: {
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#0ea5e9', // sky blue — accent
+          600: '#0284c7', // brand blue (app) — hover / emphasis
+        },
       },
       fontFamily: {
         sans: ['"Nunito Sans"', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
         display: ['"Baloo 2"', '"Nunito Sans"', 'system-ui', 'sans-serif'],
+        // Landing page only — distinctive editorial pairing
+        fraunces: ['Fraunces', 'Georgia', 'Cambria', 'serif'],
+        hanken: ['"Hanken Grotesk"', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
       },
       borderRadius: {
         '2xl': '1.25rem',

@@ -1,9 +1,10 @@
 /* ============================================================================
  *  🪧  LANDING PAGE — EDIT ALL CROATIAN COPY HERE
  * ----------------------------------------------------------------------------
- *  This is the single file you edit to change the owner-facing landing/demo
- *  page: the headline, the demo guide preview ("Apartman Sanja — Pašman"),
- *  the value points, the prices, the inquiry form and the footer.
+ *  This is the single file you edit to change the owner-facing landing page:
+ *  the headline, the "how it works" steps, the demo preview ("Apartmani Mila —
+ *  Njivice"), the value points, the prices, the contact details and the tiny
+ *  inquiry form.
  *
  *  • Submission settings (where the inquiry goes) live in `inquiryConfig`.
  *  • The page is always in Croatian — the visitor is the apartment OWNER.
@@ -13,70 +14,153 @@ import type { IconName } from '../components/Icon'
 
 /* ---------- Where inquiries are sent ----------
  *
- *  Two ways to receive inquiries — set EITHER one in a `.env` file
- *  (copy `.env.example` to `.env`):
+ *  The form is delivered via Web3Forms (https://web3forms.com): the message is
+ *  POSTed in the background and arrives in your inbox — no email app opens for
+ *  the visitor.
  *
- *  1. ENDPOINT (preferred for production): set VITE_INQUIRY_FORM_ENDPOINT to a
- *     URL that accepts a POST with JSON (Formspree / Formspark / Basin / a
- *     Google Apps Script, …). The form posts there and shows the success
- *     message in-page.
- *         VITE_INQUIRY_FORM_ENDPOINT=https://formspree.io/f/xxxxxxx
+ *  👉 PASTE YOUR WEB3FORMS ACCESS KEY BELOW.
+ *     1. Go to https://web3forms.com
+ *     2. Enter the email that should receive inquiries → you get an access key
+ *        (a UUID like "a1b2c3d4-...").
+ *     3. Paste it into WEB3FORMS_ACCESS_KEY here (or set VITE_WEB3FORMS_KEY in
+ *        a `.env` file / Vercel env var — that takes precedence).
  *
- *  2. EMAIL FALLBACK: if no endpoint is set, submitting opens the visitor's
- *     email app with a pre-filled message to the address below
- *     (or VITE_INQUIRY_EMAIL).
+ *  The access key is safe to keep in this file: Web3Forms keys are designed to
+ *  live in front-end code and only allow submitting the form to your inbox.
+ *
+ *  If no key is configured, the form falls back to opening the visitor's email
+ *  app with a pre-filled message (and says so honestly on submit).
  */
-const FALLBACK_EMAIL = 'tamara@algorise.co.uk' // 👈 address that should receive inquiries
+const WEB3FORMS_ACCESS_KEY = '' // 👈 PASTE YOUR WEB3FORMS ACCESS KEY HERE
+const FALLBACK_EMAIL = 'codewithtamara@gmail.com' // address used by the mailto fallback
 
 export const inquiryConfig = {
-  /** POST endpoint; empty string ⇒ use the mailto fallback. */
-  endpoint: (import.meta.env.VITE_INQUIRY_FORM_ENDPOINT as string | undefined)?.trim() ?? '',
+  /** Web3Forms access key; empty string ⇒ use the mailto fallback. */
+  accessKey: (import.meta.env.VITE_WEB3FORMS_KEY as string | undefined)?.trim() || WEB3FORMS_ACCESS_KEY,
+  /** Web3Forms submit endpoint. */
+  endpoint: 'https://api.web3forms.com/submit',
   /** Recipient for the mailto fallback. */
   email: (import.meta.env.VITE_INQUIRY_EMAIL as string | undefined)?.trim() || FALLBACK_EMAIL,
   /** URL of the live guest guide opened by the "live demo" button. Defaults to
-   *  the bundled demo property at /danica; override with VITE_DEMO_URL. */
-  demoUrl: (import.meta.env.VITE_DEMO_URL as string | undefined)?.trim() || '/danica',
+   *  the bundled demo property at /mila; override with VITE_DEMO_URL. */
+  demoUrl: (import.meta.env.VITE_DEMO_URL as string | undefined)?.trim() || '/mila',
 }
 
-/* ---------- 1. Top demo banner ---------- */
+/* ---------- Brand + top navigation ---------- */
 
-export const banner = {
-  badge: 'DEMO',
-  title: 'Demo digitalnog vodiča za apartmane',
+export const brand = {
+  name: 'Welcome Book',
+  tagline: 'Digitalni vodiči za privatni smještaj',
+}
+
+export const nav = [
+  { label: 'Demo', href: '#demo' },
+  { label: 'Kako radi', href: '#kako' },
+  { label: 'Cijene', href: '#cijene' },
+  { label: 'Kontakt', href: '#kontakt' },
+]
+
+/* ---------- 1. Hero ---------- */
+
+export const hero = {
+  eyebrow: 'Digitalni vodič za goste',
+  /** The headline is split so one word can be set in italic serif. */
+  titleLead: 'Sve što vaši gosti trebaju,',
+  titleEmphasis: 'na jednom mjestu.',
   subtitle:
-    'Ovako može izgledati vodič koji vaši gosti otvaraju linkom prije dolaska ili skeniranjem QR koda u apartmanu.',
-  explanation:
-    'U vodiču su Wi‑Fi, kućni red, check‑in/check‑out, parking, plaže, restorani, trajekti, hitni brojevi, lokalne preporuke i link za recenziju nakon boravka. Bez aplikacije i bez prijave za gosta.',
-  primaryCta: 'Želim ovakav vodič',
-  priceNote: 'Izrada od €149 po sezoni. Posebne cijene za kuće s više apartmana.',
+    'Elegantan digitalni vodič koji gosti otvaraju linkom prije dolaska ili skeniranjem QR koda u apartmanu — Wi-Fi, kućni red, plaže, restorani i lokalni savjeti, i nježan podsjetnik gostima da ostave recenziju. Bez aplikacije, bez prijave.',
+  primaryCta: 'Isprobaj demo',
+  secondaryCta: 'Kontaktirajte me',
+  trust: 'Izrada od €149 po sezoni · QR kod uključen · više jezika',
 }
 
-/* ---------- 2. Demo guest guide ("Apartman Sanja — Pašman") ----------
+/* ---------- 2. Value lede ---------- */
+
+export const value = {
+  eyebrow: 'Zašto vodič',
+  title: 'Manje pitanja. Bolji prvi dojam.',
+  intro:
+    'Umjesto poruka u svako doba i papira po ladicama, gosti dobiju jedan uredan link s odgovorima na sve. Vama ostaje više vremena, a boravak djeluje promišljeno od prve minute.',
+  points: [
+    {
+      icon: 'chat' as IconName,
+      text: 'Manje ponavljanja',
+      desc: 'Gosti sami nađu Wi-Fi, parking i kućni red — bez poruka u svako doba dana i noći.',
+    },
+    {
+      icon: 'sparkles' as IconName,
+      text: 'Profesionalniji dojam',
+      desc: 'Uredan, brendiran vodič umjesto papira po ladicama i PDF-ova u mailu.',
+    },
+    {
+      icon: 'globe' as IconName,
+      text: 'Više jezika',
+      desc: 'Strani gosti dobiju sadržaj na svom jeziku — engleski, njemački, talijanski i drugi.',
+    },
+    {
+      icon: 'star' as IconName,
+      text: 'Lakši put do recenzije',
+      desc: 'Nježan podsjetnik na kraju boravka vodi gosta do recenzije na Booking, Airbnb ili Google.',
+    },
+  ] as { icon: IconName; text: string; desc: string }[],
+}
+
+/* ---------- 3. How it works ---------- */
+
+export const howItWorks = {
+  eyebrow: 'Kako radi',
+  title: 'Od podataka do gotovog vodiča u tri koraka.',
+  steps: [
+    {
+      icon: 'chat' as IconName,
+      title: 'Unos podataka',
+      body: 'Javite mi osnovne informacije o apartmanu. Ako već imate tekstove i slike, pošaljete i njih. Ako ne, nema problema, pomoći ću i s tim.',
+    },
+    {
+      icon: 'sparkles' as IconName,
+      title: 'Izrada vodiča',
+      body: 'Složim uredan, pregledan vodič s vašim podacima i fotografijama te pripremam QR kod za apartman.',
+    },
+    {
+      icon: 'qr' as IconName,
+      title: 'Gost skenira',
+      body: 'Gosti otvore link ili skeniraju QR kod i odmah imaju sve pred sobom — bez aplikacije i bez prijave.',
+    },
+  ],
+}
+
+/* ---------- 4. Demo guest guide ("Apartmani Mila — Njivice") ----------
  *  Fictional, anonymised sample content. It should read like a REAL apartment
  *  guide. Edit freely — each entry becomes a card in the phone preview.
  */
 
 export const demoGuide = {
-  /** Small label above the preview, so owners know this is illustrative. */
-  sectionLabel: 'Primjer vodiča',
+  eyebrow: 'Primjer vodiča',
   sectionTitle: 'Ovako vaši gosti vide vodič',
   sectionIntro:
-    'Ovo je primjer za izmišljeni „Apartman Sanja“ na Pašmanu. Vaš vodič radim s vašim podacima, fotografijama i preporukama.',
+    'Ovo je primjer vodiča za „Apartmani Mila“ u Njivicama na Krku. Vaš radim s vašim podacima, fotografijama i preporukama — ovo je samo prikaz.',
+  /** Short bullets shown beside the phone preview. */
+  highlights: [
+    'Dobrodošlica i kućni red',
+    'Wi-Fi i check-in / check-out',
+    'Plaže, restorani i trgovine',
+    'Dolazak, prijevoz i hitni brojevi',
+  ],
   /** Header inside the phone frame. */
-  propertyName: 'Apartman Sanja',
-  propertyPlace: 'Pašman, Hrvatska',
+  propertyName: 'Apartmani Mila',
+  propertyPlace: 'Njivice, otok Krk',
   propertyTagline: 'Vaš mirni kutak uz more.',
   /** Each section shown inside the demo guide. `icon` ∈ IconName. */
   sections: [
     {
       icon: 'sun' as IconName,
       title: 'Dobrodošli',
-      body: 'Dobro došli u Apartman Sanja! Drago nam je što ste tu. Sve važne informacije za ugodan boravak nalaze se u ovom vodiču — slobodno ga otvorite kad god vam zatreba.',
+      body: 'Dobro došli u Apartmani Mila! Drago nam je što ste tu. Sve važne informacije za ugodan boravak nalaze se u ovom vodiču — slobodno ga otvorite kad god vam zatreba.',
     },
     {
       icon: 'wifi' as IconName,
       title: 'Wi‑Fi',
-      body: 'Mreža: Apartman_Sanja · Lozinka: more2024. Signal pokriva cijeli apartman i terasu.',
+      body: 'Mreža: ApartmaniMila · Lozinka: more2026. Signal pokriva cijeli apartman i terasu.',
     },
     {
       icon: 'key' as IconName,
@@ -96,22 +180,22 @@ export const demoGuide = {
     {
       icon: 'beach' as IconName,
       title: 'Plaže u blizini',
-      body: 'Šljunčana plaža Sovinje — 5 min hoda. Mirna uvala s plitkim ulazom, idealna za djecu — 10 min vožnje.',
+      body: 'Plaža Kijac — šljunčana plaža s plavom zastavom, plitki ulaz idealan za djecu, 10 min hoda. Plaža Jadran uz šetnicu — 5 min.',
     },
     {
       icon: 'restaurant' as IconName,
       title: 'Restorani i kafići',
-      body: 'Konoba Pašman — domaća riba i janjetina ispod peke. Caffe bar Val — jutarnja kava uz more, 3 min hoda.',
+      body: 'Restaurant Rivica — poznati riblji restoran na rivi. Konoba Njivice — domaća kuhinja i šurlice. Beach Bar Insula — koktel uz zalazak sunca.',
     },
     {
       icon: 'shop' as IconName,
       title: 'Trgovine, ljekarna i bankomat',
-      body: 'Trgovina Studenac — 200 m. Najbliža ljekarna i bankomat u Tkonu (oko 8 km). Preporuka: podignite gotovinu prije dolaska.',
+      body: 'Studenac u Njivicama — par minuta hoda. Veći Konzum u Omišlju (5 km). Ljekarna i bankomati u centru Njivica.',
     },
     {
-      icon: 'ferry' as IconName,
-      title: 'Trajekti i prijevoz',
-      body: 'Trajekt Tkon–Biograd vozi više puta dnevno. Vozni red provjerite kod Jadrolinije prije polaska, ljeti zna biti gužve.',
+      icon: 'compass' as IconName,
+      title: 'Dolazak i prijevoz',
+      body: 'Krčki most je besplatan — dolazite autom do vrata. Zračna luka Rijeka je na otoku kod Omišlja (cca 15 min). Otokom voze Arriva autobusi.',
     },
     {
       icon: 'alert' as IconName,
@@ -128,113 +212,95 @@ export const demoGuide = {
   liveButton: 'Otvori živi demo vodiča',
 }
 
-/* ---------- 3. Mid-page CTA ---------- */
+/* ---------- Demo call-to-action band ---------- */
 
-export const midCta = {
-  title: 'Želite ovakav vodič za svoje goste?',
-  body: 'Pripremim vam vodič, QR kod i tekstove tako da gosti sve važne informacije imaju na jednom mjestu.',
-  button: 'Pošalji upit',
+export const demoCta = {
+  eyebrow: 'Uvjerite se sami',
+  title: 'Pogledajte gotov vodič uživo.',
+  body: 'Otvorite primjer vodiča za „Apartmani Mila“ na Krku i pogledajte točno ono što bi vidjeli vaši gosti.',
+  button: 'Isprobaj demo',
 }
 
-/* ---------- 4. Value section ---------- */
+/* ---------- Gallery (real demo photography) ---------- */
 
-export const value = {
-  title: 'Zašto digitalni vodič za apartmane?',
+export const gallery = {
+  eyebrow: 'Pravi apartmani, pravi vodič',
+  title: 'Vaše fotografije, predstavljene kako zaslužuju.',
   intro:
-    'Manje pitanja, profesionalniji dojam i gosti koji se brže snađu — sve s jednim linkom koji pripremim za vas.',
-  points: [
-    { icon: 'chat' as IconName, text: 'Manje ponavljanja istih odgovora gostima' },
-    { icon: 'sparkles' as IconName, text: 'Profesionalniji prvi dojam' },
-    { icon: 'link' as IconName, text: 'Link koji možete poslati prije dolaska' },
-    { icon: 'qr' as IconName, text: 'QR kod ili magnet za apartman' },
-    { icon: 'pin' as IconName, text: 'Lokalni savjeti koji gostima stvarno trebaju' },
-    { icon: 'star' as IconName, text: 'Jednostavan put do recenzije nakon boravka' },
-    { icon: 'globe' as IconName, text: 'Mogućnost više jezika' },
-  ] as { icon: IconName; text: string }[],
+    'Vodič nije suhi popis — vaš prostor i okolica izgledaju primamljivo, baš onako kako ih gosti pamte.',
+  images: [
+    { src: '/properties/mila/apartment-a.png', caption: 'Terasa s pogledom na more' },
+    { src: '/properties/mila/apartment-b.png', caption: 'Dnevni boravak i kuhinja' },
+    { src: '/properties/mila/apartment-c.png', caption: 'Otvoreni prostor uz obalu' },
+  ],
 }
 
 /* ---------- 5. Pricing ---------- */
 
 export const pricing = {
-  title: 'Cijene izrade',
-  intro: 'Jednostavno i bez skrivenih troškova. Plaćate izradu vodiča po sezoni.',
+  eyebrow: 'Cijene',
+  title: 'Jasna cijena, bez skrivenih troškova.',
+  intro: 'Plaćate izradu vodiča po sezoni. Točna cijena ovisi o broju apartmana.',
   tiers: [
-    { name: 'Jedan apartman', price: 'od €149', unit: '/ sezona', highlight: false },
-    { name: 'Kuća s 2–3 apartmana', price: 'od €249', unit: '/ sezona', highlight: true },
-    { name: 'Kuća s 4–5 apartmana', price: 'od €349', unit: '/ sezona', highlight: false },
-    { name: 'Kuća sa 6+ apartmana', price: 'Ponuda po dogovoru', unit: '', highlight: false },
+    { name: 'Jedan apartman', price: '€149', unit: '/ sezona', highlight: false },
+    { name: 'Kuća s 2–3 apartmana', price: '€249', unit: '/ sezona', highlight: true },
+    { name: 'Kuća s 4–5 apartmana', price: '€349', unit: '/ sezona', highlight: false },
+    { name: 'Kuća sa 6+ apartmana', price: 'Po dogovoru', unit: '', highlight: false },
   ],
-  note: 'Točna cijena ovisi o broju apartmana, jezicima i količini sadržaja.',
+  note: 'Sve cijene su okvirne. Javite mi se za točnu ponudu za vaš objekt.',
 }
 
-/* ---------- 7. Review feature (ethical wording) ---------- */
+/* ---------- 6. Review reminder (ethical wording) ---------- */
 
 export const reviewFeature = {
-  title: 'Podsjetnik za recenziju',
-  body: 'Na kraju vodiča može se dodati jednostavan podsjetnik za recenziju, s linkom na Booking, Airbnb, Google ili drugi kanal koji koristite.',
+  title: 'Nježan podsjetnik za recenziju',
+  body: 'Na kraju vodiča može stajati jednostavan podsjetnik za recenziju, s linkom na Booking, Airbnb, Google ili drugi kanal koji koristite — bez pritiska na goste.',
 }
 
-/* ---------- 6. Inquiry form ---------- */
+/* ---------- 7. Contact ---------- */
+
+export const contact = {
+  eyebrow: 'Kontakt',
+  title: 'Razgovarajmo o vašem vodiču.',
+  /** Direct-contact methods. Each renders as a tappable card. */
+  methods: [
+    { icon: 'mail' as IconName, label: 'E-mail', value: 'codewithtamara@gmail.com', href: 'mailto:codewithtamara@gmail.com' },
+    { icon: 'phone' as IconName, label: 'Telefon', value: '099 214 2439', href: 'tel:+385992142439' },
+    { icon: 'globe' as IconName, label: 'Web', value: 'tamara.rocks', href: 'https://tamara.rocks' },
+  ],
+  signature: 'Tamara',
+}
+
+/** Social profiles — shown as contact rows in the contact section + footer.
+ *  `value` is the handle shown under the label, mirroring contact.methods. */
+export const socials: { icon: IconName; label: string; value: string; href: string }[] = [
+  { icon: 'linkedin', label: 'LinkedIn', value: 'tamaracodes', href: 'https://www.linkedin.com/in/tamaracodes' },
+  { icon: 'twitter', label: 'X', value: '@codewithtamara', href: 'https://x.com/codewithtamara' },
+]
+
+/* ---------- 8. Tiny inquiry form ---------- */
 
 export const formCopy = {
-  sectionTitle: 'Zatražite svoj vodič',
-  title: 'Upit za digitalni vodič',
-  description:
-    'Ispunite nekoliko informacija i javit ću vam se s prijedlogom i cijenom. Cijena ovisi o broju apartmana, lokaciji i količini sadržaja.',
-  submit: 'Pošalji upit',
+  title: 'Pošaljite kratku poruku',
+  description: 'Dovoljno je ime, e-mail i par riječi o vašem objektu. Javit ću vam se kroz 24h.',
+  submit: 'Pošalji poruku',
   submitting: 'Šaljem…',
-  success: 'Hvala! Upit je poslan. Javit ću vam se uskoro s prijedlogom i cijenom.',
-  error: 'Nešto je pošlo po zlu. Pokušajte ponovno ili nam pišite izravno na e‑mail.',
+  success: 'Hvala! Poruka je poslana. Javit ću vam se kroz 24h.',
+  successMailto: 'Otvorit će se vaša aplikacija za e-mail s pripremljenom porukom — samo je pošaljite i javit ću vam se kroz 24h.',
+  error: 'Nešto je pošlo po zlu. Pokušajte ponovno ili pišite izravno na e-mail.',
   requiredHint: 'Polja označena s * su obavezna.',
-  optional: 'nije obavezno',
 }
 
 export const formLabels = {
-  fullName: 'Ime i prezime',
-  email: 'Email',
-  phone: 'Mobitel',
-  location: 'Mjesto / otok',
-  apartmentCount: 'Broj apartmana',
-  propertyType: 'Tip objekta',
-  languages: 'Željeni jezici',
-  materials: 'Imate li već tekstove i slike?',
+  fullName: 'Ime',
+  email: 'E-mail',
   message: 'Poruka',
 }
 
-export interface FieldOption {
-  value: string
-  label: string
-}
-
-export const propertyTypeOptions: FieldOption[] = [
-  { value: 'Jedan apartman', label: 'Jedan apartman' },
-  { value: 'Kuća s više apartmana', label: 'Kuća s više apartmana' },
-  { value: 'Vila / kuća za odmor', label: 'Vila / kuća za odmor' },
-]
-
-export const languageOptions: FieldOption[] = [
-  { value: 'Hrvatski + engleski', label: 'Hrvatski + engleski' },
-  { value: 'Hrvatski + engleski + njemački', label: 'Hrvatski + engleski + njemački' },
-  { value: 'Hrvatski + engleski + talijanski', label: 'Hrvatski + engleski + talijanski' },
-  { value: 'Nisam siguran/sigurna', label: 'Nisam siguran/sigurna' },
-]
-
-export const materialsOptions: FieldOption[] = [
-  { value: 'Da, imam većinu materijala', label: 'Da, imam većinu materijala' },
-  { value: 'Imam nešto, ali trebam pomoć', label: 'Imam nešto, ali trebam pomoć' },
-  { value: 'Nemam, želim da se sve pripremi za mene', label: 'Nemam, želim da se sve pripremi za mene' },
-]
-
-/** The data captured by the form. */
+/** The data captured by the (tiny) form. */
 export interface InquiryData {
   fullName: string
   email: string
-  phone: string
-  location: string
-  apartmentCount: string
-  propertyType: string
-  languages: string
-  materials: string
   message: string
 }
 
@@ -247,25 +313,22 @@ export function buildEmailBody(data: InquiryData): string {
   return [
     'Bok, zanima me digitalni vodič za apartman.',
     '',
-    `Ime i prezime: ${data.fullName}`,
-    `Email: ${data.email}`,
-    `Mobitel: ${data.phone}`,
-    `Mjesto / otok: ${data.location}`,
-    `Broj apartmana: ${data.apartmentCount}`,
-    `Tip objekta: ${data.propertyType}`,
-    `Željeni jezici: ${data.languages}`,
-    `Materijali: ${data.materials}`,
-    `Poruka: ${data.message}`,
+    `Ime: ${data.fullName}`,
+    `E-mail: ${data.email}`,
+    '',
+    'Poruka:',
+    data.message || '—',
     '',
   ].join('\n')
 }
 
-/* ---------- 8. Footer ---------- */
+/* ---------- 9. Footer ---------- */
 
 export const footer = {
-  // 👇 Replace these placeholders with your real contact details.
-  name: '[IME]',
-  email: '[EMAIL]',
-  phone: '[TELEFON OPCIONALNO]',
+  name: brand.name,
   tagline: 'Digitalni vodiči za privatni smještaj u Hrvatskoj.',
+  email: 'codewithtamara@gmail.com',
+  phone: '099 214 2439',
+  web: 'tamara.rocks',
+  webHref: 'https://tamara.rocks',
 }

@@ -1,7 +1,7 @@
 import type { Localized } from '../i18n/types'
 import type { IconName } from '../components/Icon'
-import { danica } from './properties/danica'
-import { pasman } from './islands/pasman'
+import { mila } from './properties/mila'
+import { krk } from './islands/krk'
 
 /* ============================================================================
  *  📖  GUEST GUIDE — TYPES & REGISTRIES
@@ -18,8 +18,8 @@ import { pasman } from './islands/pasman'
  *
  *  Guests open a property by the first segment of the URL path:
  *
- *      https://your-domain.com/danica        → the "danica" property guide
- *      https://your-domain.com/danica#beaches → its Beaches section
+ *      https://your-domain.com/mila          → the "mila" property guide
+ *      https://your-domain.com/mila#beaches  → its Beaches section
  *
  *  The guide a guest sees = the property's own info MERGED with its island's
  *  amenities (see `resolveProperty` below). Views read the merged result, so
@@ -29,9 +29,9 @@ import { pasman } from './islands/pasman'
  *  A different building gets a different slug and its own QR.
  *
  *  • To add a building on an existing island: create
- *    src/data/properties/<slug>.ts (copy danica.ts), set its `island`, edit
+ *    src/data/properties/<slug>.ts (copy mila.ts), set its `island`, edit
  *    ONLY that file, then register it in `properties` below.
- *  • To add a new island: create src/data/islands/<id>.ts (copy pasman.ts),
+ *  • To add a new island: create src/data/islands/<id>.ts (copy krk.ts),
  *    then register it in `islands` below.
  *  • This file holds the shared TYPES — no per-owner content lives here.
  * ========================================================================== */
@@ -122,9 +122,28 @@ export interface ApartmentInfo {
   houseRules: Localized[]
 }
 
-export interface FerryLinks {
-  biogradTkon: string
-  zadarPreko: string
+/**
+ * A review channel shown in the gentle "leave a review" reminder on the home
+ * screen — e.g. Booking, Airbnb or a Google review link.
+ */
+export interface ReviewLink {
+  id: string
+  /** Channel name shown on the button, e.g. "Booking.com", "Airbnb", "Google". */
+  label: string
+  url: string
+}
+
+/**
+ * One "how to get here / get around" link shown in the Arrival section —
+ * e.g. an airport page, a bus timetable or a ferry schedule.
+ */
+export interface ArrivalLink {
+  id: string
+  /** UI key for the label — see ferry.* in src/i18n/ui.ts. */
+  labelKey: string
+  url: string
+  /** Icon name — see IconName in src/components/Icon.tsx. Defaults to "ferry". */
+  icon?: IconName
 }
 
 /* ---------- Island-level type ---------- */
@@ -135,14 +154,14 @@ export interface FerryLinks {
  * registering it in `islands` below.
  */
 export interface IslandContent {
-  /** Display name, e.g. "Pašman". */
+  /** Display name, e.g. "Krk". */
   name: string
   restaurants: PlaceCard[]
   beaches: PlaceCard[]
   activities: PlaceCard[]
   shops: PlaceCard[]
   contacts: Contact[]
-  ferryLinks: FerryLinks
+  arrivalLinks: ArrivalLink[]
 }
 
 /* ---------- Property-level type ---------- */
@@ -158,6 +177,8 @@ export interface Property {
   host: Host
   apartmentInfo: ApartmentInfo
   apartments: Apartment[]
+  /** Optional review links — when set, a gentle review reminder shows on Home. */
+  reviews?: ReviewLink[]
 }
 
 /**
@@ -169,12 +190,13 @@ export interface PropertyContent {
   host: Host
   apartmentInfo: ApartmentInfo
   apartments: Apartment[]
+  reviews?: ReviewLink[]
   restaurants: PlaceCard[]
   beaches: PlaceCard[]
   activities: PlaceCard[]
   shops: PlaceCard[]
   contacts: Contact[]
-  ferryLinks: FerryLinks
+  arrivalLinks: ArrivalLink[]
 }
 
 /* ---------- Registries ---------- */
@@ -184,7 +206,7 @@ export interface PropertyContent {
  * via their `island` field.
  */
 export const islands: Record<string, IslandContent> = {
-  pasman,
+  krk,
 }
 
 /**
@@ -192,13 +214,13 @@ export const islands: Record<string, IslandContent> = {
  * of the URL path. Add a new property by importing its file and adding it here.
  */
 export const properties: Record<string, Property> = {
-  danica,
+  mila,
 }
 
 /** Used at the bare root path (no slug) — handy during local development. */
-export const DEFAULT_PROPERTY_SLUG = 'danica'
+export const DEFAULT_PROPERTY_SLUG = 'mila'
 
-/** Resolve a property slug from a URL pathname (e.g. "/danica" → "danica"). */
+/** Resolve a property slug from a URL pathname (e.g. "/mila" → "mila"). */
 export function slugFromPath(pathname: string): string {
   return pathname.split('/').filter(Boolean)[0]?.toLowerCase() ?? ''
 }
@@ -225,11 +247,12 @@ export function resolveProperty(slug: string): PropertyContent | undefined {
     host: property.host,
     apartmentInfo: property.apartmentInfo,
     apartments: property.apartments,
+    reviews: property.reviews,
     restaurants: island.restaurants,
     beaches: island.beaches,
     activities: island.activities,
     shops: island.shops,
     contacts: island.contacts,
-    ferryLinks: island.ferryLinks,
+    arrivalLinks: island.arrivalLinks,
   }
 }

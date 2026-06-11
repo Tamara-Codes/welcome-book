@@ -84,9 +84,9 @@ export const propertyTypeOptions: FieldOption[] = [
 
 /** Islands we currently serve — shown as a dropdown for the location field. */
 export const locationOptions: FieldOption[] = [
+  { value: 'Krk', label: 'Krk' },
   { value: 'Pašman', label: 'Pašman' },
   { value: 'Ugljan', label: 'Ugljan' },
-  { value: 'Krk', label: 'Krk' },
   { value: 'Ostalo', label: 'Ostalo' },
 ]
 

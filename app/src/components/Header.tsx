@@ -1,6 +1,5 @@
 import { useLang } from '../i18n/LanguageContext'
 import { useNav } from '../navigation'
-import { useInquiry } from '../owner/InquiryContext'
 import { ownerCopy } from '../owner/ownerContent'
 import { useProperty } from '../property'
 import { Icon } from './Icon'
@@ -11,7 +10,6 @@ import { LanguageSwitcher } from './LanguageSwitcher'
 export function Header() {
   const { view, go } = useNav()
   const { t } = useLang()
-  const { open } = useInquiry()
   const { property } = useProperty()
   const isHome = view === 'home'
 
@@ -26,13 +24,12 @@ export function Header() {
             <span className="rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
               {ownerCopy.demoTag}
             </span>
-            <button
-              type="button"
-              onClick={open}
+            <a
+              href="/#kontakt"
               className="ml-auto flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-sm font-bold text-sea-700 shadow-sm active:scale-95"
             >
               <Icon name="sparkles" className="h-4 w-4" /> {ownerCopy.cta.primary}
-            </button>
+            </a>
           </>
         ) : (
           <>

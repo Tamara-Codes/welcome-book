@@ -1,54 +1,28 @@
 import { useState, type FormEvent } from 'react'
 import { Icon } from '../components/Icon'
-import { submitInquiry } from './submitInquiry'
-import {
-  formCopy,
-  formLabels,
-  propertyTypeOptions,
-  languageOptions,
-  materialsOptions,
-  type FieldOption,
-  type InquiryData,
-} from './content'
+import { submitInquiry, type SubmitMode } from './submitInquiry'
+import { formCopy, formLabels, type InquiryData } from './content'
 
-const EMPTY: InquiryData = {
-  fullName: '',
-  email: '',
-  phone: '',
-  location: '',
-  apartmentCount: '',
-  propertyType: '',
-  languages: '',
-  materials: '',
-  message: '',
-}
+const EMPTY: InquiryData = { fullName: '', email: '', message: '' }
 
 /** Required field keys — validated before submit. */
-const REQUIRED: (keyof InquiryData)[] = ['fullName', 'email', 'location', 'apartmentCount', 'propertyType']
+const REQUIRED: (keyof InquiryData)[] = ['fullName', 'email']
 
-const errorClass = 'border-red-300 focus:border-red-400 focus:ring-red-200'
-
-function Label({ text, required }: { text: string; required?: boolean }) {
-  return (
-    <span className="mb-1 block text-xs font-bold text-slate-600">
-      {text}
-      {required ? (
-        <span className="text-red-500"> *</span>
-      ) : (
-        <span className="font-normal text-slate-400"> ({formCopy.optional})</span>
-      )}
-    </span>
-  )
-}
+/** Field styling tuned for the cream contact card. */
+const field =
+  'w-full rounded-xl border border-ink/15 bg-white/70 px-4 py-3 font-hanken text-[15px] text-ink ' +
+  'placeholder:text-ink/35 transition focus:border-clay-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-clay-400/30'
+const fieldError = 'border-clay-600 focus:border-clay-600 focus:ring-clay-500/30'
 
 /**
- * The inquiry form. Self-contained: manages its own state, validation and
- * submission, and shows the success state inline once sent.
+ * Tiny inquiry form — name, e-mail and a message. Self-contained: manages its
+ * own state, validation and submission, and shows the success state inline.
  */
 export function InquiryForm() {
   const [data, setData] = useState<InquiryData>(EMPTY)
   const [errors, setErrors] = useState<Partial<Record<keyof InquiryData, boolean>>>({})
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [mode, setMode] = useState<SubmitMode>('endpoint')
 
   function set<K extends keyof InquiryData>(key: K, value: string) {
     setData((d) => ({ ...d, [key]: value }))
@@ -68,14 +42,11 @@ export function InquiryForm() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     if (status === 'submitting') return
-    if (!validate()) {
-      // Bring the first error into view on mobile.
-      document.querySelector('[data-invalid="true"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      return
-    }
+    if (!validate()) return
     setStatus('submitting')
     try {
-      await submitInquiry(data)
+      const submitMode = await submitInquiry(data)
+      setMode(submitMode)
       setStatus('success')
     } catch {
       setStatus('error')
@@ -84,163 +55,90 @@ export function InquiryForm() {
 
   if (status === 'success') {
     return (
-      <div className="card px-6 py-12 text-center">
-        <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-sea-100 text-sea-600">
+      <div className="flex flex-col items-center justify-center px-6 py-14 text-center">
+        <span className="grid h-16 w-16 place-items-center rounded-full bg-clay-500 text-white">
           <Icon name="check" className="h-8 w-8" strokeWidth={2.5} />
         </span>
-        <p className="mx-auto mt-5 max-w-sm text-base font-semibold leading-relaxed text-slate-700">
-          {formCopy.success}
+        <p className="mt-5 max-w-xs font-hanken text-[15px] font-medium leading-relaxed text-ink">
+          {mode === 'mailto' ? formCopy.successMailto : formCopy.success}
         </p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="card p-5 sm:p-6">
-      <p className="text-sm leading-relaxed text-slate-600">{formCopy.description}</p>
+    <form onSubmit={handleSubmit} noValidate>
+      <h3 className="font-fraunces text-2xl font-medium text-ink">{formCopy.title}</h3>
+      <p className="mt-2 font-hanken text-sm leading-relaxed text-ink/65">{formCopy.description}</p>
 
-      <div className="mt-5 space-y-3.5">
+      <div className="mt-6 space-y-3.5">
         <label className="block">
-          <Label text={formLabels.fullName} required />
+          <span className="mb-1.5 block font-hanken text-xs font-semibold uppercase tracking-wide text-ink/55">
+            {formLabels.fullName} <span className="text-clay-500">*</span>
+          </span>
           <input
             type="text"
             value={data.fullName}
             onChange={(e) => set('fullName', e.target.value)}
-            className={`input ${errors.fullName ? errorClass : ''}`}
-            data-invalid={errors.fullName ? 'true' : undefined}
+            className={`${field} ${errors.fullName ? fieldError : ''}`}
             autoComplete="name"
+            placeholder="Vaše ime"
           />
         </label>
 
         <label className="block">
-          <Label text={formLabels.email} required />
+          <span className="mb-1.5 block font-hanken text-xs font-semibold uppercase tracking-wide text-ink/55">
+            {formLabels.email} <span className="text-clay-500">*</span>
+          </span>
           <input
             type="email"
             value={data.email}
             onChange={(e) => set('email', e.target.value)}
-            className={`input ${errors.email ? errorClass : ''}`}
-            data-invalid={errors.email ? 'true' : undefined}
+            className={`${field} ${errors.email ? fieldError : ''}`}
             autoComplete="email"
             inputMode="email"
+            placeholder="vas@email.com"
           />
         </label>
 
         <label className="block">
-          <Label text={formLabels.phone} />
-          <input
-            type="tel"
-            value={data.phone}
-            onChange={(e) => set('phone', e.target.value)}
-            className="input"
-            autoComplete="tel"
-            inputMode="tel"
-          />
-        </label>
-
-        <label className="block">
-          <Label text={formLabels.location} required />
-          <input
-            type="text"
-            value={data.location}
-            onChange={(e) => set('location', e.target.value)}
-            className={`input ${errors.location ? errorClass : ''}`}
-            data-invalid={errors.location ? 'true' : undefined}
-          />
-        </label>
-
-        <label className="block">
-          <Label text={formLabels.apartmentCount} required />
-          <input
-            type="number"
-            min={1}
-            value={data.apartmentCount}
-            onChange={(e) => set('apartmentCount', e.target.value)}
-            className={`input ${errors.apartmentCount ? errorClass : ''}`}
-            data-invalid={errors.apartmentCount ? 'true' : undefined}
-            inputMode="numeric"
-          />
-        </label>
-
-        <label className="block">
-          <Label text={formLabels.propertyType} required />
-          <Select
-            value={data.propertyType}
-            onChange={(v) => set('propertyType', v)}
-            options={propertyTypeOptions}
-            invalid={errors.propertyType}
-          />
-        </label>
-
-        <label className="block">
-          <Label text={formLabels.languages} />
-          <Select value={data.languages} onChange={(v) => set('languages', v)} options={languageOptions} />
-        </label>
-
-        <label className="block">
-          <Label text={formLabels.materials} />
-          <Select value={data.materials} onChange={(v) => set('materials', v)} options={materialsOptions} />
-        </label>
-
-        <label className="block">
-          <Label text={formLabels.message} />
+          <span className="mb-1.5 block font-hanken text-xs font-semibold uppercase tracking-wide text-ink/55">
+            {formLabels.message}
+          </span>
           <textarea
             value={data.message}
             onChange={(e) => set('message', e.target.value)}
-            rows={3}
-            className="input resize-none"
+            rows={4}
+            className={`${field} resize-none`}
+            placeholder="Par riječi o vašem objektu i lokaciji…"
           />
         </label>
       </div>
 
-      <p className="mt-3 text-xs text-slate-400">{formCopy.requiredHint}</p>
-
       {status === 'error' && (
-        <p className="mt-3 flex items-start gap-2 rounded-xl bg-red-50 px-3.5 py-3 text-sm leading-relaxed text-red-700">
+        <p className="mt-4 flex items-start gap-2 rounded-xl bg-clay-500/10 px-4 py-3 font-hanken text-sm leading-relaxed text-clay-600">
           <Icon name="alert" className="mt-0.5 h-4 w-4 shrink-0" />
           <span>{formCopy.error}</span>
         </p>
       )}
 
-      <button type="submit" disabled={status === 'submitting'} className="btn-primary mt-5 w-full disabled:opacity-60">
+      <button
+        type="submit"
+        disabled={status === 'submitting'}
+        className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-ink px-6 py-3.5 font-hanken text-[15px] font-semibold text-shell transition-all hover:bg-ink-700 active:scale-[0.99] disabled:opacity-60"
+      >
         {status === 'submitting' ? (
           <>
             <Spinner /> {formCopy.submitting}
           </>
         ) : (
           <>
-            <Icon name="mail" className="h-5 w-5" /> {formCopy.submit}
+            <Icon name="mail" className="h-[18px] w-[18px]" /> {formCopy.submit}
           </>
         )}
       </button>
+      <p className="mt-3 text-center font-hanken text-xs text-ink/45">{formCopy.requiredHint}</p>
     </form>
-  )
-}
-
-function Select({
-  value,
-  onChange,
-  options,
-  invalid,
-}: {
-  value: string
-  onChange: (value: string) => void
-  options: FieldOption[]
-  invalid?: boolean
-}) {
-  return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      data-invalid={invalid ? 'true' : undefined}
-      className={`input ${invalid ? errorClass : ''} ${value ? 'text-slate-800' : 'text-slate-400'}`}
-    >
-      <option value="">—</option>
-      {options.map((o) => (
-        <option key={o.value} value={o.value} className="text-slate-800">
-          {o.label}
-        </option>
-      ))}
-    </select>
   )
 }
 

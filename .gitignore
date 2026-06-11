@@ -12,6 +12,8 @@ dist/
 
 # Dev artifacts
 .playwright-mcp/
+# Loose screenshots at the repo root (real assets live under app/public/)
+/*.png
 
 # Editor / OS
 .vscode/*

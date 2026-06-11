@@ -243,11 +243,10 @@ export const pricing = {
   intro: 'Plaćate izradu vodiča po sezoni. Točna cijena ovisi o broju apartmana.',
   tiers: [
     { name: 'Jedan apartman', price: '€149', unit: '/ sezona', highlight: false },
-    { name: 'Kuća s 2–3 apartmana', price: '€249', unit: '/ sezona', highlight: true },
-    { name: 'Kuća s 4–5 apartmana', price: '€349', unit: '/ sezona', highlight: false },
-    { name: 'Kuća sa 6+ apartmana', price: 'Po dogovoru', unit: '', highlight: false },
+    { name: 'Dva apartmana', price: '€199', unit: '/ sezona', highlight: false },
+    { name: 'Tri ili više apartmana', price: '€249', unit: '/ sezona', highlight: false },
   ],
-  note: 'Sve cijene su okvirne. Javite mi se za točnu ponudu za vaš objekt.',
+  note: 'Za objekte sa 6+ apartmana cijena je po dogovoru — javite mi se za točnu ponudu.',
 }
 
 /* ---------- 6. Review reminder (ethical wording) ---------- */

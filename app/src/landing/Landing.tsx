@@ -434,7 +434,7 @@ function Pricing() {
           <p className="mt-4 font-hanken text-lg leading-relaxed text-ink/70">{pricing.intro}</p>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-4 sm:grid-cols-3">
           {pricing.tiers.map((tier, i) => (
             <Reveal
               key={tier.name}
@@ -484,6 +484,10 @@ function Pricing() {
           ))}
         </div>
 
+        <p className="mt-6 flex items-start gap-2 font-hanken text-sm leading-relaxed text-ink/55">
+          <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0 text-clay-500" />
+          {pricing.note}
+        </p>
       </Container>
     </section>
   )

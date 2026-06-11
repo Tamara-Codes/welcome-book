@@ -29,7 +29,6 @@ export const krk: IslandContent = {
   restaurants: [
     {
       id: 'rivica',
-      image: '/islands/krk/rivica.jpg',
       name: 'Restaurant Rivica',
       category: 'seafood',
       description: {
@@ -45,7 +44,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'konoba-nora',
-      image: '/islands/krk/konoba-nora.jpg',
       name: 'Konoba Nora',
       category: 'konoba',
       description: {
@@ -59,7 +57,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'konoba-njivice',
-      image: '/islands/krk/konoba-njivice.jpg',
       name: 'Konoba Njivice',
       category: 'konoba',
       description: {
@@ -72,7 +69,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'maxi',
-      image: '/islands/krk/maxi.jpg',
       name: 'Pizzeria Grill Maxi',
       category: 'pizzeria',
       description: {
@@ -86,7 +82,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'bella-vista',
-      image: '/islands/krk/bella-vista.jpg',
       name: 'Pizzeria Bella Vista',
       category: 'pizzeria',
       description: {
@@ -99,7 +94,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'insula',
-      image: '/islands/krk/insula.jpg',
       name: 'Beach Bar Insula',
       category: 'barCafe',
       description: {
@@ -112,7 +106,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'sunset-bar',
-      image: '/islands/krk/sunset-bar.jpg',
       name: 'Sunset Beach Bar',
       category: 'barCafe',
       description: {
@@ -129,7 +122,6 @@ export const krk: IslandContent = {
   beaches: [
     {
       id: 'kijac',
-      image: '/islands/krk/kijac.jpg',
       name: 'Kijac Beach',
       category: 'barCafe',
       description: {
@@ -142,7 +134,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'jadran',
-      image: '/islands/krk/jadran.jpg',
       name: 'Jadran Beach',
       category: 'barCafe',
       description: {
@@ -155,7 +146,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'rosulje',
-      image: '/islands/krk/rosulje.jpg',
       name: 'Rosulje Beach',
       category: 'barCafe',
       description: {
@@ -168,7 +158,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'pod-crkvu',
-      image: '/islands/krk/pod-crkvu.jpg',
       name: 'Pod Crkvu Beach',
       category: 'barCafe',
       description: {
@@ -181,7 +170,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'pesja',
-      image: '/islands/krk/pesja.jpg',
       name: 'Pesja Beach (Omišalj)',
       category: 'barCafe',
       description: {
@@ -198,7 +186,6 @@ export const krk: IslandContent = {
   activities: [
     {
       id: 'oto-nautika',
-      image: '/islands/krk/oto-nautika.jpg',
       name: 'Oto Nautika — water sports',
       category: 'waterRental',
       description: {
@@ -213,7 +200,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'pelagos',
-      image: '/islands/krk/pelagos.jpg',
       name: 'Pelagos Diving Center',
       category: 'diving',
       description: {
@@ -226,7 +212,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'sportmar-sup',
-      image: '/islands/krk/sportmar-sup.jpg',
       name: 'Sportmar — SUP & pedal boats',
       category: 'waterRental',
       description: {
@@ -239,7 +224,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'boat-charter',
-      image: '/islands/krk/boat-charter.jpg',
       name: 'BI-Boatcharter — motorboats',
       category: 'boatRental',
       description: {
@@ -252,7 +236,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'rent-boat-malinska',
-      image: '/islands/krk/rent-boat-malinska.jpg',
       name: 'Rent a Boat Malinska',
       category: 'boatRental',
       description: {
@@ -265,7 +248,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'ebike-malinska',
-      image: '/islands/krk/ebike-malinska.jpg',
       name: 'E-Bike & scooter rental (Malinska)',
       category: 'bikeRental',
       description: {
@@ -279,7 +261,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'go2bike',
-      image: '/islands/krk/go2bike.jpg',
       name: 'Go2Bike — public e-bikes',
       category: 'bikeRental',
       description: {
@@ -295,7 +276,6 @@ export const krk: IslandContent = {
   shops: [
     {
       id: 'studenac-njivice',
-      image: '/islands/krk/studenac-njivice.jpg',
       name: 'Studenac — Njivice',
       category: 'supermarket',
       description: {
@@ -307,7 +287,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'pekara-vrbnik',
-      image: '/islands/krk/pekara-vrbnik.jpg',
       name: 'Pekara Vrbnik — Njivice',
       category: 'bakery',
       description: {
@@ -320,7 +299,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'konzum-omisalj',
-      image: '/islands/krk/konzum-omisalj.jpg',
       name: 'Konzum — Omišalj',
       category: 'supermarket',
       description: {
@@ -332,7 +310,6 @@ export const krk: IslandContent = {
     },
     {
       id: 'plodine-malinska',
-      image: '/islands/krk/plodine-malinska.jpg',
       name: 'Plodine — Malinska',
       category: 'supermarket',
       description: {

@@ -77,8 +77,9 @@ export interface PlaceCard {
   tags?: string[]
   /** Free-text price, kept as Localized so units/notes can be localized. */
   price?: Localized
-  /** Photo URL (e.g. "/islands/<id>/<card>.jpg" from the public folder). Falls back to the gradient placeholder when absent. */
+  /** Business logo URL (e.g. "/islands/<id>/logos/<card>.png" from the public folder). Shown in the card's chip; falls back to the section icon when absent. */
   image?: string
+  /** @deprecated No longer rendered on place cards (kept for data compatibility). */
   gradient: string
 }
 

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Digitalni vodič za vaše apartmane</title>
+<style>
+  :root {
+    --bg: #faf7f1;
+    --sand: #e9dfcb;
+    --sand-soft: #f1ead9;
+    --sea: #2e6f8e;
+    --sea-deep: #1e4e68;
+    --ink: #243b4a;
+    --ink-soft: #5b6f7d;
+    --card-radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background: #d8d3c8;
+    font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- Flyer canvas: vertical mobile-first, also A5 ratio (1:1.414) ---- */
+  .flyer {
+    width: 420px;
+    max-width: 100%;
+    margin: 24px auto;
+    background: var(--bg);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 18px 50px rgba(30, 78, 104, 0.18);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    padding: 26px 30px 22px;
+    background:
+      linear-gradient(180deg, rgba(46,111,142,0.10), rgba(46,111,142,0)) ,
+      var(--bg);
+  }
+  .hero-art {
+    height: 150px;
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(180deg, #cfe7ef 0%, #9ec9d8 55%, #6fb0c4 100%);
+  }
+  /* simple CSS coastline scene */
+  .sun {
+    position: absolute; top: 22px; right: 34px;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: #f6e7c6; box-shadow: 0 0 24px rgba(246,231,198,0.9);
+  }
+  .sea {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 46%;
+    background: linear-gradient(180deg, #4f93ac, #2e6f8e);
+  }
+  .sea::before, .sea::after {
+    content: ""; position: absolute; left: 0; right: 0;
+    height: 2px; background: rgba(255,255,255,0.35);
+  }
+  .sea::before { top: 26%; }
+  .sea::after  { top: 55%; }
+  .house {
+    position: absolute; bottom: 38%; left: 36px;
+    width: 60px; height: 46px; background: #f3ede0;
+    border-radius: 3px;
+  }
+  .house::before {
+    content: ""; position: absolute; top: -16px; left: -6px;
+    border-left: 36px solid transparent; border-right: 36px solid transparent;
+    border-bottom: 18px solid var(--sea-deep);
+  }
+  .house .win {
+    position: absolute; width: 12px; height: 16px; background: var(--sea);
+    top: 12px; border-radius: 2px;
+  }
+  .house .win.l { left: 10px; } .house .win.r { right: 10px; }
+  .pine {
+    position: absolute; bottom: 40%; right: 40px; width: 0; height: 0;
+    border-left: 14px solid transparent; border-right: 14px solid transparent;
+    border-bottom: 38px solid #3f7e5a;
+  }
+  .pine::after {
+    content: ""; position: absolute; left: -14px; bottom: -6px;
+    border-left: 14px solid transparent; border-right: 14px solid transparent;
+    border-bottom: 24px solid #4d9069;
+  }
+
+  /* ---- Headline ---- */
+  .headline {
+    padding: 22px 30px 4px;
+  }
+  .headline h1 {
+    font-size: 30px;
+    line-height: 1.12;
+    letter-spacing: -0.4px;
+    color: var(--sea-deep);
+    font-weight: 800;
+  }
+  .headline p {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  /* ---- Benefits ---- */
+  .section-label {
+    padding: 22px 30px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sea);
+  }
+  .grid {
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .card {
+    background: var(--sand-soft);
+    border: 1px solid rgba(46,111,142,0.10);
+    border-radius: var(--card-radius);
+    padding: 14px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card svg { flex: 0 0 auto; }
+  .card span {
+    font-size: 13px;
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ---- No-app strip ---- */
+  .strip {
+    margin: 20px 30px 0;
+    background: var(--sand);
+    border-radius: var(--card-radius);
+    padding: 14px 18px;
+    text-align: center;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--sea-deep);
+    line-height: 1.45;
+  }
+
+  /* ---- Price block ---- */
+  .price {
+    margin: 18px 30px 0;
+    background: linear-gradient(135deg, var(--sea), var(--sea-deep));
+    border-radius: var(--card-radius);
+    padding: 18px 20px;
+    color: #fff;
+    text-align: center;
+  }
+  .price strong { font-size: 22px; font-weight: 800; letter-spacing: -0.3px; }
+  .price small { display: block; margin-top: 6px; font-size: 12.5px; opacity: 0.9; font-weight: 500; }
+
+  /* ---- CTA / contact ---- */
+  .cta {
+    margin: 18px 30px 26px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .cta-text { flex: 1; }
+  .cta-text .lbl {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.6px;
+    text-transform: uppercase; color: var(--sea);
+  }
+  .cta-text .demo {
+    margin-top: 4px; font-size: 15px; font-weight: 700; color: var(--ink);
+    word-break: break-word;
+  }
+  .cta-text .contact {
+    margin-top: 12px; font-size: 13px; color: var(--ink-soft); line-height: 1.5;
+  }
+  .cta-text .contact b { color: var(--ink); font-weight: 700; }
+  .qr {
+    flex: 0 0 92px; width: 92px; height: 92px;
+    border-radius: 12px;
+    background:
+      repeating-linear-gradient(0deg, var(--ink) 0 6px, transparent 6px 12px),
+      repeating-linear-gradient(90deg, var(--ink) 0 6px, transparent 6px 12px);
+    background-color: #fff;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px rgba(36,59,74,0.15);
+    position: relative;
+    opacity: 0.92;
+  }
+  .qr::after {
+    content: "QR";
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--sea-deep);
+    background: rgba(250,247,241,0.78); margin: 24px; border-radius: 6px;
+  }
+
+  /* ---- Print: A5 ---- */
+  @media print {
+    @page { size: A5 portrait; margin: 0; }
+    html, body { background: #fff; }
+    .flyer {
+      width: 148mm; height: 210mm; margin: 0;
+      border-radius: 0; box-shadow: none;
+    }
+    .print-hint { display: none; }
+  }
+
+  .print-hint {
+    text-align: center;
+    font-size: 12px;
+    color: #7a7468;
+    margin: 0 auto 28px;
+    max-width: 420px;
+  }
+  .print-hint code { background: #efe9dc; padding: 1px 6px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+  <div class="flyer">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-art">
+        <div class="sun"></div>
+        <div class="pine"></div>
+        <div class="house"><span class="win l"></span><span class="win r"></span></div>
+        <div class="sea"></div>
+      </div>
+    </div>
+
+    <!-- HEADLINE -->
+    <div class="headline">
+      <h1>Digitalni vodič za vaše apartmane</h1>
+      <p>Sve informacije za goste na jednom mjestu — link prije dolaska i QR kod u apartmanu.</p>
+    </div>
+
+    <!-- BENEFITS -->
+    <div class="section-label">Gosti odmah vide</div>
+    <div class="grid">
+      <div class="card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2e6f8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/></svg>
+        <span>Wi‑Fi i kućni red</span>
+      </div>
+      <div class="card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2e6f8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>
+        <span>Check‑in i parking</span>
+      </div>
+      <div class="card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2e6f8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19h18"/><path d="M12 19V8"/><path d="M12 8a7 7 0 0 1 7 6H5a7 7 0 0 1 7-6z"/></svg>
+        <span>Plaže i preporuke</span>
+      </div>
+      <div class="card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2e6f8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0"/><path d="M4 14l8-3 8 3"/><path d="M12 11V6"/><path d="M9 6h6"/></svg>
+        <span>Trajekti i lokacije</span>
+      </div>
+      <div class="card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2e6f8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        <span>Hitni brojevi</span>
+      </div>
+      <div class="card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2e6f8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9 6.8 19l1-5.8L3.6 9.1l5.8-.8z"/></svg>
+        <span>Recenzija nakon boravka</span>
+      </div>
+    </div>
+
+    <!-- NO APP -->
+    <div class="strip">
+      Bez aplikacije. Bez prijave za gosta.<br>Manje poruka vama, bolji dojam za gosta.
+    </div>
+
+    <!-- PRICE -->
+    <div class="price">
+      <strong>Izrada od €149 po sezoni</strong>
+      <small>Posebne cijene za kuće s više apartmana</small>
+    </div>
+
+    <!-- CTA + CONTACT -->
+    <div class="cta">
+      <div class="cta-text">
+        <div class="lbl">Pogledajte demo vodič</div>
+        <div class="demo">[DEMO LINK]</div>
+        <div class="contact">
+          <b>[IME]</b><br>
+          [EMAIL ILI TELEFON]
+        </div>
+      </div>
+      <div class="qr" aria-label="QR placeholder"></div>
+    </div>
+
+  </div>
+
+  <p class="print-hint">
+    Za WhatsApp: napravite screenshot na mobitelu. &nbsp;•&nbsp;
+    Za A5 tisak: <code>Ctrl/Cmd + P</code> → spremi kao PDF (A5, bez margina).
+  </p>
+
+</body>
+</html>

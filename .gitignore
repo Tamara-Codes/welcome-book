@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.local
+
+# Local env (keep .env.example, ignore real secrets)
+.env
+.env.*
+!.env.example
+
+# Dev artifacts
+.playwright-mcp/
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store

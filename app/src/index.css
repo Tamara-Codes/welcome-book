@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-sand-50 text-slate-800 font-sans antialiased;
+    /* Respect iOS safe areas when opened full-screen from a QR scan */
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Larger, tap-friendly default for interactive elements */
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-2xl shadow-card border border-sand-100/80 overflow-hidden;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-1 rounded-full bg-sea-50 text-sea-700 text-xs font-semibold px-2.5 py-1;
+  }
+
+  .tag {
+    @apply inline-flex items-center gap-1 rounded-full bg-sand-100 text-sand-500 text-xs font-semibold px-2.5 py-1;
+  }
+
+  /* Big, thumb-friendly action button */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-bold text-sm px-4 py-3 transition-transform active:scale-[0.97] select-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-sea-600 text-white shadow-sm hover:bg-sea-700;
+  }
+
+  .btn-soft {
+    @apply btn bg-sea-50 text-sea-700 hover:bg-sea-100;
+  }
+
+  .btn-sand {
+    @apply btn bg-sand-200 text-slate-700 hover:bg-sand-300;
+  }
+
+  /* Warm amber CTA, used on the owner-facing landing page. */
+  .btn-accent {
+    @apply btn bg-amber-500 text-white shadow-sm hover:bg-amber-600;
+  }
+
+  /* Form field used on the landing inquiry form. */
+  .input {
+    @apply w-full rounded-xl border border-sand-200 bg-white px-3.5 py-2.5 text-sm text-slate-800
+           placeholder:text-slate-400 focus:border-sea-400 focus:outline-none focus:ring-2 focus:ring-sea-200;
+  }
+
+  .section-title {
+    @apply font-display text-2xl text-sea-800 font-bold;
+  }
+}

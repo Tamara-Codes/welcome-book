@@ -11,7 +11,16 @@ export function PlaceCardView({ place, icon }: { place: PlaceCard; icon: IconNam
 
   return (
     <article className="card">
-      <PlaceholderImage gradient={place.gradient} icon={icon} className="h-32 w-full" />
+      {place.image ? (
+        <img
+          src={place.image}
+          alt={place.name}
+          loading="lazy"
+          className="h-32 w-full object-cover"
+        />
+      ) : (
+        <PlaceholderImage gradient={place.gradient} icon={icon} className="h-32 w-full" />
+      )}
 
       <div className="p-4">
         <div className="flex items-start justify-between gap-2">

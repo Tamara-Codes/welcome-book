@@ -77,6 +77,8 @@ export interface PlaceCard {
   tags?: string[]
   /** Free-text price, kept as Localized so units/notes can be localized. */
   price?: Localized
+  /** Photo URL (e.g. "/islands/<id>/<card>.jpg" from the public folder). Falls back to the gradient placeholder when absent. */
+  image?: string
   gradient: string
 }
 

@@ -1,5 +1,5 @@
 // Supported interface languages. English is the default + fallback.
-export const LANGUAGES = ['en', 'de', 'it', 'sl', 'pl', 'cs'] as const
+export const LANGUAGES = ['en', 'hr', 'de', 'it', 'sl', 'pl', 'cs'] as const
 
 export type Lang = (typeof LANGUAGES)[number]
 
@@ -7,6 +7,7 @@ export type Lang = (typeof LANGUAGES)[number]
 // not emoji — Windows lacks flag-emoji glyphs and would show "GB", "DE", etc.
 export const LANGUAGE_LABELS: Record<Lang, { label: string }> = {
   en: { label: 'English' },
+  hr: { label: 'Hrvatski' },
   de: { label: 'Deutsch' },
   it: { label: 'Italiano' },
   sl: { label: 'Slovenščina' },

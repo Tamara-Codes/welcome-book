@@ -36,6 +36,29 @@ export function Flag({ code, className = 'h-4 w-6' }: { code: Lang; className?: 
           </g>
         </svg>
       )
+    case 'hr': // Croatia — red / white / blue with the checkerboard (šahovnica)
+      return (
+        <svg {...common}>
+          <rect width="60" height="13.33" fill="#FF0000" />
+          <rect y="13.33" width="60" height="13.34" fill="#fff" />
+          <rect y="26.67" width="60" height="13.33" fill="#171796" />
+          <g transform="translate(24 11)">
+            <rect width="12" height="18" fill="#fff" />
+            <rect width="3" height="3" fill="#D71920" />
+            <rect x="6" width="3" height="3" fill="#D71920" />
+            <rect x="3" y="3" width="3" height="3" fill="#D71920" />
+            <rect x="9" y="3" width="3" height="3" fill="#D71920" />
+            <rect y="6" width="3" height="3" fill="#D71920" />
+            <rect x="6" y="6" width="3" height="3" fill="#D71920" />
+            <rect x="3" y="9" width="3" height="3" fill="#D71920" />
+            <rect x="9" y="9" width="3" height="3" fill="#D71920" />
+            <rect y="12" width="3" height="3" fill="#D71920" />
+            <rect x="6" y="12" width="3" height="3" fill="#D71920" />
+            <rect x="3" y="15" width="3" height="3" fill="#D71920" />
+            <rect x="9" y="15" width="3" height="3" fill="#D71920" />
+          </g>
+        </svg>
+      )
     case 'de': // Germany — black / red / gold
       return (
         <svg {...common}>

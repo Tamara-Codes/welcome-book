@@ -19,6 +19,10 @@ export function Header() {
         className="mx-auto flex max-w-screen-sm items-center gap-2 px-4 py-3"
         style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top))' }}
       >
+        <span className="grid h-8 w-8 shrink-0 place-items-center overflow-hidden rounded-lg bg-white shadow-sm">
+          <img src="/favicon.svg" alt="" className="h-full w-full" />
+        </span>
+
         {isHome ? (
           demo ? (
             <>

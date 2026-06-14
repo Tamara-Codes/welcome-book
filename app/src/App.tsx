@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { NavContext, type View } from './navigation'
+import { useProperty } from './property'
 import { InquiryProvider } from './owner/InquiryContext'
 import { Header } from './components/Header'
 import { BottomNav } from './components/BottomNav'
@@ -33,19 +34,29 @@ function isView(value: string): value is View {
 
 export default function App() {
   const [view, setView] = useState<View>('home')
+  const { apartments, property } = useProperty()
+
+  // Set the browser tab title to this property (index.html defaults to the demo).
+  useEffect(() => {
+    document.title = property.name
+  }, [property.name])
+
+  // A view that this property doesn't offer (e.g. the apartments/prices page
+  // for an owner with no apartments listed) should fall back to home.
+  const hasApartments = apartments.length > 0
 
   // Lightweight hash routing so back/forward and deep links work
   // (e.g. scanning a QR that points to .../#beaches opens that section).
   useEffect(() => {
     function applyHash() {
       const hash = window.location.hash.replace('#', '')
-      if (hash && isView(hash)) setView(hash)
+      if (hash && isView(hash) && !(hash === 'apartments' && !hasApartments)) setView(hash)
       else setView('home')
     }
     applyHash()
     window.addEventListener('hashchange', applyHash)
     return () => window.removeEventListener('hashchange', applyHash)
-  }, [])
+  }, [hasApartments])
 
   const go = useMemo(
     () => (next: View) => {

@@ -80,19 +80,27 @@ export function ApartmentInfo() {
           </div>
         </InfoCard>
 
-        {/* Check-in / out */}
-        <div className="grid grid-cols-2 gap-3">
-          <InfoCard icon="key" title={t('info.checkIn')}>
-            <span className="text-lg font-bold text-sea-700">{apartmentInfo.checkIn}</span>
-          </InfoCard>
-          <InfoCard icon="checkout" title={t('info.checkOut')}>
-            <span className="text-lg font-bold text-sea-700">{apartmentInfo.checkOut}</span>
-          </InfoCard>
-        </div>
+        {/* Check-in / out — shown only when set */}
+        {(apartmentInfo.checkIn || apartmentInfo.checkOut) && (
+          <div className="grid grid-cols-2 gap-3">
+            {apartmentInfo.checkIn && (
+              <InfoCard icon="key" title={t('info.checkIn')}>
+                <span className="text-lg font-bold text-sea-700">{apartmentInfo.checkIn}</span>
+              </InfoCard>
+            )}
+            {apartmentInfo.checkOut && (
+              <InfoCard icon="checkout" title={t('info.checkOut')}>
+                <span className="text-lg font-bold text-sea-700">{apartmentInfo.checkOut}</span>
+              </InfoCard>
+            )}
+          </div>
+        )}
 
-        <InfoCard icon="parking" title={t('info.parking')}>
-          {tc(apartmentInfo.parking)}
-        </InfoCard>
+        {apartmentInfo.parking && (
+          <InfoCard icon="parking" title={t('info.parking')}>
+            {tc(apartmentInfo.parking)}
+          </InfoCard>
+        )}
 
         <InfoCard icon="trash" title={t('info.trash')}>
           {tc(apartmentInfo.trash)}
@@ -102,9 +110,11 @@ export function ApartmentInfo() {
           {tc(apartmentInfo.ac)}
         </InfoCard>
 
-        <InfoCard icon="moon" title={t('info.quietHours')}>
-          {tc(apartmentInfo.quietHours)}
-        </InfoCard>
+        {apartmentInfo.quietHours && (
+          <InfoCard icon="moon" title={t('info.quietHours')}>
+            {tc(apartmentInfo.quietHours)}
+          </InfoCard>
+        )}
 
         {/* House rules */}
         <InfoCard id="info-houseRules" icon="rules" title={t('info.houseRules')}>
@@ -119,6 +129,7 @@ export function ApartmentInfo() {
         <article className="card bg-gradient-to-br from-sea-500 to-sea-700 p-5 text-white">
           <h3 className="font-display text-lg font-bold">{t('info.contactHost')}</h3>
           <p className="mt-1 text-sm text-sea-50">{t('info.contactHostDesc')}</p>
+          {host.note && <p className="mt-2 text-sm font-semibold text-white">{tc(host.note)}</p>}
           <div className="mt-4 flex flex-wrap gap-2">
             <a href={telHref(host.phone)} className="btn bg-white text-sea-700">
               <Icon name="phone" className="h-5 w-5" /> {t('common.call')}

@@ -16,6 +16,8 @@ export type IconName =
   | 'bed'
   | 'beach'
   | 'restaurant'
+  | 'cocktail'
+  | 'iceCream'
   | 'bike'
   | 'scooter'
   | 'boat'
@@ -96,6 +98,20 @@ const ICONS: Record<IconName, ReactNode> = {
       <path d="M6 9v12" />
       <path d="M17 3c-1.7 0-3 2.2-3 5s1.3 5 3 5" />
       <path d="M17 13v8" />
+    </>
+  ),
+  cocktail: (
+    <>
+      <path d="M8 22h8" />
+      <path d="M12 11v11" />
+      <path d="m19 3-7 8-7-8Z" />
+    </>
+  ),
+  iceCream: (
+    <>
+      <path d="m7 11 4.08 10.35a1 1 0 0 0 1.84 0L17 11" />
+      <path d="M17 7A5 5 0 0 0 7 7" />
+      <path d="M17 7a2 2 0 0 1 0 4H7a2 2 0 0 1 0-4" />
     </>
   ),
   bike: (

@@ -11,7 +11,6 @@ function ContactRow({
   phone,
   whatsapp,
   maps,
-  website,
   email,
   highlight,
 }: {
@@ -80,17 +79,6 @@ function ContactRow({
             <Icon name="pin" className="h-5 w-5" />
           </a>
         )}
-        {website && (
-          <a
-            href={website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="grid h-10 w-10 place-items-center rounded-full bg-sand-100 text-slate-600 active:scale-95"
-            aria-label={`${t('common.viewSchedule')} ${label}`}
-          >
-            <Icon name="calendar" className="h-5 w-5" />
-          </a>
-        )}
       </div>
     </article>
   )
@@ -114,6 +102,7 @@ export function Contacts() {
             whatsapp={c.whatsapp}
             maps={c.maps}
             website={c.website}
+            email={c.email}
             highlight={c.id === 'emergency'}
           />
         ))}
@@ -124,7 +113,6 @@ export function Contacts() {
           label={t('contacts.host')}
           phone={host.phone}
           whatsapp={host.whatsapp}
-          email={host.email}
         />
       </div>
 

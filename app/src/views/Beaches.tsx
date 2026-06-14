@@ -12,7 +12,7 @@ export function Beaches() {
       <SectionHeader icon="beach" title={t('beaches.title')} subtitle={t('beaches.subtitle')} />
       <div className="space-y-4">
         {beaches.map((place) => (
-          <PlaceCardView key={place.id} place={place} icon="beach" />
+          <PlaceCardView key={place.id} place={place} icon="beach" showCategory={false} />
         ))}
       </div>
     </div>

@@ -27,7 +27,10 @@ const QUICK_BUTTONS: QuickButton[] = [
 export function Home() {
   const { t, tc } = useLang()
   const { go } = useNav()
-  const { property, reviews } = useProperty()
+  const { property, reviews, apartments } = useProperty()
+
+  // Drop the "Prices" tile for properties with no apartments listed.
+  const quickButtons = QUICK_BUTTONS.filter((b) => b.view !== 'apartments' || apartments.length > 0)
 
   function open(b: QuickButton) {
     go(b.view)
@@ -62,7 +65,7 @@ export function Home() {
       {/* Quick access grid */}
       <h3 className="mb-3 mt-7 px-1 font-display text-lg font-bold text-sea-800">{t('home.quickAccess')}</h3>
       <div className="grid grid-cols-2 gap-3">
-        {QUICK_BUTTONS.map((b, i) => (
+        {quickButtons.map((b, i) => (
           <button
             key={`${b.labelKey}-${i}`}
             type="button"

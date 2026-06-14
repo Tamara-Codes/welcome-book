@@ -1,6 +1,7 @@
 import type { Localized } from '../i18n/types'
 import type { IconName } from '../components/Icon'
 import { mila } from './properties/mila'
+import { apartmaniHosnjak } from './properties/apartmanihosnjak'
 import { krk } from './islands/krk'
 
 /* ============================================================================
@@ -79,6 +80,8 @@ export interface PlaceCard {
   price?: Localized
   /** Business logo URL (e.g. "/islands/<id>/logos/<card>.png" from the public folder). Shown in the card's chip; falls back to the section icon when absent. */
   image?: string
+  /** Optional icon override for the chip when there's no logo image (e.g. a cocktail glass for bars, an ice-cream cone for slastičarne). Defaults to the section icon. */
+  icon?: IconName
   /** @deprecated No longer rendered on place cards (kept for data compatibility). */
   gradient: string
 }
@@ -93,6 +96,7 @@ export interface Contact {
   whatsapp?: string
   maps?: string
   website?: string
+  email?: string
   /** Icon name — see IconName in src/components/Icon.tsx. */
   icon: IconName
 }
@@ -111,16 +115,22 @@ export interface Host {
   /** WhatsApp: digits only with country code, no "+", e.g. "385911234567". */
   whatsapp: string
   email: string
+  /** Optional instruction shown on the "Contact host" card (e.g. "mention your apartment number"). */
+  note?: Localized
 }
 
 export interface ApartmentInfo {
   wifi: { network: string; password: string }
-  checkIn: string
-  checkOut: string
-  parking: Localized
+  /** Check-in time. Omit to hide the check-in card. */
+  checkIn?: string
+  /** Check-out time. Omit to hide the check-out card. */
+  checkOut?: string
+  /** Parking info. Omit to hide the parking card. */
+  parking?: Localized
   trash: Localized
   ac: Localized
-  quietHours: Localized
+  /** Quiet hours info. Omit to hide the quiet-hours card. */
+  quietHours?: Localized
   /** Extra free-form house rules, one bullet each. */
   houseRules: Localized[]
 }
@@ -182,6 +192,9 @@ export interface Property {
   apartments: Apartment[]
   /** Optional review links — when set, a gentle review reminder shows on Home. */
   reviews?: ReviewLink[]
+  /** When true, the header shows the "Demo" tag + "request your own guide" CTA.
+   *  Leave unset/false for real customers so their guests never see the promo. */
+  demo?: boolean
 }
 
 /**
@@ -194,6 +207,7 @@ export interface PropertyContent {
   apartmentInfo: ApartmentInfo
   apartments: Apartment[]
   reviews?: ReviewLink[]
+  demo?: boolean
   restaurants: PlaceCard[]
   beaches: PlaceCard[]
   activities: PlaceCard[]
@@ -218,6 +232,7 @@ export const islands: Record<string, IslandContent> = {
  */
 export const properties: Record<string, Property> = {
   mila,
+  apartmanihosnjak: apartmaniHosnjak,
 }
 
 /** Used at the bare root path (no slug) — handy during local development. */
@@ -251,6 +266,7 @@ export function resolveProperty(slug: string): PropertyContent | undefined {
     apartmentInfo: property.apartmentInfo,
     apartments: property.apartments,
     reviews: property.reviews,
+    demo: property.demo,
     restaurants: island.restaurants,
     beaches: island.beaches,
     activities: island.activities,

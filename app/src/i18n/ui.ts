@@ -161,6 +161,9 @@ const en = {
   'tag.blueFlag': 'Blue Flag',
   'tag.dogFriendly': 'Dog friendly',
   'tag.concrete': 'Concrete & pebble',
+  'tag.seafood': 'Seafood',
+  'tag.konoba': 'Konoba',
+  'tag.pizzeria': 'Pizzeria',
 
   // Categories
   'cat.restaurant': 'Restaurant',
@@ -179,6 +182,10 @@ const en = {
   'cat.bakery': 'Bakery',
   'cat.butcher': 'Butcher',
   'cat.crafts': 'Crafts & souvenirs',
+  'cat.playground': 'Playgrounds',
+  'cat.evCharging': 'EV charging',
+  'cat.atm': 'ATM',
+  'filter.all': 'All',
 }
 
 export type UIKey = keyof typeof en
@@ -303,6 +310,9 @@ const hr: Partial<Record<UIKey, string>> = {
   'tag.blueFlag': 'Plava zastava',
   'tag.dogFriendly': 'Dopušteni psi',
   'tag.concrete': 'Beton i šljunak',
+  'tag.seafood': 'Riba i plodovi mora',
+  'tag.konoba': 'Konoba',
+  'tag.pizzeria': 'Pizzeria',
   'cat.restaurant': 'Restoran',
   'cat.pizzeria': 'Pizzeria',
   'cat.barCafe': 'Bar i kafić',
@@ -319,6 +329,10 @@ const hr: Partial<Record<UIKey, string>> = {
   'cat.bakery': 'Pekarnica',
   'cat.butcher': 'Mesnica',
   'cat.crafts': 'Rukotvorine i suveniri',
+  'cat.playground': 'Dječje igralište',
+  'cat.evCharging': 'Punionica za el. automobile',
+  'cat.atm': 'Bankomat',
+  'filter.all': 'Sve',
 }
 
 const de: Partial<Record<UIKey, string>> = {
@@ -441,6 +455,9 @@ const de: Partial<Record<UIKey, string>> = {
   'tag.blueFlag': 'Blaue Flagge',
   'tag.dogFriendly': 'Hundefreundlich',
   'tag.concrete': 'Beton & Kiesel',
+  'tag.seafood': 'Fisch & Meeresfrüchte',
+  'tag.konoba': 'Konoba',
+  'tag.pizzeria': 'Pizzeria',
   'cat.restaurant': 'Restaurant',
   'cat.pizzeria': 'Pizzeria',
   'cat.barCafe': 'Bar & Café',
@@ -457,6 +474,10 @@ const de: Partial<Record<UIKey, string>> = {
   'cat.bakery': 'Bäckerei',
   'cat.butcher': 'Metzgerei',
   'cat.crafts': 'Kunsthandwerk & Souvenirs',
+  'cat.playground': 'Spielplatz',
+  'cat.evCharging': 'E-Auto-Ladestation',
+  'cat.atm': 'Geldautomat',
+  'filter.all': 'Alle',
 }
 
 const it: Partial<Record<UIKey, string>> = {

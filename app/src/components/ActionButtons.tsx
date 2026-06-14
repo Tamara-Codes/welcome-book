@@ -10,7 +10,6 @@ export function ActionButtons({
   phone,
   whatsapp,
   maps,
-  website,
   compact = false,
 }: {
   phone?: string
@@ -48,16 +47,6 @@ export function ActionButtons({
           className={`btn-sand ${size}`}
         >
           <Icon name="pin" className={iconClass} /> {t('common.openMaps')}
-        </a>
-      )}
-      {website && (
-        <a
-          href={website}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`btn-soft ${size}`}
-        >
-          <Icon name="calendar" className={iconClass} /> {t('common.viewSchedule')}
         </a>
       )}
     </div>

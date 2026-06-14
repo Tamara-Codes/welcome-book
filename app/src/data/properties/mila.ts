@@ -25,6 +25,10 @@ export const mila: Property = {
      Its amenities are merged into this guide automatically. */
   island: 'krk',
 
+  /* This is the public demo — show the "Demo" tag + "request your own guide"
+     CTA in the header. Real customers omit this so their guests never see it. */
+  demo: true,
+
   /* ---------- Property & host ---------- */
   property: {
     name: 'Apartmani Mila',

@@ -11,7 +11,15 @@ import { Icon, type IconName } from './Icon'
  * it shows that logo (contained, never cropped); otherwise it falls back to the
  * section icon — e.g. the beach umbrella for beaches, a fork for restaurants.
  */
-export function PlaceCardView({ place, icon }: { place: PlaceCard; icon: IconName }) {
+export function PlaceCardView({
+  place,
+  icon,
+  showCategory = true,
+}: {
+  place: PlaceCard
+  icon: IconName
+  showCategory?: boolean
+}) {
   const { t, tc } = useLang()
 
   return (
@@ -26,29 +34,20 @@ export function PlaceCardView({ place, icon }: { place: PlaceCard; icon: IconNam
               className="h-full w-full object-contain p-1.5"
             />
           ) : (
-            <Icon name={icon} className="h-7 w-7 text-sea-500" strokeWidth={1.75} />
+            <Icon name={place.icon ?? icon} className="h-7 w-7 text-sea-500" strokeWidth={1.75} />
           )}
         </div>
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <h3 className="font-display text-lg font-bold leading-tight text-slate-800">{place.name}</h3>
-            <span className="pill shrink-0">{t(`cat.${place.category}` as UIKey)}</span>
+            {showCategory && <span className="pill shrink-0">{t(`cat.${place.category}` as UIKey)}</span>}
           </div>
         </div>
       </div>
 
       <p className="mt-3 text-sm leading-relaxed text-slate-600">{tc(place.description)}</p>
 
-      {place.tags && place.tags.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {place.tags.map((tag) => (
-            <span key={tag} className="tag">
-              {t(`tag.${tag}` as UIKey)}
-            </span>
-          ))}
-        </div>
-      )}
 
       {place.price && (
         <p className="mt-3 text-sm font-bold text-sea-700">

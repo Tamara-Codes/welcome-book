@@ -1,6 +1,7 @@
 import { useLang } from '../i18n/LanguageContext'
 import { useNav, type View } from '../navigation'
 import type { UIKey } from '../i18n/ui'
+import { useProperty } from '../property'
 import { Icon, type IconName } from './Icon'
 
 interface NavItem {
@@ -23,6 +24,11 @@ const NAV_ITEMS: NavItem[] = [
 export function BottomNav() {
   const { view, go } = useNav()
   const { t } = useLang()
+  const { apartments } = useProperty()
+
+  // Hide the Prices/Apartments tab for properties with no apartments listed
+  // (e.g. owners who opt out of showing prices).
+  const items = NAV_ITEMS.filter((item) => item.view !== 'apartments' || apartments.length > 0)
 
   return (
     <nav
@@ -31,7 +37,7 @@ export function BottomNav() {
       aria-label="Primary"
     >
       <ul className="mx-auto flex max-w-screen-sm items-stretch justify-between px-2">
-        {NAV_ITEMS.map((item) => {
+        {items.map((item) => {
           const active = view === item.view || item.related?.includes(view)
           return (
             <li key={item.view} className="flex-1">

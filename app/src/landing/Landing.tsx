@@ -127,9 +127,7 @@ export default function Landing() {
 function Wordmark({ light = false }: { light?: boolean }) {
   return (
     <a href="#top" className="flex min-w-0 items-center gap-2 sm:gap-2.5">
-      <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl sm:h-9 sm:w-9 ${light ? 'bg-shell text-ink' : 'bg-ink text-shell'}`}>
-        <Icon name="waves" className="h-5 w-5" />
-      </span>
+      <img src="/favicon.svg" alt="" className="h-8 w-8 shrink-0 rounded-xl sm:h-9 sm:w-9" />
       <span className={`truncate font-fraunces text-lg font-medium tracking-tight sm:text-xl ${light ? 'text-shell' : 'text-ink'}`}>
         {brand.name}
       </span>

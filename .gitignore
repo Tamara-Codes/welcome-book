@@ -10,6 +10,10 @@ dist/
 .env.*
 !.env.example
 
+# Sales outreach lists — contain owners' personal phone numbers, keep local only
+/*-owners-outreach.md
+/FB-groups-outreach-log.md
+
 # Dev artifacts
 .playwright-mcp/
 # Loose screenshots at the repo root (real assets live under app/public/)

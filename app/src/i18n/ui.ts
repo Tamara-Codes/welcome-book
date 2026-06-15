@@ -212,7 +212,7 @@ const hr: Partial<Record<UIKey, string>> = {
   'home.exploreTitle': 'Otkrijte otoke',
   'home.review.title': 'Je li vam se svidio boravak?',
   'home.review.body':
-    'Ako ste lijepo proveli vrijeme, nekoliko riječi nama znači jako puno. Hvala!',
+    'Ako ste se lijepo proveli, nama nekoliko riječi znači jako puno. Hvala!',
   'home.review.cta': 'Ostavite recenziju',
   'quick.wifi': 'Wi-Fi',
   'quick.houseRules': 'Kućni red',

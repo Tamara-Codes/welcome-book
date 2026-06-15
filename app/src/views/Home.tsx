@@ -57,7 +57,7 @@ export function Home() {
         <div className="mt-5 rounded-2xl bg-white/10 p-4 ring-1 ring-white/15 backdrop-blur-sm">
           <p className="max-w-prose text-sm leading-relaxed text-white/90">
             <span className="font-bold text-white">{t('home.welcome')} </span>
-            {t('home.intro')}
+            {property.intro ? tc(property.intro) : t('home.intro')}
           </p>
         </div>
       </section>

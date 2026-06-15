@@ -2,7 +2,9 @@ import type { Localized } from '../i18n/types'
 import type { IconName } from '../components/Icon'
 import { mila } from './properties/mila'
 import { apartmaniHosnjak } from './properties/apartmanihosnjak'
+import { adria } from './properties/adria'
 import { krk } from './islands/krk'
+import { crikvenica } from './islands/crikvenica'
 
 /* ============================================================================
  *  📖  GUEST GUIDE — TYPES & REGISTRIES
@@ -107,6 +109,10 @@ export interface PropertyMeta {
   name: string
   /** Short, friendly welcome line shown on the home screen, under "Welcome!". */
   tagline: Localized
+  /** Optional intro paragraph in the welcome box. Omit to use the shared
+   *  `home.intro` string (currently Njivice-worded), so existing guides are
+   *  unchanged. Set it for properties in another town (e.g. "...u Crikvenici"). */
+  intro?: Localized
 }
 
 export interface Host {
@@ -152,11 +158,28 @@ export interface ReviewLink {
  */
 export interface ArrivalLink {
   id: string
-  /** UI key for the label — see ferry.* in src/i18n/ui.ts. */
-  labelKey: string
+  /** UI key for the label — see ferry.* in src/i18n/ui.ts. Used when `label` is absent. */
+  labelKey?: string
+  /** Free-text label for the active language, used instead of `labelKey` when set. */
+  label?: Localized
   url: string
   /** Icon name — see IconName in src/components/Icon.tsx. Defaults to "ferry". */
   icon?: IconName
+}
+
+/**
+ * Per-location text for the Arrival section. Optional — when a location omits it,
+ * the section falls back to the shared `ferry.*` UI strings (currently Krk-worded),
+ * so existing island files keep rendering exactly as before. Provide this for any
+ * new location so guests don't see another town's arrival text.
+ */
+export interface ArrivalInfo {
+  /** Subtitle under the "Arrival & Getting Around" header. */
+  subtitle: Localized
+  /** Intro paragraph: how to reach this location and get around. */
+  description: Localized
+  /** Optional highlighted tip shown at the bottom (e.g. nearest airport, toll note). */
+  note?: Localized
 }
 
 /* ---------- Island-level type ---------- */
@@ -175,6 +198,8 @@ export interface IslandContent {
   shops: PlaceCard[]
   contacts: Contact[]
   arrivalLinks: ArrivalLink[]
+  /** Optional per-location Arrival text. Omit to use the shared `ferry.*` strings. */
+  arrival?: ArrivalInfo
 }
 
 /* ---------- Property-level type ---------- */
@@ -214,6 +239,7 @@ export interface PropertyContent {
   shops: PlaceCard[]
   contacts: Contact[]
   arrivalLinks: ArrivalLink[]
+  arrival?: ArrivalInfo
 }
 
 /* ---------- Registries ---------- */
@@ -224,6 +250,7 @@ export interface PropertyContent {
  */
 export const islands: Record<string, IslandContent> = {
   krk,
+  crikvenica,
 }
 
 /**
@@ -233,6 +260,7 @@ export const islands: Record<string, IslandContent> = {
 export const properties: Record<string, Property> = {
   mila,
   apartmanihosnjak: apartmaniHosnjak,
+  adria,
 }
 
 /** Used at the bare root path (no slug) — handy during local development. */
@@ -273,5 +301,6 @@ export function resolveProperty(slug: string): PropertyContent | undefined {
     shops: island.shops,
     contacts: island.contacts,
     arrivalLinks: island.arrivalLinks,
+    arrival: island.arrival,
   }
 }

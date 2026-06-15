@@ -432,7 +432,7 @@ function Pricing() {
           <p className="mt-4 font-hanken text-lg leading-relaxed text-ink/70">{pricing.intro}</p>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-3">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2">
           {pricing.tiers.map((tier, i) => (
             <Reveal
               key={tier.name}

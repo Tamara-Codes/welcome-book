@@ -242,11 +242,10 @@ export const pricing = {
   title: 'Jasna cijena, bez skrivenih troškova.',
   intro: 'Plaćate izradu vodiča po sezoni. Točna cijena ovisi o broju apartmana.',
   tiers: [
-    { name: 'Jedan apartman', price: '€149', unit: '/ godišnje', highlight: false },
-    { name: 'Dva apartmana', price: '€199', unit: '/ godišnje', highlight: false },
-    { name: 'Tri ili više apartmana', price: '€249', unit: '/ godišnje', highlight: false },
+    { name: 'Do 4 apartmana', price: '€149', unit: '/ godišnje', highlight: false },
+    { name: '5 i više apartmana', price: '€199', unit: '/ godišnje', highlight: false },
   ],
-  note: 'Za objekte sa 6+ apartmana cijena je po dogovoru — javite mi se za točnu ponudu.',
+  note: 'Cijena je po objektu, godišnje — sve u jednoj aplikaciji. Za agencije i veće objekte cijena je po dogovoru.',
   addon: {
     label: 'Jednokratno',
     name: 'Web stranica za vaš objekt',

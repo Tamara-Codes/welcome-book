@@ -71,7 +71,7 @@ export const hero = {
     'Elegantan digitalni vodič koji gosti otvaraju linkom prije dolaska ili skeniranjem QR koda u apartmanu — Wi-Fi, kućni red, plaže, restorani i lokalni savjeti, i nježan podsjetnik gostima da ostave recenziju. Bez aplikacije, bez prijave.',
   primaryCta: 'Isprobaj demo',
   secondaryCta: 'Kontaktirajte me',
-  trust: 'Izrada od €149 po sezoni · QR kod uključen · više jezika',
+  trust: 'Izrada od €99 po sezoni · QR kod uključen · više jezika',
 }
 
 /* ---------- 2. Value lede ---------- */
@@ -242,8 +242,9 @@ export const pricing = {
   title: 'Jasna cijena, bez skrivenih troškova.',
   intro: 'Plaćate izradu vodiča po sezoni. Točna cijena ovisi o broju apartmana.',
   tiers: [
-    { name: 'Do 4 apartmana', price: '€149', unit: '/ godišnje', highlight: false },
-    { name: '5 i više apartmana', price: '€199', unit: '/ godišnje', highlight: false },
+    { name: '1–3 apartmana', price: '€99', unit: '/ godišnje', highlight: false },
+    { name: '4–6 apartmana', price: '€149', unit: '/ godišnje', highlight: false },
+    { name: '7 i više apartmana', price: '€199', unit: '/ godišnje', highlight: false },
   ],
   note: 'Cijena je po objektu, godišnje — sve u jednoj aplikaciji. Za agencije i veće objekte cijena je po dogovoru.',
   addon: {

@@ -247,12 +247,6 @@ export const pricing = {
     { name: '7 i više apartmana', price: '€199', unit: '/ godišnje', highlight: false },
   ],
   note: 'Cijena je po objektu, godišnje — sve u jednoj aplikaciji. Za agencije i veće objekte cijena je po dogovoru.',
-  addon: {
-    label: 'Jednokratno',
-    name: 'Web stranica za vaš objekt',
-    price: '+€100',
-    desc: 'Jednostavna, lijepa web stranica za vaš smještaj — uz digitalnu knjigu dobrodošlice.',
-  },
 }
 
 /* ---------- 6. Review reminder (ethical wording) ---------- */

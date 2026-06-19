@@ -432,7 +432,7 @@ function Pricing() {
           <p className="mt-4 font-hanken text-lg leading-relaxed text-ink/70">{pricing.intro}</p>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2">
+        <div className="mt-12 grid gap-4 sm:grid-cols-3">
           {pricing.tiers.map((tier, i) => (
             <Reveal
               key={tier.name}
@@ -486,23 +486,6 @@ function Pricing() {
           <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0 text-clay-500" />
           {pricing.note}
         </p>
-
-        <Reveal className="mt-8">
-          <div className="group relative mx-auto flex w-fit flex-col gap-3 overflow-hidden rounded-2xl border border-dashed border-sea-300 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-sea-400 hover:shadow-[0_20px_40px_-20px_rgba(12,74,110,0.25)] sm:flex-row sm:items-center sm:gap-6">
-            <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-sea-400 to-sea-600 transition-transform duration-300 group-hover:scale-x-100" />
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-sea-50 text-sea-600 transition-all duration-300 group-hover:bg-sea-600 group-hover:text-white">
-              <Icon name="globe" className="h-6 w-6" />
-            </span>
-            <div>
-              <span className="inline-block rounded-full bg-sea-100 px-2.5 py-0.5 font-hanken text-[10px] font-bold uppercase tracking-wider text-sea-700">
-                {pricing.addon.label}
-              </span>
-              <p className="mt-1 font-hanken text-sm font-semibold text-ink">{pricing.addon.name}</p>
-              <p className="mt-0.5 font-hanken text-sm leading-relaxed text-ink/60">{pricing.addon.desc}</p>
-            </div>
-            <p className="font-fraunces text-2xl font-medium text-ink sm:text-right">{pricing.addon.price}</p>
-          </div>
-        </Reveal>
       </Container>
     </section>
   )

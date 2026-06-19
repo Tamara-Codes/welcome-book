@@ -119,7 +119,7 @@ export const howItWorks = {
     {
       icon: 'sparkles' as IconName,
       title: 'Izrada vodiča',
-      body: 'Složim uredan, pregledan vodič s vašim podacima i fotografijama te pripremam QR kod za apartman.',
+      body: 'Složim uredan, pregledan vodič s vašim podacima i fotografijama te pripremam QR kod za apartman — magnet za hladnjak ili stalak za stol, spreman za vaše goste.',
     },
     {
       icon: 'qr' as IconName,
@@ -244,7 +244,7 @@ export const pricing = {
   tiers: [
     { name: '1–3 apartmana', price: '€99', unit: '/ godišnje', highlight: false },
     { name: '4–6 apartmana', price: '€149', unit: '/ godišnje', highlight: false },
-    { name: '7 i više apartmana', price: '€199', unit: '/ godišnje', highlight: false },
+    { name: '7–10 apartmana', price: '€199', unit: '/ godišnje', highlight: false },
   ],
   note: 'Cijena je po objektu, godišnje — sve u jednoj aplikaciji. Za agencije i veće objekte cijena je po dogovoru.',
 }

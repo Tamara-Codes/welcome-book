@@ -326,7 +326,7 @@ const hr: Partial<Record<UIKey, string>> = {
   'cat.excursion': 'Izlet',
   'cat.supermarket': 'Supermarket',
   'cat.grocery': 'Trgovina mješovitom robom',
-  'cat.bakery': 'Pekarnica',
+  'cat.bakery': 'Pekara',
   'cat.butcher': 'Mesnica',
   'cat.crafts': 'Rukotvorine i suveniri',
   'cat.playground': 'Dječje igralište',

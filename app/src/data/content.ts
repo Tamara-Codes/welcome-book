@@ -66,7 +66,10 @@ export interface Apartment {
 
 export interface PlaceCard {
   id: string
-  name: string
+  /** Business name. Use a plain string for proper brand names; use a Localized
+   *  object when the name is a generic word that should translate (e.g. a
+   *  bakery/butcher with no real brand). */
+  name: string | Localized
   /** Category key — see cat.* in src/i18n/ui.ts. */
   category: string
   description: Localized

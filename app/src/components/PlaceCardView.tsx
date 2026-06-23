@@ -21,6 +21,7 @@ export function PlaceCardView({
   showCategory?: boolean
 }) {
   const { t, tc } = useLang()
+  const name = typeof place.name === 'string' ? place.name : tc(place.name)
 
   return (
     <article className="card p-4">
@@ -29,7 +30,7 @@ export function PlaceCardView({
           {place.image ? (
             <img
               src={place.image}
-              alt={`${place.name} logo`}
+              alt={`${name} logo`}
               loading="lazy"
               className="h-full w-full object-contain p-1.5"
             />
@@ -40,7 +41,7 @@ export function PlaceCardView({
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-display text-lg font-bold leading-tight text-slate-800">{place.name}</h3>
+            <h3 className="font-display text-lg font-bold leading-tight text-slate-800">{name}</h3>
             {showCategory && <span className="pill shrink-0">{t(`cat.${place.category}` as UIKey)}</span>}
           </div>
         </div>

@@ -95,8 +95,10 @@ export interface Contact {
   id: string
   /** UI key for the label — see contacts.* in src/i18n/ui.ts. */
   labelKey: string
-  /** Override the label with free text instead of a translation key. */
-  label?: string
+  /** Override the label with free text instead of a translation key. Use a
+   *  Localized object when the name contains translatable generic words
+   *  (e.g. "Pharmacy Njivice"); a plain string for pure proper nouns. */
+  label?: string | Localized
   phone?: string
   whatsapp?: string
   maps?: string

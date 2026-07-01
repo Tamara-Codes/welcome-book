@@ -85,7 +85,7 @@ function ContactRow({
 }
 
 export function Contacts() {
-  const { t } = useLang()
+  const { t, tc } = useLang()
   const { contacts, host } = useProperty()
 
   return (
@@ -97,7 +97,7 @@ export function Contacts() {
           <ContactRow
             key={c.id}
             icon={c.icon}
-            label={c.label ?? t(c.labelKey as UIKey)}
+            label={typeof c.label === 'object' ? tc(c.label) : (c.label ?? t(c.labelKey as UIKey))}
             phone={c.phone}
             whatsapp={c.whatsapp}
             maps={c.maps}
@@ -110,7 +110,7 @@ export function Contacts() {
         {/* Host — always last, pulled from the host config */}
         <ContactRow
           icon="home"
-          label={t('contacts.host')}
+          label={`${t('contacts.host')} — ${host.name}`}
           phone={host.phone}
           whatsapp={host.whatsapp}
         />

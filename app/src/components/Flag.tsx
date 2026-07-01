@@ -98,5 +98,13 @@ export function Flag({ code, className = 'h-4 w-6' }: { code: Lang; className?: 
           <path d="M0,0 L30,20 L0,40 z" fill="#11457E" />
         </svg>
       )
+    case 'hu': // Hungary — red / white / green
+      return (
+        <svg {...common}>
+          <rect width="60" height="13.33" fill="#CD2A3E" />
+          <rect y="13.33" width="60" height="13.34" fill="#fff" />
+          <rect y="26.67" width="60" height="13.33" fill="#436F4D" />
+        </svg>
+      )
   }
 }

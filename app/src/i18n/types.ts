@@ -1,5 +1,5 @@
 // Supported interface languages. English is the default + fallback.
-export const LANGUAGES = ['en', 'hr', 'de', 'it', 'sl', 'pl', 'cs', 'hu'] as const
+export const LANGUAGES = ['en', 'hr', 'de', 'it', 'sl', 'pl', 'cs', 'hu', 'sk'] as const
 
 export type Lang = (typeof LANGUAGES)[number]
 
@@ -14,6 +14,7 @@ export const LANGUAGE_LABELS: Record<Lang, { label: string }> = {
   pl: { label: 'Polski' },
   cs: { label: 'Čeština' },
   hu: { label: 'Magyar' },
+  sk: { label: 'Slovenčina' },
 }
 
 /**

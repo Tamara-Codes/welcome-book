@@ -106,5 +106,25 @@ export function Flag({ code, className = 'h-4 w-6' }: { code: Lang; className?: 
           <rect y="26.67" width="60" height="13.33" fill="#436F4D" />
         </svg>
       )
+    case 'sk': // Slovakia — white / blue / red tricolor with the coat of arms
+      return (
+        <svg {...common}>
+          <rect width="60" height="13.33" fill="#fff" />
+          <rect y="13.33" width="60" height="13.34" fill="#0B4EA2" />
+          <rect y="26.67" width="60" height="13.33" fill="#EE1C25" />
+          {/* Coat of arms — red shield, white double cross on three blue hills */}
+          <g transform="translate(9 7)">
+            <path d="M0,1.5 a1.5,1.5 0 0 1 1.5,-1.5 h10 a1.5,1.5 0 0 1 1.5,1.5 v13 c0,6.5 -6.5,9 -6.5,9 c0,0 -6.5,-2.5 -6.5,-9 z" fill="#EE1C25" stroke="#fff" strokeWidth="0.7" />
+            {/* three blue hills */}
+            <path d="M0.8,17 c1.2,-2.6 3.4,-2.6 4.6,0 c1.2,-3 3.6,-3 4.8,0 c1.1,2.2 -0.2,4.6 -4.7,6.3 c-4.3,-1.6 -5.8,-4 -4.7,-6.3 z" fill="#0B4EA2" />
+            {/* white double (patriarchal) cross */}
+            <g fill="#fff">
+              <rect x="5.7" y="3" width="1.6" height="13" rx="0.4" />
+              <rect x="3.4" y="6" width="6.2" height="1.5" rx="0.4" />
+              <rect x="2.6" y="9.3" width="7.8" height="1.5" rx="0.4" />
+            </g>
+          </g>
+        </svg>
+      )
   }
 }

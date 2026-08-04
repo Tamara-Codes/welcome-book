@@ -3,6 +3,7 @@ import type { IconName } from '../components/Icon'
 import { mila } from './properties/mila'
 import { apartmaniHosnjak } from './properties/apartmanihosnjak'
 import { adria } from './properties/adria'
+import { sonia } from './properties/sonia'
 import { krk } from './islands/krk'
 import { crikvenica } from './islands/crikvenica'
 
@@ -207,6 +208,33 @@ export interface IslandContent {
   arrival?: ArrivalInfo
 }
 
+/* ---------- Per-owner customisation of island content ---------- */
+
+/**
+ * Field-level edits to one island card. `id` is never overridable — it's how
+ * the edit finds its card in the first place.
+ *
+ * Overrides are merged field-by-field (`{...card, ...override}`), not
+ * card-by-card, on purpose: an owner who corrects a phone number keeps
+ * receiving future description improvements from the island file. The
+ * flip side is that any field listed here stops tracking the island —
+ * that's intended, but remember it when you improve shared content.
+ */
+export type PlaceOverride = Partial<Omit<PlaceCard, 'id'>>
+export type ContactOverride = Partial<Omit<Contact, 'id'>>
+
+/**
+ * The owner's own additions, appended after the island's cards in each section.
+ * These are full cards — they need the same required fields as island content.
+ */
+export interface PropertyExtras {
+  restaurants?: PlaceCard[]
+  beaches?: PlaceCard[]
+  activities?: PlaceCard[]
+  shops?: PlaceCard[]
+  contacts?: Contact[]
+}
+
 /* ---------- Property-level type ---------- */
 
 /**
@@ -225,6 +253,22 @@ export interface Property {
   /** When true, the header shows the "Demo" tag + "request your own guide" CTA.
    *  Leave unset/false for real customers so their guests never see the promo. */
   demo?: boolean
+  /** Set to false to keep the guest guide ("/<slug>") offline while the owner
+   *  is still filling in real details. The owner's own "/pick/<slug>" link
+   *  keeps working regardless — this only gates the guest-facing route. */
+  published?: boolean
+
+  /* -- Customisation. All optional: omit them and the owner sees the whole
+        island exactly as before. Usually written from a /pick/<slug> submission. -- */
+
+  /** Ids of island cards/contacts this owner doesn't want shown.
+   *  Storing what's REMOVED (not what's kept) means new island content reaches
+   *  existing customers automatically. */
+  exclude?: string[]
+  /** Field-level edits to island cards, keyed by card id. */
+  override?: Record<string, PlaceOverride | ContactOverride>
+  /** The owner's own places, appended after the island's. */
+  extra?: PropertyExtras
 }
 
 /**
@@ -266,6 +310,9 @@ export const properties: Record<string, Property> = {
   mila,
   apartmanihosnjak: apartmaniHosnjak,
   adria,
+  // Unguessable slug on purpose — not linked from anywhere, so nobody stumbles
+  // on the owner's picker. See "Access control" note in Picker.tsx.
+  'sonia-nj4k': sonia,
 }
 
 /** Used at the bare root path (no slug) — handy during local development. */
@@ -293,6 +340,20 @@ export function resolveProperty(slug: string): PropertyContent | undefined {
     )
   }
 
+  const exclude = new Set(property.exclude ?? [])
+  const { override, extra } = property
+
+  /** Drop excluded cards, apply field-level overrides, append the owner's own. */
+  function customise<T extends { id: string }>(base: T[], added?: T[]): T[] {
+    const kept = base
+      .filter((card) => !exclude.has(card.id))
+      .map((card) => {
+        const fields = override?.[card.id]
+        return fields ? ({ ...card, ...fields } as T) : card
+      })
+    return added?.length ? [...kept, ...added] : kept
+  }
+
   return {
     property: property.property,
     host: property.host,
@@ -300,11 +361,11 @@ export function resolveProperty(slug: string): PropertyContent | undefined {
     apartments: property.apartments,
     reviews: property.reviews,
     demo: property.demo,
-    restaurants: island.restaurants,
-    beaches: island.beaches,
-    activities: island.activities,
-    shops: island.shops,
-    contacts: island.contacts,
+    restaurants: customise(island.restaurants, extra?.restaurants),
+    beaches: customise(island.beaches, extra?.beaches),
+    activities: customise(island.activities, extra?.activities),
+    shops: customise(island.shops, extra?.shops),
+    contacts: customise(island.contacts, extra?.contacts),
     arrivalLinks: island.arrivalLinks,
     arrival: island.arrival,
   }

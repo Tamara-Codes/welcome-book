@@ -1,0 +1,20 @@
+# Welcome Book
+
+> Welcome Book is a digital guest guide for private holiday accommodation (apartments, holiday homes) in Croatia. The guest opens a link or scans a QR code in the apartment and immediately sees Wi-Fi details, house rules, nearby beaches, restaurants, and local tips — in their own language — with a gentle reminder to leave a review at the end of their stay. No app, no login required.
+
+Built and run by Tamara Martinovic, PhD, founder of Nos Astra (https://nosastra.co).
+Contact: codewithtamara@gmail.com
+
+## What it is
+
+- A QR-code / link-based guest guide, replacing printed welcome folders and repetitive host messages.
+- Content: welcome message, Wi-Fi, check-in/check-out, house rules, parking, nearby beaches, restaurants, shops, transport, emergency numbers, and a review reminder.
+- Available in Croatian, English, German, Italian, Slovenian, Polish, Czech, Hungarian, and Slovak.
+
+## Pricing
+
+Priced per property, per year: €99 for 1–3 apartments, €149 for 4–6 apartments, €199 for 7–10 apartments. Custom pricing for agencies and larger properties.
+
+## Who it's for
+
+Owners and hosts of private holiday accommodation in Croatia who want to reduce repetitive guest questions and present a more professional first impression.

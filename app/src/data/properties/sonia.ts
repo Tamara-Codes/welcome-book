@@ -25,6 +25,7 @@ export const sonia: Property = {
 
   property: {
     name: 'Apartmani Sonia',
+    town: 'Njivice',
     tagline: {
       en: 'Sea-view apartments in Njivice, on the island of Krk.',
       hr: 'Apartmani s pogledom na more u Njivicama, na otoku Krku.',

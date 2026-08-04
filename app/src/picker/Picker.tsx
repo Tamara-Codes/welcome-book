@@ -237,7 +237,8 @@ export function Picker({ slug, property, island }: Props) {
             {copy.title}
           </h1>
           <p className="mt-1.5 font-hanken text-[15px] font-semibold text-ink/70">
-            {property.property.name} · {island.name}
+            {property.property.name} ·{' '}
+            {property.property.town ? `${property.property.town}, ${island.name}` : island.name}
           </p>
         </header>
 

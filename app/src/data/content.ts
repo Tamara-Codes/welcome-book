@@ -113,6 +113,10 @@ export interface Contact {
 
 export interface PropertyMeta {
   name: string
+  /** Town/village within the island, e.g. "Njivice". Optional — an island can
+   *  have properties in more than one town, so this is per-property, not
+   *  per-island. Shown alongside the island name on the owner's /pick page. */
+  town?: string
   /** Short, friendly welcome line shown on the home screen, under "Welcome!". */
   tagline: Localized
   /** Optional intro paragraph in the welcome box. Omit to use the shared

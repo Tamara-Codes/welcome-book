@@ -58,9 +58,64 @@
         }
       }
     </script>
+    <style>
+      /* Hidden the instant React mounts into #root — this block exists only
+         for crawlers/agents that don't execute JS, so they see real content
+         instead of an empty div. Keep it in sync with src/landing/content.ts. */
+      #root:not(:empty) + #legacy-content { display: none; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <div id="legacy-content">
+      <header>
+        <h1>Welcome Book — digitalni vodič za goste vašeg apartmana</h1>
+        <p>Digitalni vodiči za privatni smještaj. Cijena od €99 godišnje.</p>
+      </header>
+      <main>
+        <section>
+          <h2>Sve što vaši gosti trebaju, na jednom mjestu.</h2>
+          <p>
+            Elegantan digitalni vodič koji gosti otvaraju linkom prije dolaska ili
+            skeniranjem QR koda u apartmanu — Wi-Fi, kućni red, plaže, restorani i
+            lokalni savjeti, i nježan podsjetnik gostima da ostave recenziju. Bez
+            aplikacije, bez prijave.
+          </p>
+        </section>
+        <section>
+          <h2>Kako radi</h2>
+          <ol>
+            <li><strong>Unos podataka:</strong> javite osnovne informacije o apartmanu, tekstove i fotografije.</li>
+            <li><strong>Izrada vodiča:</strong> uredan vodič s vašim podacima i QR kodom, spreman za goste.</li>
+            <li><strong>Gost skenira:</strong> gosti otvore link ili QR kod i odmah imaju sve pred sobom.</li>
+          </ol>
+        </section>
+        <section>
+          <h2>Zašto vodič</h2>
+          <ul>
+            <li>Manje ponavljanja — gosti sami nađu Wi-Fi, parking i kućni red.</li>
+            <li>Profesionalniji dojam — uredan, brendiran vodič umjesto papira po ladicama.</li>
+            <li>Više jezika — sadržaj dostupan na hrvatskom, engleskom, njemačkom, talijanskom i drugim jezicima.</li>
+            <li>Lakši put do recenzije — nježan podsjetnik na kraju boravka.</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Cijene</h2>
+          <ul>
+            <li>1–3 apartmana: €99 / godišnje</li>
+            <li>4–6 apartmana: €149 / godišnje</li>
+            <li>7–10 apartmana: €199 / godišnje</li>
+          </ul>
+          <p>Cijena je po objektu, godišnje. Za agencije i veće objekte cijena je po dogovoru.</p>
+        </section>
+        <section>
+          <h2>Kontakt</h2>
+          <p>E-mail: <a href="mailto:codewithtamara@gmail.com">codewithtamara@gmail.com</a></p>
+          <p>Telefon: <a href="tel:+385992142439">099 214 2439</a></p>
+          <p>Web: <a href="https://tamara.rocks">tamara.rocks</a></p>
+        </section>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

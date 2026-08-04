@@ -314,9 +314,7 @@ export const properties: Record<string, Property> = {
   mila,
   apartmanihosnjak: apartmaniHosnjak,
   adria,
-  // Unguessable slug on purpose — not linked from anywhere, so nobody stumbles
-  // on the owner's picker. See "Access control" note in Picker.tsx.
-  'sonia-nj4k': sonia,
+  'apartmani-sonia': sonia,
 }
 
 /** Used at the bare root path (no slug) — handy during local development. */

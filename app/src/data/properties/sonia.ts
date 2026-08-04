@@ -2,13 +2,13 @@ import type { Localized } from '../../i18n/types'
 import type { Property } from '../content'
 
 /* ============================================================================
- *  📖  PROPERTY: Apartmani Sonia  (slug: "sonia-nj4k")
+ *  📖  PROPERTY: Apartmani Sonia  (slug: "apartmani-sonia")
  * ----------------------------------------------------------------------------
  *  Real customer — Sonja, Njivice (Krk), 4 sea-view apartments.
  *
  *  PLACEHOLDER DATA: wifi/check-in/host details and the 4 apartments below
  *  are placeholders. Wifi, check-in/out, host contact and house rules can be
- *  fixed by the owner herself via /pick/sonia-nj4k (the "Smještaj" tab).
+ *  fixed by the owner herself via /pick/apartmani-sonia (the "Smještaj" tab).
  *  Apartment names/prices/photos are NOT editable through the picker — fill
  *  those in here once she sends them over.
  * ========================================================================== */
@@ -19,7 +19,7 @@ export const sonia: Property = {
   // Real customer — no demo badge / CTA.
   demo: false,
 
-  // Guide isn't ready yet — keep /sonia-nj4k offline. The picker (/pick/sonia-nj4k)
+  // Guide isn't ready yet — keep it offline. The picker (/pick/apartmani-sonia)
   // works regardless. Flip to true (or remove) once the guide is ready to go live.
   published: false,
 

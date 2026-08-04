@@ -1,4 +1,5 @@
 import { useMemo, useState, type FormEvent } from 'react'
+import { upload } from '@vercel/blob/client'
 import type { IslandContent, Property } from '../data/content'
 import { PickerRow } from './PickerRow'
 import { copy, extraTabs, OWNER_LANG, sections } from './pickerContent'
@@ -45,8 +46,9 @@ export function Picker({ slug, property, island }: Props) {
   const titles = useMemo(() => {
     const map: Record<string, string> = {}
     Object.values(rows).forEach((list) => list.forEach((r) => (map[r.id] = r.title)))
+    property.apartments.forEach((a) => (map[a.id] = a.name))
     return map
-  }, [rows])
+  }, [rows, property.apartments])
 
   /** id → field → original value + whether it needs translating. */
   const fieldMeta = useMemo(() => {
@@ -69,6 +71,12 @@ export function Picker({ slug, property, island }: Props) {
   )
   const [extras, setExtras] = useState<Partial<Record<SectionKey, NewPlace[]>>>({})
   const [propChanged, setPropChanged] = useState<Record<string, string>>({})
+  // Apartment id → uploaded Blob URL, and its in-flight status. Seeded empty —
+  // the existing apt.image (if any) is shown as a preview until replaced.
+  const [photos, setPhotos] = useState<Record<string, string>>({})
+  const [photoStatus, setPhotoStatus] = useState<
+    Record<string, 'uploading' | 'done' | 'error'>
+  >({})
   const [removedRules, setRemovedRules] = useState<Set<number>>(new Set())
   const [newRules, setNewRules] = useState('')
   const [notes, setNotes] = useState('')
@@ -119,6 +127,22 @@ export function Picker({ slug, property, island }: Props) {
       else next[path] = value
       return next
     })
+  }
+
+  /** Upload straight to Vercel Blob from the browser — file bytes never touch
+   *  our own server. Overwrites any earlier upload for the same apartment. */
+  async function handlePhoto(apartmentId: string, file: File) {
+    setPhotoStatus((prev) => ({ ...prev, [apartmentId]: 'uploading' }))
+    try {
+      const blob = await upload(`${slug}/${apartmentId}-${file.name}`, file, {
+        access: 'public',
+        handleUploadUrl: '/api/upload',
+      })
+      setPhotos((prev) => ({ ...prev, [apartmentId]: blob.url }))
+      setPhotoStatus((prev) => ({ ...prev, [apartmentId]: 'done' }))
+    } catch {
+      setPhotoStatus((prev) => ({ ...prev, [apartmentId]: 'error' }))
+    }
   }
 
   function addPlace(section: SectionKey) {
@@ -182,6 +206,7 @@ export function Picker({ slug, property, island }: Props) {
         removedRules: [...removedRules],
         newRules: rulesToAdd,
       },
+      photos,
       needsTranslation,
       notes,
       owner,
@@ -386,6 +411,56 @@ export function Picker({ slug, property, island }: Props) {
                       )}
                     </label>
                   ))}
+                </div>
+              </section>
+
+              <section>
+                <h2 className="font-fraunces text-xl font-medium text-ink">{copy.photosTitle}</h2>
+                <p className="mt-1 font-hanken text-[13px] text-ink/55">{copy.photosHint}</p>
+                <div className="mt-4 grid gap-3.5 sm:grid-cols-2">
+                  {property.apartments.map((apt) => {
+                    const preview = photos[apt.id] ?? apt.image
+                    const status = photoStatus[apt.id]
+                    return (
+                      <div key={apt.id} className="rounded-xl border border-ink/12 bg-white p-3.5">
+                        <p className="font-hanken text-[13px] font-semibold text-ink/70">
+                          {apt.name}
+                        </p>
+                        {preview && (
+                          <img
+                            src={preview}
+                            alt={apt.name}
+                            className="mt-2 h-32 w-full rounded-lg object-cover"
+                          />
+                        )}
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          disabled={status === 'uploading'}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0]
+                            if (file) void handlePhoto(apt.id, file)
+                          }}
+                          className="mt-2.5 block w-full font-hanken text-[13px] text-ink/70"
+                        />
+                        {status === 'uploading' && (
+                          <p className="mt-1.5 font-hanken text-[12px] text-ink/45">
+                            {copy.photoUploading}
+                          </p>
+                        )}
+                        {status === 'error' && (
+                          <p className="mt-1.5 font-hanken text-[12px] font-semibold text-clay-600">
+                            {copy.photoUploadError}
+                          </p>
+                        )}
+                        {status === 'done' && (
+                          <p className="mt-1.5 font-hanken text-[12px] font-semibold text-ink/45">
+                            {copy.photoUploadDone}
+                          </p>
+                        )}
+                      </div>
+                    )
+                  })}
                 </div>
               </section>
 

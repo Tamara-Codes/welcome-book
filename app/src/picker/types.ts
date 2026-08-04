@@ -76,6 +76,11 @@ export interface PicksPayload {
   /** New places per section → `extra` in the property file. */
   extra: Partial<Record<SectionKey, NewPlace[]>>
   property: PropertyPicks
+  /** Apartment photo URLs uploaded via the picker (Vercel Blob), keyed by
+   *  apartment id → `apartments[i].image` in the property file. Only
+   *  apartments the owner actually uploaded a photo for. No translation
+   *  needed — these are URLs, not guest-facing text. */
+  photos: Record<string, string>
   /** Paths whose value is single-language and MUST be translated before use.
    *  Format: "override/<cardId>/<field>" or "property/<path>" or
    *  "extra/<section>/<index>/note" or "property/newRules/<index>". */

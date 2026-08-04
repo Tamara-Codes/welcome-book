@@ -53,6 +53,13 @@ export function buildMessage(payload: PicksPayload, titles: Record<string, strin
     lines.push('')
   }
 
+  const photoEntries = Object.entries(payload.photos)
+  if (photoEntries.length) {
+    lines.push(`FOTOGRAFIJE (${photoEntries.length}):`)
+    photoEntries.forEach(([id, url]) => lines.push(`  – ${name(id)}: ${url}`))
+    lines.push('')
+  }
+
   if (payload.property.removedRules.length || payload.property.newRules.length) {
     lines.push('KUĆNI RED:')
     payload.property.removedRules.forEach((i) => lines.push(`  – uklonjeno pravilo #${i + 1}`))

@@ -8,9 +8,10 @@ import type { Property } from '../content'
  *
  *  PLACEHOLDER DATA: wifi/check-in/host details and the 4 apartments below
  *  are placeholders. Wifi, check-in/out, host contact and house rules can be
- *  fixed by the owner herself via /pick/apartmani-sonia (the "Smještaj" tab).
- *  Apartment names/prices/photos are NOT editable through the picker — fill
- *  those in here once she sends them over.
+ *  fixed by the owner herself via /pick/apartmani-sonia (the "Smještaj" tab),
+ *  and she can upload each apartment's photo there too. Apartment names and
+ *  prices are NOT editable through the picker — fill those in here once she
+ *  sends them over.
  * ========================================================================== */
 
 export const sonia: Property = {

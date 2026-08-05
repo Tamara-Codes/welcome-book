@@ -23,6 +23,7 @@ export default async function handler(request: VercelRequest, response: VercelRe
         addRandomSuffix: true,
         maximumSizeInBytes: 15 * 1024 * 1024,
       }),
+      onUploadCompleted: async () => {},
     })
     return response.status(200).json(jsonResponse)
   } catch (error) {

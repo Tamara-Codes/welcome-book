@@ -15,7 +15,7 @@ export type View =
 
 interface NavContextValue {
   view: View
-  go: (view: View) => void
+  go: (view: View, options?: { scrollToTop?: boolean }) => void
 }
 
 export const NavContext = createContext<NavContextValue | null>(null)

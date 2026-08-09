@@ -59,10 +59,12 @@ export default function App() {
   }, [hasApartments])
 
   const go = useMemo(
-    () => (next: View) => {
+    () => (next: View, options?: { scrollToTop?: boolean }) => {
       window.location.hash = next === 'home' ? '' : next
       setView(next)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      if (options?.scrollToTop !== false) {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     },
     [],
   )

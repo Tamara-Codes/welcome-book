@@ -238,7 +238,7 @@ const hr: Partial<Record<UIKey, string>> = {
   'info.quietHours': 'Vrijeme za odmor',
   'info.houseRules': 'Kućni red',
   'info.contactHost': 'Kontaktirajte domaćina',
-  'info.contactHostDesc': 'Imate pitanje ili vam nešto treba? Rado ćemo pomoći.',
+  'info.contactHostDesc': 'Imate pitanje ili Vam nešto treba? Rado ćemo pomoći.',
   'info.tapToCopy': 'Dodirnite za kopiranje',
   'apts.title': 'Apartmani',
   'apts.subtitle': 'Tri udobna apartmana za vaš odmor',

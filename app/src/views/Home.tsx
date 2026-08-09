@@ -33,14 +33,18 @@ export function Home() {
   const quickButtons = QUICK_BUTTONS.filter((b) => b.view !== 'apartments' || apartments.length > 0)
 
   function open(b: QuickButton) {
-    go(b.view)
     // If the tile targets a specific section, scroll to it once the view renders
     // (e.g. "House Rules" lands on house rules, not the top of the info page).
+    // Skip the normal "scroll to top" animation here: two simultaneous smooth
+    // scrolls can leave the page at the bottom of a long section.
+    go(b.view, { scrollToTop: !b.section })
     if (b.section) {
       const id = b.section
-      window.setTimeout(() => {
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }, 80)
+        })
+      })
     }
   }
 

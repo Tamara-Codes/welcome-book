@@ -4,8 +4,10 @@ import { mila } from './properties/mila'
 import { apartmaniHosnjak } from './properties/apartmanihosnjak'
 import { adria } from './properties/adria'
 import { sonia } from './properties/sonia'
+import { beachVillaSelce } from './properties/beachvillaselce'
 import { krk } from './islands/krk'
 import { crikvenica } from './islands/crikvenica'
+import { selce } from './islands/selce'
 
 /* ============================================================================
  *  📖  GUEST GUIDE — TYPES & REGISTRIES
@@ -74,6 +76,8 @@ export interface PlaceCard {
   /** Category key — see cat.* in src/i18n/ui.ts. */
   category: string
   description: Localized
+  /** Optional heading shown before this place in a location guide. */
+  section?: Localized
   phone?: string
   whatsapp?: string
   /** Google Maps query or full URL. */
@@ -105,6 +109,8 @@ export interface Contact {
   maps?: string
   website?: string
   email?: string
+  /** Optional heading shown before this contact, useful for local vs. nearby services. */
+  section?: Localized
   /** Icon name — see IconName in src/components/Icon.tsx. */
   icon: IconName
 }
@@ -261,6 +267,8 @@ export interface Property {
    *  is still filling in real details. The owner's own "/pick/<slug>" link
    *  keeps working regardless — this only gates the guest-facing route. */
   published?: boolean
+  /** Put the host contact before useful local contacts. Defaults to last. */
+  hostFirst?: boolean
 
   /* -- Customisation. All optional: omit them and the owner sees the whole
         island exactly as before. Usually written from a /pick/<slug> submission. -- */
@@ -286,6 +294,7 @@ export interface PropertyContent {
   apartments: Apartment[]
   reviews?: ReviewLink[]
   demo?: boolean
+  hostFirst?: boolean
   restaurants: PlaceCard[]
   beaches: PlaceCard[]
   activities: PlaceCard[]
@@ -304,6 +313,7 @@ export interface PropertyContent {
 export const islands: Record<string, IslandContent> = {
   krk,
   crikvenica,
+  selce,
 }
 
 /**
@@ -315,6 +325,7 @@ export const properties: Record<string, Property> = {
   apartmanihosnjak: apartmaniHosnjak,
   adria,
   'apartmani-sonia': sonia,
+  'beach-villa-selce': beachVillaSelce,
 }
 
 /** Used at the bare root path (no slug) — handy during local development. */
@@ -363,6 +374,7 @@ export function resolveProperty(slug: string): PropertyContent | undefined {
     apartments: property.apartments,
     reviews: property.reviews,
     demo: property.demo,
+    hostFirst: property.hostFirst,
     restaurants: customise(island.restaurants, extra?.restaurants),
     beaches: customise(island.beaches, extra?.beaches),
     activities: customise(island.activities, extra?.activities),

@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { useLang } from '../i18n/LanguageContext'
 import { SectionHeader } from '../components/SectionHeader'
 import { Icon, type IconName } from '../components/Icon'
@@ -86,34 +87,46 @@ function ContactRow({
 
 export function Contacts() {
   const { t, tc } = useLang()
-  const { contacts, host } = useProperty()
+  const { contacts, host, hostFirst } = useProperty()
+
+  const hostContact = (
+    <ContactRow
+      icon="home"
+      label={`${t('contacts.host')} — ${host.name}`}
+      phone={host.phone}
+      whatsapp={host.whatsapp}
+    />
+  )
 
   return (
     <div>
       <SectionHeader icon="phone" title={t('contacts.title')} subtitle={t('contacts.subtitle')} />
 
       <div className="space-y-2.5">
+        {hostFirst && hostContact}
+
         {contacts.map((c) => (
-          <ContactRow
-            key={c.id}
-            icon={c.icon}
-            label={typeof c.label === 'object' ? tc(c.label) : (c.label ?? t(c.labelKey as UIKey))}
-            phone={c.phone}
-            whatsapp={c.whatsapp}
-            maps={c.maps}
-            website={c.website}
-            email={c.email}
-            highlight={c.id === 'emergency'}
-          />
+          <Fragment key={c.id}>
+            {c.section && (
+              <h3 className="px-1 pt-3 font-display text-sm font-bold text-sea-800 first:pt-0">
+                {tc(c.section)}
+              </h3>
+            )}
+            <ContactRow
+              icon={c.icon}
+              label={typeof c.label === 'object' ? tc(c.label) : (c.label ?? t(c.labelKey as UIKey))}
+              phone={c.phone}
+              whatsapp={c.whatsapp}
+              maps={c.maps}
+              website={c.website}
+              email={c.email}
+              highlight={c.id === 'emergency'}
+            />
+          </Fragment>
         ))}
 
-        {/* Host — always last, pulled from the host config */}
-        <ContactRow
-          icon="home"
-          label={`${t('contacts.host')} — ${host.name}`}
-          phone={host.phone}
-          whatsapp={host.whatsapp}
-        />
+        {!hostFirst && hostContact}
+
       </div>
 
       <p className="mt-4 flex items-start gap-2 rounded-2xl bg-red-50 px-4 py-3 text-xs leading-relaxed text-red-700">

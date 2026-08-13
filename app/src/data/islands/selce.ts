@@ -152,13 +152,18 @@ export const selce: IslandContent = {
   ],
 
   activities: [
-    ...mapsOnly(select(crikvenica.activities, [
-      'watersport-selce',
-      'mihuric-diving',
-      'nb-sailing',
-      'promenade-cycling',
-      'boat-excursions',
-    ])),
+    ...mapsOnly(
+      select(crikvenica.activities, [
+        'watersport-selce',
+        'mihuric-diving',
+        'nb-sailing',
+        'promenade-cycling',
+      ]).map((activity) => {
+        if (activity.id === 'mihuric-diving') return { ...activity, name: 'Diving Center Mihurić' }
+        if (activity.id === 'nb-sailing') return { ...activity, name: 'NB Sailing — boat charter' }
+        return activity
+      }),
+    ),
     {
       id: 'terme-selce',
       name: 'Terme Selce',

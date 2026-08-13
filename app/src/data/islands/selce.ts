@@ -35,6 +35,8 @@ const malinaShop = t('A small greengrocer on the promenade for fresh fruit and v
 const mlinarShop = t('A bakery in the village centre for fresh bread and pastries, plus sandwiches, wraps and sweet treats for the beach or a day trip.', 'Pekarnica u centru mjesta za svježi kruh i peciva te sendviče, wrapove i slatke zalogaje za plažu ili izlet.', 'Bäckerei im Ortszentrum für frisches Brot und Gebäck sowie Sandwiches, Wraps und Süßes für Strand oder Ausflug.', 'Panetteria nel centro del paese per pane e prodotti da forno freschi, oltre a panini, wrap e dolci per la spiaggia o una gita.', 'Pekarna v središču kraja za svež kruh in pecivo ter sendviče, wrape in sladke prigrizke za plažo ali izlet.', 'Piekarnia w centrum miejscowości ze świeżym pieczywem, kanapkami, wrapami i słodkimi przekąskami na plażę lub wycieczkę.', 'Pekárna v centru obce s čerstvým chlebem a pečivem, sendviči, wrapy a sladkým občerstvením na pláž nebo výlet.', 'Pékség a falu központjában friss kenyérrel és péksüteménnyel, valamint szendvicsekkel, wrapekkel és édes finomságokkal strandoláshoz vagy kiránduláshoz.', 'Pekáreň v centre obce na čerstvý chlieb a pečivo, sendviče, wrapy a sladké občerstvenie na pláž alebo výlet.')
 const localActivity = t('A Selce activity option. Check Google Maps for current availability and details.', 'Aktivnost u Selcu. Provjerite Google Maps za aktualnu dostupnost i detalje.', 'Eine Aktivität in Selce. Aktuelle Verfügbarkeit und Details finden Sie auf Google Maps.', 'Un’attività a Selce. Consultate Google Maps per disponibilità e dettagli aggiornati.', 'Dejavnost v Selcah. Za aktualno razpoložljivost in podrobnosti preverite Google Maps.', 'Atrakcja w Selce. Sprawdźcie aktualną dostępność i szczegóły w Google Maps.', 'Aktivita v Selci. Aktuální dostupnost a podrobnosti najdete na Google Maps.', 'Selcei programlehetőség. Az aktuális elérhetőséget és részleteket a Google Térképen ellenőrizze.', 'Aktivita v Selciach. Aktuálnu dostupnosť a podrobnosti nájdete v Google Maps.')
 
+void localActivity
+
 export const selce: IslandContent = {
   name: 'Selce',
 
@@ -196,7 +198,24 @@ export const selce: IslandContent = {
       maps: 'm/b PAŠA Selce',
       gradient: 'from-sea-400 to-sea-600',
     },
-    { id: 'jet-ski-selce', name: 'Najam jet-skija Selce', category: 'waterRental', description: localActivity, maps: 'Rent a Jet Ski Selce', gradient: 'from-sea-500 to-sea-700' },
+    {
+      id: 'jet-ski-selce',
+      name: 'Jet ski najam',
+      category: 'waterRental',
+      description: t(
+        'A Selce jet-ski rental run by Uslužni obrt Lončarić. Safety equipment and an on-site briefing are included before you head out on the water.',
+        'Najam jet-skija u Selcu koji vodi Uslužni obrt Lončarić. Prije izlaska na more dobivate sigurnosnu opremu i kratke upute.',
+        'Jetski-Verleih in Selce von Uslužni obrt Lončarić. Vor der Fahrt erhalten Sie Sicherheitsausrüstung und eine kurze Einweisung.',
+        'Noleggio di jet ski a Selce gestito da Uslužni obrt Lončarić. Prima di uscire in mare riceverete l’attrezzatura di sicurezza e una breve spiegazione.',
+        'Najem jet-skijev v Selcah, ki ga vodi Uslužni obrt Lončarić. Pred odhodom na morje prejmete varnostno opremo in kratka navodila.',
+        'Wypożyczalnia skuterów wodnych w Selce prowadzona przez Uslužni obrt Lončarić. Przed wypłynięciem otrzymacie sprzęt bezpieczeństwa i krótkie instrukcje.',
+        'Půjčovna vodních skútrů v Selci provozovaná Uslužni obrt Lončarić. Před vyplutím dostanete bezpečnostní vybavení a krátké instrukce.',
+        'Jet-ski kölcsönző Selcében, amelyet az Uslužni obrt Lončarić üzemeltet. Indulás előtt biztonsági felszerelést és rövid tájékoztatást kapnak.',
+        'Požičovňa vodných skútrov v Selciach, ktorú prevádzkuje Uslužni obrt Lončarić. Pred vyplávaním dostanete bezpečnostnú výbavu a krátke pokyny.',
+      ),
+      maps: 'Uslužni obrt Lončarić Selce',
+      gradient: 'from-sea-500 to-sea-700',
+    },
     {
       id: 'mini-golf-selce',
       name: 'Mini golf — plaža Rokan',

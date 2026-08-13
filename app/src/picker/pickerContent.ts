@@ -78,6 +78,8 @@ export const copy = {
   photoUploading: 'Učitavanje…',
   photoUploadError: 'Slanje fotografije nije uspjelo. Pokušajte ponovno.',
   photoUploadDone: 'Spremljeno',
+  choosePhoto: 'Odaberite fotografiju',
+  noPhotoChosen: 'Nije odabrana fotografija',
   rulesTitle: 'Kućni red',
   rulesHint: 'Odznačite pravila koja ne želite, i dopišite svoja.',
   newRule: 'Napišite novo pravilo',

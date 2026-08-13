@@ -75,6 +75,7 @@ export function Picker({ slug, property, island }: Props) {
   // Apartment id → uploaded Blob URL, and its in-flight status. Seeded empty —
   // the existing apt.image (if any) is shown as a preview until replaced.
   const [photos, setPhotos] = useState<Record<string, string>>({})
+  const [photoNames, setPhotoNames] = useState<Record<string, string>>({})
   const [photoStatus, setPhotoStatus] = useState<
     Record<string, 'uploading' | 'done' | 'error'>
   >({})
@@ -431,16 +432,31 @@ export function Picker({ slug, property, island }: Props) {
                         {preview && (
                           <img src={preview} alt={apartmentName} className="mt-2 h-32 w-full rounded-lg object-cover" />
                         )}
-                        <input
-                          type="file"
-                          accept="image/jpeg,image/png,image/webp"
-                          disabled={status === 'uploading'}
-                          onChange={(e) => {
-                            const file = e.target.files?.[0]
-                            if (file) void handlePhoto(apt.id, file)
-                          }}
-                          className="mt-2.5 block w-full font-hanken text-[13px] text-ink/70"
-                        />
+                        <div className="mt-2.5 flex items-center gap-2">
+                          <input
+                            id={`photo-${apt.id}`}
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            disabled={status === 'uploading'}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0]
+                              if (file) {
+                                setPhotoNames((prev) => ({ ...prev, [apt.id]: file.name }))
+                                void handlePhoto(apt.id, file)
+                              }
+                            }}
+                            className="sr-only"
+                          />
+                          <label
+                            htmlFor={`photo-${apt.id}`}
+                            className="cursor-pointer rounded-lg border border-ink/15 bg-shell px-3 py-2 font-hanken text-[13px] font-semibold text-ink transition hover:border-clay-500 hover:text-clay-600"
+                          >
+                            {copy.choosePhoto}
+                          </label>
+                          <span className="min-w-0 truncate font-hanken text-[12px] text-ink/50">
+                            {photoNames[apt.id] ?? copy.noPhotoChosen}
+                          </span>
+                        </div>
                         {status === 'uploading' && <p className="mt-1.5 font-hanken text-[12px] text-ink/45">{copy.photoUploading}</p>}
                         {status === 'error' && <p className="mt-1.5 font-hanken text-[12px] font-semibold text-clay-600">{copy.photoUploadError}</p>}
                         {status === 'done' && <p className="mt-1.5 font-hanken text-[12px] font-semibold text-ink/45">{copy.photoUploadDone}</p>}

@@ -70,7 +70,7 @@ export const beachVillaSelce: Property = {
   },
 
   host: {
-    name: 'Beach Villa Selce',
+    name: 'Darko',
     phone: '+385 99 303 3828',
     whatsapp: '385993033828',
     email: 'beachvillaselce@gmail.com',

@@ -76,6 +76,16 @@
  *  Kept separate from the guest-guide styles above so the two never collide.
  * ========================================================================== */
 @layer utilities {
+  /* Swipeable rows (e.g. the picker's tab strip) keep the scrolling but drop
+     the visible bar — on desktop a permanent grey track just looks broken. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Entrance: staggered hero reveal + scroll reveals */
   .lp-rise {
     opacity: 0;

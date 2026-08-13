@@ -12,13 +12,14 @@ function eur(amount: number): string {
 
 function ApartmentCard({ apt }: { apt: Apartment }) {
   const { t, tc } = useLang()
+  const name = typeof apt.name === 'string' ? apt.name : tc(apt.name)
 
   return (
     <article className="card">
       {apt.image ? (
         <img
           src={apt.image}
-          alt={apt.name}
+          alt={name}
           loading="lazy"
           className="h-44 w-full object-cover"
         />
@@ -28,7 +29,7 @@ function ApartmentCard({ apt }: { apt: Apartment }) {
 
       <div className="p-4">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-display text-xl font-bold text-slate-800">{apt.name}</h3>
+          <h3 className="font-display text-xl font-bold text-slate-800">{name}</h3>
         </div>
 
         {/* Capacity & bedrooms */}
@@ -53,27 +54,32 @@ function ApartmentCard({ apt }: { apt: Apartment }) {
           ))}
         </div>
 
-        {/* Seasonal price table */}
-        <div className="mt-4 overflow-hidden rounded-xl border border-sand-100">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-sea-50 text-left text-xs uppercase tracking-wide text-sea-700">
-                <th className="px-3 py-2 font-bold">{t('apts.season')}</th>
-                <th className="px-3 py-2 text-right font-bold">{t('apts.pricePerNight')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {apt.prices.map((row, i) => (
-                <tr key={row.season} className={i % 2 ? 'bg-white' : 'bg-sand-50/40'}>
-                  <td className="px-3 py-2 text-slate-600">{t(`season.${row.season}` as UIKey)}</td>
-                  <td className="px-3 py-2 text-right font-bold text-slate-800">
-                    {eur(row.pricePerNight)} <span className="font-normal text-slate-400">{t('apts.perNight')}</span>
-                  </td>
+        {apt.priceFrom ? (
+          <p className="mt-4 rounded-xl bg-sea-50 px-3 py-2 text-sm font-bold text-sea-700">
+            {t('apts.from')} {eur(apt.priceFrom)} <span className="font-normal text-sea-700/80">{t('apts.perNight')}</span>
+          </p>
+        ) : (
+          <div className="mt-4 overflow-hidden rounded-xl border border-sand-100">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-sea-50 text-left text-xs uppercase tracking-wide text-sea-700">
+                  <th className="px-3 py-2 font-bold">{t('apts.season')}</th>
+                  <th className="px-3 py-2 text-right font-bold">{t('apts.pricePerNight')}</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {apt.prices.map((row, i) => (
+                  <tr key={row.season} className={i % 2 ? 'bg-white' : 'bg-sand-50/40'}>
+                    <td className="px-3 py-2 text-slate-600">{t(`season.${row.season}` as UIKey)}</td>
+                    <td className="px-3 py-2 text-right font-bold text-slate-800">
+                      {eur(row.pricePerNight)} <span className="font-normal text-slate-400">{t('apts.perNight')}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </article>
   )

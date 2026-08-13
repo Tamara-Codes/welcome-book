@@ -25,7 +25,7 @@ const input =
   'w-full rounded-lg border border-ink/15 bg-white px-3 py-2 font-hanken text-[15px] text-ink ' +
   'placeholder:text-ink/35 transition focus:border-clay-500 focus:outline-none focus:ring-2 focus:ring-clay-400/25'
 
-const EMPTY_PLACE: NewPlace = { name: '', note: '', phone: '', maps: '', website: '' }
+const EMPTY_PLACE: NewPlace = { name: '', note: '' }
 
 /** Island sections first, then the property details, then the send step. */
 type TabKey = SectionKey | (typeof extraTabs)[number]['key']
@@ -46,7 +46,7 @@ export function Picker({ slug, property, island }: Props) {
   const titles = useMemo(() => {
     const map: Record<string, string> = {}
     Object.values(rows).forEach((list) => list.forEach((r) => (map[r.id] = r.title)))
-    property.apartments.forEach((a) => (map[a.id] = a.name))
+    property.apartments.forEach((a) => (map[a.id] = typeof a.name === 'string' ? a.name : a.name.en))
     return map
   }, [rows, property.apartments])
 
@@ -263,7 +263,9 @@ export function Picker({ slug, property, island }: Props) {
           </h1>
           <p className="mt-1.5 font-hanken text-[15px] font-semibold text-ink/70">
             {property.property.name} ·{' '}
-            {property.property.town ? `${property.property.town}, ${island.name}` : island.name}
+            {property.property.town && property.property.town !== island.name
+              ? `${property.property.town}, ${island.name}`
+              : property.property.town || island.name}
           </p>
         </header>
 
@@ -314,7 +316,7 @@ export function Picker({ slug, property, island }: Props) {
 
         <form onSubmit={handleSubmit} noValidate className="mt-8">
           {activeSection &&
-            (({ key, title, hint }) => {
+            (({ key, title }) => {
               const list = rows[key]
               const kept = list.filter((r) => !removed.has(r.id)).length
               return (
@@ -325,8 +327,6 @@ export function Picker({ slug, property, island }: Props) {
                       {copy.summary(kept, list.length)}
                     </span>
                   </div>
-                  <p className="mt-1 font-hanken text-[13px] text-ink/55">{hint}</p>
-
                   <ul className="mt-4 space-y-2">
                     {list.map((row) => (
                       <PickerRow
@@ -421,15 +421,16 @@ export function Picker({ slug, property, island }: Props) {
                   {property.apartments.map((apt) => {
                     const preview = photos[apt.id] ?? apt.image
                     const status = photoStatus[apt.id]
+                    const apartmentName = typeof apt.name === 'string' ? apt.name : apt.name.en
                     return (
                       <div key={apt.id} className="rounded-xl border border-ink/12 bg-white p-3.5">
                         <p className="font-hanken text-[13px] font-semibold text-ink/70">
-                          {apt.name}
+                          {apartmentName}
                         </p>
                         {preview && (
                           <img
                             src={preview}
-                            alt={apt.name}
+                            alt={apartmentName}
                             className="mt-2 h-32 w-full rounded-lg object-cover"
                           />
                         )}
@@ -510,7 +511,25 @@ export function Picker({ slug, property, island }: Props) {
           {/* ---------- Last tab: notes, who sent it, send ---------- */}
           {tab === 'send' && (
             <section>
-              <h2 className="font-fraunces text-xl font-medium text-ink">{copy.notesTitle}</h2>
+              <div className="rounded-xl border border-ink/12 bg-white p-3.5">
+                <h2 className="font-fraunces text-xl font-medium text-ink">{copy.reviewTitle}</h2>
+                {removed.size ? (
+                  <>
+                    <p className="mt-1 font-hanken text-[13px] font-semibold text-clay-600">
+                      {copy.reviewRemoved(removed.size)}
+                    </p>
+                    <ul className="mt-2 space-y-1 font-hanken text-[14px] text-ink/70">
+                      {[...removed].map((id) => (
+                        <li key={id}>– {titles[id] ?? id}</li>
+                      ))}
+                    </ul>
+                  </>
+                ) : (
+                  <p className="mt-1 font-hanken text-[13px] text-ink/55">{copy.reviewEmpty}</p>
+                )}
+              </div>
+
+              <h2 className="mt-6 font-fraunces text-xl font-medium text-ink">{copy.notesTitle}</h2>
               <p className="mt-1 font-hanken text-[13px] text-ink/55">{copy.notesHint}</p>
               <textarea
                 rows={4}

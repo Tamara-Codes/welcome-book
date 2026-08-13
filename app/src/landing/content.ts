@@ -11,6 +11,7 @@
  * ========================================================================== */
 
 import type { IconName } from '../components/Icon'
+import { formDelivery } from '../lib/forms'
 
 /* ---------- Where inquiries are sent ----------
  *
@@ -31,16 +32,8 @@ import type { IconName } from '../components/Icon'
  *  If no key is configured, the form falls back to opening the visitor's email
  *  app with a pre-filled message (and says so honestly on submit).
  */
-const WEB3FORMS_ACCESS_KEY = '9e0122d0-526c-4631-bb70-b3cfe8d96fc0' // 👈 PASTE YOUR WEB3FORMS ACCESS KEY HERE
-const FALLBACK_EMAIL = 'codewithtamara@gmail.com' // address used by the mailto fallback
-
 export const inquiryConfig = {
-  /** Web3Forms access key; empty string ⇒ use the mailto fallback. */
-  accessKey: (import.meta.env.VITE_WEB3FORMS_KEY as string | undefined)?.trim() || WEB3FORMS_ACCESS_KEY,
-  /** Web3Forms submit endpoint. */
-  endpoint: 'https://api.web3forms.com/submit',
-  /** Recipient for the mailto fallback. */
-  email: (import.meta.env.VITE_INQUIRY_EMAIL as string | undefined)?.trim() || FALLBACK_EMAIL,
+  ...formDelivery,
   /** URL of the live guest guide opened by the "live demo" button. Defaults to
    *  the bundled demo property at /mila; override with VITE_DEMO_URL. */
   demoUrl: (import.meta.env.VITE_DEMO_URL as string | undefined)?.trim() || '/mila',

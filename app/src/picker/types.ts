@@ -47,9 +47,6 @@ export interface RowItem {
 export interface NewPlace {
   name: string
   note: string
-  phone: string
-  maps: string
-  website: string
 }
 
 /** Property-level edits: wifi, check-in, parking, house rules… */

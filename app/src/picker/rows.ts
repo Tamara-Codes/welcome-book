@@ -46,7 +46,6 @@ function placeRow(card: PlaceCard, lang: Lang): RowItem {
       },
       { key: 'phone', label: 'Telefon', value: card.phone ?? '' },
       { key: 'website', label: 'Web stranica', value: card.website ?? '' },
-      { key: 'maps', label: 'Google Maps', value: card.maps ?? '' },
       card.price
         ? { key: 'price', label: 'Cijena', value: tx(card.price, lang), translated: true }
         : null,
@@ -69,7 +68,6 @@ function contactRow(contact: Contact, lang: Lang): RowItem {
       { key: 'phone', label: 'Telefon', value: contact.phone ?? '' },
       { key: 'email', label: 'E-mail', value: contact.email ?? '' },
       { key: 'website', label: 'Web stranica', value: contact.website ?? '' },
-      { key: 'maps', label: 'Google Maps', value: contact.maps ?? '' },
     ]),
   }
 }

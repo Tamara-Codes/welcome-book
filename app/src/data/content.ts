@@ -53,13 +53,16 @@ export interface PriceRow {
 
 export interface Apartment {
   id: string
-  name: string
+  /** Room name. Use Localized when the room type should follow the guest language. */
+  name: string | Localized
   capacity: number
   bedrooms: number
   /** Amenity keys — see amenity.* in src/i18n/ui.ts. Add your own freely. */
   amenities: string[]
   description: Localized
   prices: PriceRow[]
+  /** Starting nightly price when the owner has not provided seasonal rates. */
+  priceFrom?: number
   cleaningFee: number // in EUR
   /** Photo URL (e.g. "/properties/<slug>/apartment-a.png" from the public folder). */
   image?: string

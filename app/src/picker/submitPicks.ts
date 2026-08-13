@@ -6,10 +6,31 @@ export type SubmitMode = 'endpoint' | 'mailto'
 
 const subject = 'Welcome Book — odabir sadržaja'
 
+const fieldLabels: Record<string, string> = {
+  name: 'Naziv',
+  label: 'Naziv',
+  description: 'Opis',
+  phone: 'Telefon',
+  email: 'E-mail',
+  website: 'Web stranica',
+  price: 'Cijena',
+  'apartmentInfo.wifi.network': 'Wi-Fi mreža',
+  'apartmentInfo.wifi.password': 'Wi-Fi lozinka',
+  'apartmentInfo.checkIn': 'Prijava',
+  'apartmentInfo.checkOut': 'Odjava',
+  'apartmentInfo.quietHours': 'Noćni mir',
+  'apartmentInfo.parking': 'Parking',
+  'apartmentInfo.trash': 'Otpad',
+  'apartmentInfo.ac': 'Klima',
+  'host.name': 'Ime domaćina',
+  'host.phone': 'Telefon domaćina',
+  'host.email': 'E-mail domaćina',
+}
+
+const label = (key: string) => fieldLabels[key] ?? key
+
 /**
- * The e-mail body: a human-readable Croatian summary you can skim on a phone,
- * followed by the exact JSON payload that gets applied to the property file.
- * Both, deliberately — the summary is for deciding, the JSON is for doing.
+ * The e-mail body is a human-readable Croatian change summary.
  */
 export function buildMessage(payload: PicksPayload, titles: Record<string, string>): string {
   const name = (id: string) => titles[id] ?? id
@@ -31,7 +52,7 @@ export function buildMessage(payload: PicksPayload, titles: Record<string, strin
     edited.forEach((id) => {
       lines.push(`  – ${name(id)}`)
       Object.entries(payload.override[id]).forEach(([key, value]) =>
-        lines.push(`      ${key}: ${value}`),
+        lines.push(`      ${label(key)}: ${value}`),
       )
     })
     lines.push('')
@@ -49,7 +70,7 @@ export function buildMessage(payload: PicksPayload, titles: Record<string, strin
   const propertyChanges = Object.entries(payload.property.changed)
   if (propertyChanges.length) {
     lines.push('PODACI O SMJEŠTAJU:')
-    propertyChanges.forEach(([path, value]) => lines.push(`  – ${path}: ${value}`))
+    propertyChanges.forEach(([path, value]) => lines.push(`  – ${label(path)}: ${value}`))
     lines.push('')
   }
 
@@ -80,9 +101,6 @@ export function buildMessage(payload: PicksPayload, titles: Record<string, strin
     )
     lines.push('')
   }
-
-  lines.push('--- JSON (za primjenu u property datoteci) ---')
-  lines.push(JSON.stringify(payload, null, 2))
 
   return lines.join('\n')
 }
@@ -137,4 +155,3 @@ export async function copyPicks(
     return false
   }
 }
-

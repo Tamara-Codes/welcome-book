@@ -1,6 +1,7 @@
 import type { Localized } from '../../i18n/types'
 import type { Property } from '../content'
 import { apartmaniHosnjak } from './apartmanihosnjak'
+import { mila } from './mila'
 
 /* ============================================================================
  *  PROPERTY: Beach Villa Selce  (slug: "beach-villa-selce")
@@ -9,11 +10,6 @@ import { apartmaniHosnjak } from './apartmanihosnjak'
  *  Wi-Fi credentials, room photos, operational notes and seasonal prices can
  *  still be refined through the owner picker.
  * ========================================================================== */
-
-const toConfirm: Localized = {
-  en: 'Please confirm the details with the host.',
-  hr: 'Molimo potvrdite detalje s domaćinom.',
-}
 
 // The rules are intentionally aligned with Apartmani Hošnjak.  The one
 // property-specific reference is renamed for this guide.
@@ -80,12 +76,10 @@ export const beachVillaSelce: Property = {
     wifi: { network: '', password: '' },
     checkIn: '15:00',
     checkOut: '10:00',
-    parking: {
-      en: 'Private parking is available on the property.',
-      hr: 'Privatni parking dostupan je u sklopu objekta.',
-    },
-    trash: toConfirm,
-    ac: apartmaniHosnjak.apartmentInfo.ac,
+    parking: mila.apartmentInfo.parking,
+    trash: mila.apartmentInfo.trash,
+    ac: mila.apartmentInfo.ac,
+    quietHours: mila.apartmentInfo.quietHours,
     houseRules: beachVillaHouseRulesForSelce,
   },
 

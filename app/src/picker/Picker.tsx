@@ -3,7 +3,7 @@ import { upload } from '@vercel/blob/client'
 import type { IslandContent, Property } from '../data/content'
 import { PickerRow } from './PickerRow'
 import { copy, extraTabs, OWNER_LANG, sections } from './pickerContent'
-import { houseRules, islandRows, propertyFields, seedOverrides } from './rows'
+import { apartmentFields, houseRules, islandRows, propertyFields, seedOverrides } from './rows'
 import { copyPicks, submitPicks, type SubmitMode } from './submitPicks'
 import type { NewPlace, PicksPayload, SectionKey } from './types'
 
@@ -40,6 +40,7 @@ interface Props {
 export function Picker({ slug, property, island }: Props) {
   const rows = useMemo(() => islandRows(island, OWNER_LANG, property.extra), [island, property])
   const propFields = useMemo(() => propertyFields(property, OWNER_LANG), [property])
+  const roomFields = useMemo(() => apartmentFields(property, OWNER_LANG), [property])
   const rules = useMemo(() => houseRules(property, OWNER_LANG), [property])
 
   /** id → title, for the readable summary in the e-mail. */
@@ -78,7 +79,7 @@ export function Picker({ slug, property, island }: Props) {
     Record<string, 'uploading' | 'done' | 'error'>
   >({})
   const [removedRules, setRemovedRules] = useState<Set<number>>(new Set())
-  const [newRules, setNewRules] = useState('')
+  const [newRules, setNewRules] = useState<string[]>([])
   const [notes, setNotes] = useState('')
   const [owner, setOwner] = useState({ name: '', email: '' })
 
@@ -172,10 +173,7 @@ export function Picker({ slug, property, island }: Props) {
       if (list.length) cleanExtras[section] = list
     })
 
-    const rulesToAdd = newRules
-      .split('\n')
-      .map((r) => r.trim())
-      .filter(Boolean)
+    const rulesToAdd = newRules.map((rule) => rule.trim()).filter(Boolean)
 
     // The translation gate: every single-language string, listed explicitly.
     const needsTranslation: string[] = []
@@ -185,6 +183,11 @@ export function Picker({ slug, property, island }: Props) {
       }),
     )
     propFields.forEach((f) => {
+      if (f.translated && propChanged[f.path] !== undefined) {
+        needsTranslation.push(`property/${f.path}`)
+      }
+    })
+    roomFields.forEach((f) => {
       if (f.translated && propChanged[f.path] !== undefined) {
         needsTranslation.push(`property/${f.path}`)
       }
@@ -422,6 +425,9 @@ export function Picker({ slug, property, island }: Props) {
                     const preview = photos[apt.id] ?? apt.image
                     const status = photoStatus[apt.id]
                     const apartmentName = typeof apt.name === 'string' ? apt.name : apt.name.en
+                    const fields = roomFields.filter((field) =>
+                      field.path.startsWith(`apartments.${apt.id}.`),
+                    )
                     return (
                       <div key={apt.id} className="rounded-xl border border-ink/12 bg-white p-3.5">
                         <p className="font-hanken text-[13px] font-semibold text-ink/70">
@@ -459,6 +465,30 @@ export function Picker({ slug, property, island }: Props) {
                             {copy.photoUploadDone}
                           </p>
                         )}
+                        <div className="mt-4 grid gap-3 border-t border-ink/8 pt-4">
+                          {fields.map((field) => (
+                            <label key={field.path} className="block">
+                              <span className="mb-1 block font-hanken text-[11px] font-semibold uppercase tracking-wide text-ink/50">
+                                {field.label}
+                              </span>
+                              {field.multiline ? (
+                                <textarea
+                                  rows={3}
+                                  value={propChanged[field.path] ?? field.value}
+                                  onChange={(e) => editProperty(field.path, e.target.value, field.value)}
+                                  className={`${input} resize-y`}
+                                />
+                              ) : (
+                                <input
+                                  type="text"
+                                  value={propChanged[field.path] ?? field.value}
+                                  onChange={(e) => editProperty(field.path, e.target.value, field.value)}
+                                  className={input}
+                                />
+                              )}
+                            </label>
+                          ))}
+                        </div>
                       </div>
                     )
                   })}
@@ -497,13 +527,35 @@ export function Picker({ slug, property, island }: Props) {
                     </li>
                   ))}
                 </ul>
-                <textarea
-                  rows={3}
-                  value={newRules}
-                  placeholder={copy.newRules}
-                  onChange={(e) => setNewRules(e.target.value)}
-                  className={`${input} mt-3 resize-y`}
-                />
+                <div className="mt-3 space-y-2">
+                  {newRules.map((rule, index) => (
+                    <div key={index} className="flex gap-2">
+                      <input
+                        type="text"
+                        value={rule}
+                        placeholder={copy.newRule}
+                        onChange={(e) =>
+                          setNewRules((prev) => prev.map((item, i) => (i === index ? e.target.value : item)))
+                        }
+                        className={input}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setNewRules((prev) => prev.filter((_, i) => i !== index))}
+                        className="shrink-0 font-hanken text-[12px] font-semibold text-ink/45 hover:text-clay-600"
+                      >
+                        {copy.remove}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setNewRules((prev) => [...prev, ''])}
+                  className="mt-3 font-hanken text-[13px] font-semibold text-clay-600"
+                >
+                  {copy.addRule}
+                </button>
               </section>
             </div>
           )}

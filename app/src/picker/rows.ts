@@ -1,10 +1,4 @@
-import type {
-  Contact,
-  IslandContent,
-  PlaceCard,
-  Property,
-  PropertyExtras,
-} from '../data/content'
+import type { Contact, IslandContent, PlaceCard, Property, PropertyExtras } from '../data/content'
 import { tx, type Lang, type Localized } from '../i18n/types'
 import { baseUI, ui, type UIKey } from '../i18n/ui'
 import type { EditField, RowItem, SectionKey } from './types'
@@ -179,6 +173,36 @@ export function propertyFields(property: Property, lang: Lang): PropertyField[] 
       translated: true,
     },
   ]
+}
+
+/** Editable information for one apartment. Paths use the stable apartment id,
+ * so a submitted change remains unambiguous even when rooms are reordered. */
+export function apartmentFields(property: Property, lang: Lang): PropertyField[] {
+  return property.apartments.flatMap((apartment) => {
+    const path = `apartments.${apartment.id}`
+    const name = typeof apartment.name === 'string' ? apartment.name : tx(apartment.name, lang)
+    const price = (season: string) =>
+      apartment.prices.find((row) => row.season === season)?.pricePerNight?.toString() ?? ''
+
+    return [
+      { path: `${path}.name`, label: 'Naziv sobe', value: name, translated: true },
+      {
+        path: `${path}.description`,
+        label: 'Opis',
+        value: tx(apartment.description, lang),
+        multiline: true,
+        translated: true,
+      },
+      { path: `${path}.capacity`, label: 'Broj gostiju', value: apartment.capacity.toString() },
+      { path: `${path}.bedrooms`, label: 'Spavaće sobe', value: apartment.bedrooms.toString() },
+      { path: `${path}.amenities`, label: 'Sadržaji', value: apartment.amenities.join(', ') },
+      { path: `${path}.priceFrom`, label: 'Cijena od (€ / noć)', value: apartment.priceFrom?.toString() ?? '' },
+      { path: `${path}.prices.mayJune`, label: 'Cijena svibanj–lipanj (€)', value: price('mayJune') },
+      { path: `${path}.prices.julyAugust`, label: 'Cijena srpanj–kolovoz (€)', value: price('julyAugust') },
+      { path: `${path}.prices.september`, label: 'Cijena rujan (€)', value: price('september') },
+      { path: `${path}.cleaningFee`, label: 'Naknada za čišćenje (€)', value: apartment.cleaningFee.toString() },
+    ]
+  })
 }
 
 /** The property's existing house rules, resolved for display. */

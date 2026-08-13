@@ -29,11 +29,29 @@ const fieldLabels: Record<string, string> = {
 
 const label = (key: string) => fieldLabels[key] ?? key
 
+const apartmentFieldLabels: Record<string, string> = {
+  name: 'Naziv sobe',
+  description: 'Opis',
+  capacity: 'Broj gostiju',
+  bedrooms: 'Spavaće sobe',
+  amenities: 'Sadržaji',
+  priceFrom: 'Cijena od (€ / noć)',
+  'prices.mayJune': 'Cijena svibanj–lipanj (€)',
+  'prices.julyAugust': 'Cijena srpanj–kolovoz (€)',
+  'prices.september': 'Cijena rujan (€)',
+  cleaningFee: 'Naknada za čišćenje (€)',
+}
+
 /**
  * The e-mail body is a human-readable Croatian change summary.
  */
 export function buildMessage(payload: PicksPayload, titles: Record<string, string>): string {
   const name = (id: string) => titles[id] ?? id
+  const propertyLabel = (path: string) => {
+    const match = path.match(/^apartments\.([^.]*)\.(.+)$/)
+    if (!match) return label(path)
+    return `${name(match[1])} — ${apartmentFieldLabels[match[2]] ?? match[2]}`
+  }
   const lines: string[] = []
 
   lines.push(`Smještaj: ${payload.slug} (otok/lokacija: ${payload.island})`)
@@ -70,7 +88,7 @@ export function buildMessage(payload: PicksPayload, titles: Record<string, strin
   const propertyChanges = Object.entries(payload.property.changed)
   if (propertyChanges.length) {
     lines.push('PODACI O SMJEŠTAJU:')
-    propertyChanges.forEach(([path, value]) => lines.push(`  – ${label(path)}: ${value}`))
+    propertyChanges.forEach(([path, value]) => lines.push(`  – ${propertyLabel(path)}: ${value}`))
     lines.push('')
   }
 

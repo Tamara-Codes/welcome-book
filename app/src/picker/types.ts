@@ -54,6 +54,8 @@ export interface PropertyPicks {
   /** Changed property fields only, keyed by the path used in the property file
    *  (e.g. "apartmentInfo.wifi.network", "apartmentInfo.parking"). */
   changed: Record<string, string>
+  /** Property/room fields the owner chose not to show. */
+  removedFields: string[]
   /** Indices of `apartmentInfo.houseRules` the owner unticked. */
   removedRules: number[]
   /** Extra house rules the owner typed, one per line. */
@@ -84,6 +86,6 @@ export interface PicksPayload {
   needsTranslation: string[]
   /** Anything the owner wanted to say that the form didn't cover. */
   notes: string
-  /** Who filled it in, so a reply can go back to the right person. */
+  /** The property host, used to identify the submitted guide. */
   owner: { name: string; email: string }
 }

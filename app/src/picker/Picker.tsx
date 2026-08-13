@@ -41,10 +41,6 @@ export function Picker({ slug, property, island }: Props) {
   const rows = useMemo(() => islandRows(island, OWNER_LANG, property.extra), [island, property])
   const propFields = useMemo(() => propertyFields(property, OWNER_LANG), [property])
   const roomFields = useMemo(() => apartmentFields(property, OWNER_LANG), [property])
-  const propertyFieldTitles = useMemo(
-    () => Object.fromEntries([...propFields, ...roomFields].map((field) => [field.path, field.label])),
-    [propFields, roomFields],
-  )
   const rules = useMemo(() => houseRules(property, OWNER_LANG), [property])
 
   /** id → title, for the readable summary in the e-mail. */
@@ -76,7 +72,6 @@ export function Picker({ slug, property, island }: Props) {
   )
   const [extras, setExtras] = useState<Partial<Record<SectionKey, NewPlace[]>>>({})
   const [propChanged, setPropChanged] = useState<Record<string, string>>({})
-  const [removedPropertyFields, setRemovedPropertyFields] = useState<Set<string>>(new Set())
   // Apartment id → uploaded Blob URL, and its in-flight status. Seeded empty —
   // the existing apt.image (if any) is shown as a preview until replaced.
   const [photos, setPhotos] = useState<Record<string, string>>({})
@@ -210,7 +205,6 @@ export function Picker({ slug, property, island }: Props) {
       extra: cleanExtras,
       property: {
         changed: propChanged,
-        removedFields: [...removedPropertyFields],
         removedRules: [...removedRules],
         newRules: rulesToAdd,
       },
@@ -389,40 +383,42 @@ export function Picker({ slug, property, island }: Props) {
               <section>
                 <h2 className="font-fraunces text-xl font-medium text-ink">{copy.propertyTitle}</h2>
                 <p className="mt-1 font-hanken text-[13px] text-ink/55">{copy.propertyHint}</p>
-                <ul className="mt-4 space-y-2">
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   {propFields.map((field) => (
-                    <PickerRow
+                    <label
                       key={field.path}
-                      row={{
-                        id: field.path,
-                        title: field.label,
-                        subtitle: propChanged[field.path] ?? field.value,
-                        fields: [{ ...field, key: field.path }],
-                      }}
-                      checked={!removedPropertyFields.has(field.path)}
-                      onToggle={(checked) =>
-                        setRemovedPropertyFields((prev) => {
-                          const next = new Set(prev)
-                          if (checked) next.delete(field.path)
-                          else next.add(field.path)
-                          return next
-                        })
-                      }
-                      edits={
-                        propChanged[field.path] === undefined
-                          ? {}
-                          : { [field.path]: propChanged[field.path] }
-                      }
-                      onEdit={(_, value) => editProperty(field.path, value, field.value)}
-                    />
+                      className={`block ${field.multiline ? 'sm:col-span-2' : ''}`}
+                    >
+                      <span className="mb-1 block font-hanken text-[11px] font-semibold uppercase tracking-wide text-ink/50">
+                        {field.label}
+                      </span>
+                      {field.multiline ? (
+                        <textarea
+                          rows={3}
+                          value={propChanged[field.path] ?? field.value}
+                          onChange={(e) => editProperty(field.path, e.target.value, field.value)}
+                          className={`${input} resize-y`}
+                        />
+                      ) : (
+                        <input
+                          type="text"
+                          value={propChanged[field.path] ?? field.value}
+                          onChange={(e) => editProperty(field.path, e.target.value, field.value)}
+                          className={input}
+                        />
+                      )}
+                    </label>
                   ))}
-                </ul>
+                </div>
               </section>
 
               <section>
-                <h2 className="font-fraunces text-xl font-medium text-ink">{copy.roomsTitle}</h2>
-                <div className="mt-4 space-y-5">
+                <h2 className="font-fraunces text-xl font-medium text-ink">{copy.photosTitle}</h2>
+                <p className="mt-1 font-hanken text-[13px] text-ink/55">{copy.photosHint}</p>
+                <div className="mt-4 grid gap-3.5 sm:grid-cols-2">
                   {property.apartments.map((apt) => {
+                    const preview = photos[apt.id] ?? apt.image
+                    const status = photoStatus[apt.id]
                     const apartmentName = typeof apt.name === 'string' ? apt.name : apt.name.en
                     const fields = roomFields.filter((field) =>
                       field.path.startsWith(`apartments.${apt.id}.`),
@@ -432,34 +428,34 @@ export function Picker({ slug, property, island }: Props) {
                         <p className="font-hanken text-[13px] font-semibold text-ink/70">
                           {apartmentName}
                         </p>
-                        <ul className="mt-3 space-y-2">
+                        {preview && (
+                          <img src={preview} alt={apartmentName} className="mt-2 h-32 w-full rounded-lg object-cover" />
+                        )}
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          disabled={status === 'uploading'}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0]
+                            if (file) void handlePhoto(apt.id, file)
+                          }}
+                          className="mt-2.5 block w-full font-hanken text-[13px] text-ink/70"
+                        />
+                        {status === 'uploading' && <p className="mt-1.5 font-hanken text-[12px] text-ink/45">{copy.photoUploading}</p>}
+                        {status === 'error' && <p className="mt-1.5 font-hanken text-[12px] font-semibold text-clay-600">{copy.photoUploadError}</p>}
+                        {status === 'done' && <p className="mt-1.5 font-hanken text-[12px] font-semibold text-ink/45">{copy.photoUploadDone}</p>}
+                        <div className="mt-4 grid gap-3 border-t border-ink/8 pt-4">
                           {fields.map((field) => (
-                            <PickerRow
-                              key={field.path}
-                              row={{
-                                id: field.path,
-                                title: field.label,
-                                subtitle: propChanged[field.path] ?? field.value,
-                                fields: [{ ...field, key: field.path }],
-                              }}
-                              checked={!removedPropertyFields.has(field.path)}
-                              onToggle={(checked) =>
-                                setRemovedPropertyFields((prev) => {
-                                  const next = new Set(prev)
-                                  if (checked) next.delete(field.path)
-                                  else next.add(field.path)
-                                  return next
-                                })
-                              }
-                              edits={
-                                propChanged[field.path] === undefined
-                                  ? {}
-                                  : { [field.path]: propChanged[field.path] }
-                              }
-                              onEdit={(_, value) => editProperty(field.path, value, field.value)}
-                            />
+                            <label key={field.path} className="block">
+                              <span className="mb-1 block font-hanken text-[11px] font-semibold uppercase tracking-wide text-ink/50">{field.label}</span>
+                              {field.multiline ? (
+                                <textarea rows={3} value={propChanged[field.path] ?? field.value} onChange={(e) => editProperty(field.path, e.target.value, field.value)} className={`${input} resize-y`} />
+                              ) : (
+                                <input type="text" value={propChanged[field.path] ?? field.value} onChange={(e) => editProperty(field.path, e.target.value, field.value)} className={input} />
+                              )}
+                            </label>
                           ))}
-                        </ul>
+                        </div>
                       </div>
                     )
                   })}
@@ -529,56 +525,6 @@ export function Picker({ slug, property, island }: Props) {
                 </button>
               </section>
 
-              <section>
-                <h2 className="font-fraunces text-xl font-medium text-ink">{copy.photosTitle}</h2>
-                <p className="mt-1 font-hanken text-[13px] text-ink/55">{copy.photosHint}</p>
-                <div className="mt-4 grid gap-3.5 sm:grid-cols-2">
-                  {property.apartments.map((apt) => {
-                    const preview = photos[apt.id] ?? apt.image
-                    const status = photoStatus[apt.id]
-                    const apartmentName = typeof apt.name === 'string' ? apt.name : apt.name.en
-                    return (
-                      <div key={apt.id} className="rounded-xl border border-ink/12 bg-white p-3.5">
-                        <p className="font-hanken text-[13px] font-semibold text-ink/70">
-                          {apartmentName}
-                        </p>
-                        {preview && (
-                          <img
-                            src={preview}
-                            alt={apartmentName}
-                            className="mt-2 h-32 w-full rounded-lg object-cover"
-                          />
-                        )}
-                        <input
-                          type="file"
-                          accept="image/jpeg,image/png,image/webp"
-                          disabled={status === 'uploading'}
-                          onChange={(e) => {
-                            const file = e.target.files?.[0]
-                            if (file) void handlePhoto(apt.id, file)
-                          }}
-                          className="mt-2.5 block w-full font-hanken text-[13px] text-ink/70"
-                        />
-                        {status === 'uploading' && (
-                          <p className="mt-1.5 font-hanken text-[12px] text-ink/45">
-                            {copy.photoUploading}
-                          </p>
-                        )}
-                        {status === 'error' && (
-                          <p className="mt-1.5 font-hanken text-[12px] font-semibold text-clay-600">
-                            {copy.photoUploadError}
-                          </p>
-                        )}
-                        {status === 'done' && (
-                          <p className="mt-1.5 font-hanken text-[12px] font-semibold text-ink/45">
-                            {copy.photoUploadDone}
-                          </p>
-                        )}
-                      </div>
-                    )
-                  })}
-                </div>
-              </section>
             </div>
           )}
 
@@ -600,20 +546,6 @@ export function Picker({ slug, property, island }: Props) {
                   </>
                 ) : (
                   <p className="mt-1 font-hanken text-[13px] text-ink/55">{copy.reviewEmpty}</p>
-                )}
-                <h3 className="mt-5 font-hanken text-[13px] font-semibold text-ink">
-                  {copy.reviewHiddenFields}
-                </h3>
-                {removedPropertyFields.size ? (
-                  <ul className="mt-2 space-y-1 font-hanken text-[14px] text-ink/70">
-                    {[...removedPropertyFields].map((path) => (
-                      <li key={path}>– {propertyFieldTitles[path] ?? path}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="mt-1 font-hanken text-[13px] text-ink/55">
-                    {copy.reviewNoHiddenFields}
-                  </p>
                 )}
               </div>
 

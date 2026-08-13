@@ -92,12 +92,6 @@ export function buildMessage(payload: PicksPayload, titles: Record<string, strin
     lines.push('')
   }
 
-  if (payload.property.removedFields.length) {
-    lines.push(`SKRIVENO IZ VODIČA (${payload.property.removedFields.length}):`)
-    payload.property.removedFields.forEach((path) => lines.push(`  – ${propertyLabel(path)}`))
-    lines.push('')
-  }
-
   const photoEntries = Object.entries(payload.photos)
   if (photoEntries.length) {
     lines.push(`FOTOGRAFIJE (${photoEntries.length}):`)

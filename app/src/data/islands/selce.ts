@@ -159,8 +159,10 @@ export const selce: IslandContent = {
         'nb-sailing',
         'promenade-cycling',
       ]).map((activity) => {
+        if (activity.id === 'watersport-selce') return { ...activity, name: 'Centar vodenih sportova' }
         if (activity.id === 'mihuric-diving') return { ...activity, name: 'Diving Center Mihurić' }
-        if (activity.id === 'nb-sailing') return { ...activity, name: 'NB Sailing — boat charter' }
+        if (activity.id === 'nb-sailing') return { ...activity, name: 'NB Sailing — najam plovila' }
+        if (activity.id === 'promenade-cycling') return { ...activity, name: 'Šetnica uz more — šetnja i biciklizam' }
         return activity
       }),
     ),
@@ -172,7 +174,10 @@ export const selce: IslandContent = {
       maps: 'Terme Selce',
       gradient: 'from-sea-300 to-sand-400',
     },
-    ...select(crikvenica.activities, ['aquarium-crikvenica', 'playground-promenade']),
+    ...select(crikvenica.activities, ['aquarium-crikvenica', 'playground-promenade']).map((activity) => {
+      if (activity.id === 'aquarium-crikvenica') return { ...activity, name: 'Akvarij Crikvenica' }
+      return activity
+    }),
     {
       id: 'pasa-selce',
       name: 'm/b PAŠA Selce',
@@ -191,10 +196,10 @@ export const selce: IslandContent = {
       maps: 'm/b PAŠA Selce',
       gradient: 'from-sea-400 to-sea-600',
     },
-    { id: 'jet-ski-selce', name: 'Rent a Jet Ski Selce', category: 'waterRental', description: localActivity, maps: 'Rent a Jet Ski Selce', gradient: 'from-sea-500 to-sea-700' },
+    { id: 'jet-ski-selce', name: 'Najam jet-skija Selce', category: 'waterRental', description: localActivity, maps: 'Rent a Jet Ski Selce', gradient: 'from-sea-500 to-sea-700' },
     {
       id: 'mini-golf-selce',
-      name: 'Mini golf — Rokan Beach',
+      name: 'Mini golf — plaža Rokan',
       category: 'excursion',
       description: t(
         'A small, seasonal outdoor mini-golf course by Hotel and Paviljoni Slaven, near Rokan Beach. An easy family activity, with table tennis and children’s play facilities nearby.',
@@ -212,7 +217,7 @@ export const selce: IslandContent = {
     },
     {
       id: 'love-path-crikvenica',
-      name: 'Love Path (Ljubavna cestica)',
+      name: 'Ljubavna cestica',
       category: 'excursion',
       description: t('An 8 km scenic walking route above Crikvenica, created in the 1930s, with natural views and cultural-historical landmarks along the way. A rewarding nearby excursion from Selce.', 'Slikovita šetnica duga 8 km iznad Crikvenice, izgrađena tridesetih godina 20. stoljeća, s prirodnim prizorima i kulturno-povijesnim znamenitostima uz put. Iz Selca je odličan izlet u blizini.', 'Ein 8 km langer malerischer Wanderweg oberhalb von Crikvenica aus den 1930er Jahren, mit Naturausblicken und kulturhistorischen Sehenswürdigkeiten. Ein lohnender Ausflug von Selce.', 'Un panoramico sentiero di 8 km sopra Crikvenica, realizzato negli anni Trenta, con scorci naturali e monumenti storico-culturali lungo il percorso. Una bella escursione da Selce.', 'Slikovita 8-kilometrska sprehajalna pot nad Crikvenico iz tridesetih let prejšnjega stoletja z naravnimi razgledi in kulturnozgodovinskimi znamenitostmi. Odličen bližnji izlet iz Selc.', 'Malownicza, 8-kilometrowa trasa spacerowa nad Crikvenicą, zbudowana w latach 30., z widokami na przyrodę i zabytkami kulturowo-historycznymi po drodze. Warto wybrać się tu z Selce.', 'Malebná 8 km dlouhá pěší trasa nad Crikvenicí, vybudovaná ve 30. letech, s přírodními výhledy a kulturně-historickými památkami po cestě. Příjemný výlet ze Selce.', 'Egy 8 km-es, Crikvenica feletti festői sétaút az 1930-as évekből, természeti látványosságokkal és kulturális-történelmi emlékekkel. Érdemes közeli kirándulás Selcéből.', 'Malebná 8 km dlhá pešia trasa nad Crikvenicou z 30. rokov 20. storočia s prírodnými výhľadmi a kultúrno-historickými pamiatkami. Príjemný blízky výlet zo Selc.'),
       maps: 'Ljubavna cestica Crikvenica',
@@ -220,7 +225,7 @@ export const selce: IslandContent = {
     },
     {
       id: 'frankopan-routes',
-      name: 'Frankopan Routes (Putovima Frankopana)',
+      name: 'Putovima Frankopana',
       category: 'excursion',
       description: t('Explore the castles, towns and heritage of the Frankopan family, whose influence shaped Kvarner’s political, economic and cultural history for more than five centuries.', 'Istražite kaštele, gradove i baštinu Frankopana, plemićke obitelji koja je više od pet stoljeća oblikovala političku, gospodarsku i kulturnu povijest Kvarnera.', 'Entdecken Sie die Burgen, Orte und das Erbe der Familie Frankopan, deren Einfluss die politische, wirtschaftliche und kulturelle Geschichte von Kvarner über mehr als fünf Jahrhunderte prägte.', 'Scoprite castelli, città e patrimonio della famiglia Frankopan, la cui influenza ha plasmato per oltre cinque secoli la storia politica, economica e culturale del Quarnero.', 'Raziščite gradove, kraje in dediščino rodbine Frankopan, ki je več kot pet stoletij oblikovala politično, gospodarsko in kulturno zgodovino Kvarnerja.', 'Odkryjcie zamki, miasta i dziedzictwo rodu Frankopanów, którego wpływ przez ponad pięć stuleci kształtował polityczną, gospodarczą i kulturalną historię Kvarneru.', 'Prozkoumejte hrady, města a dědictví rodu Frankopanů, jehož vliv utvářel politické, hospodářské a kulturní dějiny Kvarneru více než pět století.', 'Fedezze fel a Frankopan család várainak, településeinek és örökségének világát, amely több mint öt évszázadon át formálta Kvarner politikai, gazdasági és kulturális történetét.', 'Objavte hrady, mestá a dedičstvo rodu Frankopanovcov, ktorého vplyv viac ako päť storočí formoval politické, hospodárske a kultúrne dejiny Kvarneru.'),
       maps: 'Putovima Frankopana Crikvenica',
@@ -236,7 +241,7 @@ export const selce: IslandContent = {
     },
     {
       id: 'vinodol-hiking',
-      name: 'Hiking & walking trails',
+      name: 'Planinarske i pješačke staze',
       category: 'excursion',
       description: t('Choose a marked trail such as the Wave Trail, Karst and Stone Trail, Cliff Trail, Green Trail, Sky Trail, Roman Trail or Degenia Trail to explore the coast and Vinodol hinterland on foot.', 'Odaberite označenu stazu poput Staze valova, Staze krša i kuša, Staze litica, Zelene staze, Nebeske staze, Staze Rimljana ili Staze degenije te pješice istražite obalu i vinodolsko zaleđe.', 'Wählen Sie einen markierten Weg wie den Wellenweg, Karst- und Steinweg, Klippenweg, Grünen Weg, Himmelsweg, Römerweg oder Degenienweg und erkunden Sie die Küste und das Vinodol-Hinterland zu Fuß.', 'Scegliete un sentiero segnalato come il Sentiero delle onde, del Carso e della pietra, delle scogliere, verde, celeste, romano o della degenia per esplorare a piedi la costa e l’entroterra di Vinodol.', 'Izberite označeno pot, kot so Pot valov, Pot krasa in kamna, Pot klifov, Zelena pot, Nebeška pot, Rimska pot ali Pot degenije, ter peš raziščite obalo in vinodolsko zaledje.', 'Wybierzcie oznakowany szlak, taki jak Szlak Fal, Szlak Krasu i Kamienia, Szlak Klifów, Zielony Szlak, Niebiański Szlak, Szlak Rzymian lub Szlak Degenii, aby pieszo odkrywać wybrzeże i zaplecze Vinodolu.', 'Vyberte si značenou trasu, například Stezku vln, Stezku krasu a kamene, Stezku útesů, Zelenou stezku, Nebeskou stezku, Římskou stezku nebo Stezku degenie, a prozkoumejte pěšky pobřeží i vinodolské vnitrozemí.', 'Válasszon kijelölt útvonalat, például a Hullámok ösvényét, a Karszt és kő ösvényét, a Sziklafalak ösvényét, a Zöld ösvényt, az Ég ösvényét, a Rómaiak ösvényét vagy a Degenia ösvényt, és fedezze fel gyalog a partvidéket és Vinodol hátországát.', 'Vyberte si značenú trasu, napríklad Cestu vĺn, Cestu krasu a kameňa, Cestu útesov, Zelenú cestu, Nebeskú cestu, Cestu Rimanov alebo Cestu degenie, a pešo preskúmajte pobrežie i vinodolské vnútrozemie.'),
       maps: 'Planinarske staze Crikvenica',
@@ -244,7 +249,7 @@ export const selce: IslandContent = {
     },
     {
       id: 'vinodol-cycling',
-      name: 'Cycling around Crikvenica & Vinodol',
+      name: 'Biciklizam oko Crikvenice i Vinodola',
       category: 'bikeRental',
       description: t('Road, trekking and mountain-bike routes run from the beaches to medieval villages, Frankopan castles and the cliffs above Vinodol — with a route for every pace.', 'Cestovne, trekking i brdske biciklističke rute vode od plaža do srednjovjekovnih naselja, frankopanskih kaštela i litica iznad Vinodola — za svaki tempo vožnje.', 'Rennrad-, Trekking- und Mountainbike-Routen führen von den Stränden zu mittelalterlichen Dörfern, Frankopan-Burgen und den Klippen oberhalb von Vinodol — für jedes Tempo gibt es eine passende Strecke.', 'Percorsi su strada, trekking e mountain bike portano dalle spiagge ai borghi medievali, ai castelli dei Frankopan e alle scogliere sopra Vinodol — un itinerario per ogni ritmo.', 'Cestne, treking in gorskokolesarske poti vodijo od plaž do srednjeveških vasi, frankopanskih gradov in pečin nad Vinodolom — za vsak tempo je na voljo primerna pot.', 'Trasy szosowe, trekkingowe i górskie prowadzą od plaż do średniowiecznych wiosek, zamków Frankopanów i klifów nad Vinodolem — każdy znajdzie trasę dla swojego tempa.', 'Silniční, trekkingové i horské cyklotrasy vedou od pláží ke středověkým vesnicím, frankopanským hradům a útesům nad Vinodolem — pro každé tempo se najde vhodná trasa.', 'Országúti, trekking- és hegyikerékpáros útvonalak vezetnek a strandoktól a középkori falvakig, a Frankopan-várakig és a Vinodol feletti sziklákig — minden tempóhoz akad útvonal.', 'Cestné, trekingové aj horské cyklotrasy vedú od pláží k stredovekým dedinám, frankopanským hradom a útesom nad Vinodolom — pre každé tempo sa nájde vhodná trasa.'),
       maps: 'Biciklističke staze Crikvenica',
@@ -283,7 +288,7 @@ export const selce: IslandContent = {
     },
     {
       id: 'malina-selce',
-      name: 'Malina — fresh fruit & vegetables',
+      name: 'Malina — svježe voće i povrće',
       category: 'grocery',
       description: malinaShop,
       maps: 'Fresh fruits and vegetables Malina Selce',
@@ -324,11 +329,11 @@ export const selce: IslandContent = {
       maps: 'Poliklinika Terme Selce Fizikalna Terapija i Rehabilitacija',
       icon: 'ambulance',
     },
-    { id: 'info-centre-selce', labelKey: 'contacts.touristOffice', label: 'Info centre Selce', phone: '+385 51 765 165', maps: 'Info centre Selce', website: 'https://www.rivieracrikvenica.com/', icon: 'compass' },
+    { id: 'info-centre-selce', labelKey: 'contacts.touristOffice', label: 'Turistički informativni centar Selce', phone: '+385 51 765 165', maps: 'Info centre Selce', website: 'https://www.rivieracrikvenica.com/', icon: 'compass' },
     {
       id: 'taxi-selce',
       labelKey: 'contacts.taxi',
-      label: 'Taxi Crikvenica — Selce service',
+      label: 'Taxi Crikvenica — usluga za Selce',
       phone: '+385 92 360 0085',
       maps: 'Taxi Selce',
       website: 'https://www.crikvenicataxi.com/EN/',

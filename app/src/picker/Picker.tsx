@@ -4,7 +4,7 @@ import type { IslandContent, Property } from '../data/content'
 import { PickerRow } from './PickerRow'
 import { copy, extraTabs, OWNER_LANG, sections } from './pickerContent'
 import { apartmentFields, houseRules, islandRows, propertyFields, seedOverrides } from './rows'
-import { copyPicks, submitPicks, type SubmitMode } from './submitPicks'
+import { submitPicks, type SubmitMode } from './submitPicks'
 import type { NewPlace, PicksPayload, SectionKey } from './types'
 
 /* ============================================================================
@@ -85,7 +85,6 @@ export function Picker({ slug, property, island }: Props) {
 
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [mode, setMode] = useState<SubmitMode>('endpoint')
-  const [copied, setCopied] = useState(false)
 
   const [tab, setTab] = useState<TabKey>(TAB_KEYS[0])
   const tabIndex = TAB_KEYS.indexOf(tab)
@@ -231,10 +230,6 @@ export function Picker({ slug, property, island }: Props) {
     } catch {
       setStatus('error')
     }
-  }
-
-  async function handleCopy() {
-    setCopied(await copyPicks(buildPayload(), titles))
   }
 
   if (status === 'success') {
@@ -586,13 +581,6 @@ export function Picker({ slug, property, island }: Props) {
                   className="rounded-xl bg-clay-600 px-6 py-3 font-hanken text-[15px] font-semibold text-white transition hover:bg-ink disabled:opacity-60"
                 >
                   {status === 'submitting' ? copy.submitting : copy.submit}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleCopy}
-                  className="font-hanken text-[13px] font-semibold text-ink/55 hover:text-clay-600"
-                >
-                  {copied ? copy.copied : copy.copy}
                 </button>
               </div>
             </section>

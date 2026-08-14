@@ -3,6 +3,7 @@ import type { IconName } from '../components/Icon'
 import { mila } from './properties/mila'
 import { apartmaniHosnjak } from './properties/apartmanihosnjak'
 import { adria } from './properties/adria'
+import { selceDemo } from './properties/selce'
 import { sonia } from './properties/sonia'
 import { beachVillaSelce } from './properties/beachvillaselce'
 import { krk } from './islands/krk'
@@ -327,6 +328,7 @@ export const properties: Record<string, Property> = {
   mila,
   apartmanihosnjak: apartmaniHosnjak,
   adria,
+  selce: selceDemo,
   'apartmani-sonia': sonia,
   'beach-villa-selce': beachVillaSelce,
 }

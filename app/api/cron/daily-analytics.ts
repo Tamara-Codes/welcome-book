@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { properties } from '../../src/data/content'
 import { zagrebDayRange, zagrebTrailingRange } from '../_lib/dates'
 import { generateReport } from '../_lib/gemini'
+import { PROPERTY_NAMES } from '../_lib/propertyNames'
 import { sendTelegramMessage } from '../_lib/telegram'
 import { getEventCounts, getMetrics, getStats, umamiLogin } from '../_lib/umami'
 
@@ -21,7 +21,7 @@ const TRACKED_EVENTS = ['demo_opened', 'picker_opened', 'picker_completed', 'con
 function propertyLabel(path: string): string {
   const clean = path.split('#')[0].split('?')[0]
   const slug = clean.split('/').filter(Boolean).pop()
-  const name = slug ? properties[slug]?.property.name : undefined
+  const name = slug ? PROPERTY_NAMES[slug] : undefined
   return name ?? path
 }
 

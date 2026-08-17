@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Icon } from '../components/Icon'
+import { track } from '../lib/analytics'
 import { submitInquiry, type SubmitMode } from './submitInquiry'
 import { formCopy, formLabels, type InquiryData } from './content'
 
@@ -48,6 +49,7 @@ export function InquiryForm() {
       const submitMode = await submitInquiry(data)
       setMode(submitMode)
       setStatus('success')
+      track('inquiry_submitted', { source: 'landing' })
     } catch {
       setStatus('error')
     }

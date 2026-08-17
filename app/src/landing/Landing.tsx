@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Icon, type IconName } from '../components/Icon'
+import { track } from '../lib/analytics'
 import { PhonePreview } from './DemoGuide'
 import { InquiryForm } from './InquiryForm'
 import {
@@ -167,6 +168,7 @@ function Header() {
           href={DEMO_URL}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => track('demo_opened', { location: 'header' })}
           className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-ink px-4 py-2 font-hanken text-[13px] font-semibold text-shell transition-all hover:bg-ink-700 active:scale-[0.98] sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
         >
           {hero.primaryCta}
@@ -218,6 +220,7 @@ function Hero() {
               href={DEMO_URL}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => track('demo_opened', { location: 'hero' })}
               className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-ink px-7 py-4 font-hanken text-base font-semibold text-shell shadow-[0_16px_30px_-12px_rgba(18,48,59,0.6)] transition-all hover:bg-ink-700 active:scale-[0.98]"
             >
               <Icon name="link" className="h-5 w-5" /> {hero.primaryCta}
@@ -364,6 +367,7 @@ function DemoBand() {
                 href={DEMO_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => track('demo_opened', { location: 'demo_band' })}
                 className="group inline-flex items-center justify-center gap-3 rounded-full bg-white px-8 py-4 font-hanken text-base font-semibold text-ink shadow-[0_16px_30px_-12px_rgba(2,8,20,0.6)] transition-all hover:bg-clay-500 hover:text-white active:scale-[0.98]"
               >
                 <Icon name="link" className="h-5 w-5" /> {demoCta.button}
@@ -421,8 +425,25 @@ function Gallery() {
 /* ---------- Pricing ---------- */
 
 function Pricing() {
+  const ref = useRef<HTMLElement | null>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el || typeof IntersectionObserver === 'undefined') return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          track('pricing_viewed')
+          io.disconnect()
+        }
+      },
+      { threshold: 0.4 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
   return (
-    <section id="cijene" className="scroll-mt-24 border-y border-ink/10 bg-shell-100 py-20 sm:py-28">
+    <section ref={ref} id="cijene" className="scroll-mt-24 border-y border-ink/10 bg-shell-100 py-20 sm:py-28">
       <Container>
         <Reveal className="max-w-2xl">
           <Eyebrow>{pricing.eyebrow}</Eyebrow>
@@ -531,6 +552,7 @@ function ContactMethod({
     <a
       href={href}
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      onClick={() => track('contact_clicked', { label })}
       className="group flex items-center gap-4 py-3.5"
     >
       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-shell/[0.07] text-clay-400 transition-colors group-hover:bg-clay-500 group-hover:text-white">

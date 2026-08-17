@@ -1,6 +1,7 @@
-import { useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { upload } from '@vercel/blob/client'
 import type { IslandContent, Property } from '../data/content'
+import { track } from '../lib/analytics'
 import { PickerRow } from './PickerRow'
 import { copy, extraTabs, OWNER_LANG, sections } from './pickerContent'
 import { apartmentFields, houseRules, islandRows, propertyFields, seedOverrides } from './rows'
@@ -38,6 +39,10 @@ interface Props {
 }
 
 export function Picker({ slug, property, island }: Props) {
+  useEffect(() => {
+    track('picker_opened', { slug })
+  }, [slug])
+
   const rows = useMemo(() => islandRows(island, OWNER_LANG, property.extra), [island, property])
   const propFields = useMemo(() => propertyFields(property, OWNER_LANG), [property])
   const roomFields = useMemo(() => apartmentFields(property, OWNER_LANG), [property])
@@ -225,10 +230,13 @@ export function Picker({ slug, property, island }: Props) {
     }
     setStatus('submitting')
     try {
-      setMode(await submitPicks(buildPayload(), titles))
+      const submitMode = await submitPicks(buildPayload(), titles)
+      setMode(submitMode)
       setStatus('success')
+      track('picker_completed', { slug, mode: submitMode })
     } catch {
       setStatus('error')
+      track('picker_submit_error', { slug })
     }
   }
 

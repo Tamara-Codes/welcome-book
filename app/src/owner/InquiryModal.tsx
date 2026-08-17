@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Icon } from '../components/Icon'
+import { track } from '../lib/analytics'
 import { submitInquiry } from './submitInquiry'
 import {
   ownerCopy,
@@ -92,6 +93,7 @@ export function InquiryModal({ open, onClose }: { open: boolean; onClose: () => 
     try {
       await submitInquiry(data)
       setStatus('success')
+      track('owner_inquiry_submitted', { source: 'guide' })
     } catch {
       setStatus('error')
     }

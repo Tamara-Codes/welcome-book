@@ -6,5 +6,6 @@
       "source": "/((?!robots.txt|sitemap.xml).+)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     }
-  ]
+  ],
+  "crons": [{ "path": "/api/cron/daily-analytics", "schedule": "0 9 * * *" }]
 }

@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { properties } from '../../src/data/content'
-import { zagrebDayRange, zagrebTrailingRange } from '../lib/dates'
-import { generateReport } from '../lib/gemini'
-import { sendTelegramMessage } from '../lib/telegram'
-import { getEventCounts, getMetrics, getStats, umamiLogin } from '../lib/umami'
+import { zagrebDayRange, zagrebTrailingRange } from '../_lib/dates'
+import { generateReport } from '../_lib/gemini'
+import { sendTelegramMessage } from '../_lib/telegram'
+import { getEventCounts, getMetrics, getStats, umamiLogin } from '../_lib/umami'
 
 /* ============================================================================
  *  📊  DAILY ANALYTICS — Vercel Cron → Umami → Gemini → Telegram

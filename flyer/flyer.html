@@ -6,7 +6,7 @@
 <title>Digitalni vodič za Vaše apartmane</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #faf7f1;
@@ -14,6 +14,7 @@
     --sand-soft: #f1ead9;
     --sea: #2e6f8e;
     --sea-deep: #1e4e68;
+    --sea-50: #e7f0f5;
     --ink: #243b4a;
     --ink-soft: #5b6f7d;
     --card-radius: 16px;
@@ -41,85 +42,212 @@
     flex-direction: column;
   }
 
-  /* ---- Hero photo with headline overlaid on the sky ---- */
+  /* ---- Hero: sea-gradient band with headline + the app phone as centrepiece ---- */
   .hero {
     position: relative;
-    line-height: 0;            /* kill inline-image gap */
+    background: linear-gradient(150deg, var(--sea) 0%, var(--sea-deep) 100%);
+    padding: 24px 26px 86px;     /* deep bottom pad so the phone can overlap */
+    color: #fff;
+    overflow: hidden;
   }
-  .hero img {
-    display: block;
-    width: 100%;
-    height: auto;              /* show the FULL photo, no crop */
-  }
-  .hero::after {
-    /* subtle gradient so white text stays legible over the sky on the left + smooth blend into body */
-    content: "";
-    position: absolute; inset: 0;
-    background:
-      linear-gradient(110deg, rgba(20,45,60,0.42) 0%, rgba(20,45,60,0.12) 42%, rgba(20,45,60,0) 64%),
-      linear-gradient(0deg, var(--bg) 0%, rgba(250,247,241,0) 18%);
-  }
-  .hero-text {
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    padding: 24px 26px 0;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+  /* faint wave texture in the corner */
+  .hero .waves-deco {
+    position: absolute; top: -10px; right: -14px;
+    width: 150px; height: 150px;
+    color: rgba(255,255,255,0.09);
+    pointer-events: none;
   }
   .brand {
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     color: #fff;
-    filter: drop-shadow(0 2px 10px rgba(15,38,52,0.55));
   }
-  .brand .mark {
-    width: 26px; height: 26px;
-    flex: 0 0 auto;
-  }
-  .brand .wordmark {
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-  }
-  .brand .wordmark .name {
+  .brand .mark { width: 26px; height: 26px; flex: 0 0 auto; }
+  .brand .name {
     font-family: "Fraunces", Georgia, serif;
     font-size: 17px;
     font-weight: 600;
     letter-spacing: 0.2px;
   }
-  .brand .wordmark .tag {
-    font-family: "Inter", sans-serif;
-    font-size: 8.5px;
-    font-weight: 600;
-    letter-spacing: 2.4px;
-    text-transform: uppercase;
-    opacity: 0.85;
-    margin-top: 3px;
-  }
-  .hero-text h1 {
+  .hero h1 {
     font-family: "Fraunces", Georgia, "Times New Roman", serif;
-    font-size: 31px;
-    line-height: 1.1;
-    letter-spacing: -0.2px;
+    font-size: 30px;
+    line-height: 1.12;
+    letter-spacing: -0.3px;
     color: #fff;
     font-weight: 600;
     font-optical-sizing: auto;
-    text-shadow: 0 2px 18px rgba(15,38,52,0.5);
-    max-width: 64%;            /* keep headline over open sky/sea, clear of the house */
+    max-width: 92%;
+  }
+  .hero h1 em { font-style: italic; color: #d9ecf3; }
+  .hero .lede {
+    margin-top: 12px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.86);
+    max-width: 94%;
   }
 
-  /* ---- Subheadline (below photo) ---- */
+  /* ---- Phone mockup (mirrors the landing page PhonePreview) ---- */
+  .phone-wrap {
+    margin: -68px auto 0;        /* pull up to overlap the hero gradient */
+    width: 236px;
+    position: relative;
+    z-index: 3;
+  }
+  .phone {
+    position: relative;
+    border: 9px solid var(--ink);
+    background: var(--ink);
+    border-radius: 34px;
+    box-shadow: 0 30px 55px -22px rgba(12,40,56,0.6);
+  }
+  /* physical side buttons */
+  .phone .btn { position: absolute; background: var(--ink); border-radius: 2px; }
+  .phone .btn.l1 { left: -12px; top: 78px; width: 3px; height: 26px; }
+  .phone .btn.l2 { left: -12px; top: 114px; width: 3px; height: 46px; }
+  .phone .btn.r1 { right: -12px; top: 96px; width: 3px; height: 64px; }
+
+  .screen {
+    position: relative;
+    overflow: hidden;
+    border-radius: 26px;
+    background: #fbf8f3;
+  }
+  .island {
+    position: absolute; left: 50%; top: 8px; z-index: 5;
+    width: 70px; height: 17px;
+    transform: translateX(-50%);
+    background: var(--ink);
+    border-radius: 999px;
+  }
+  .statusbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 16px 3px;
+    color: var(--ink);
+  }
+  .statusbar .time { font-size: 11px; font-weight: 700; }
+  .statusbar .right { display: flex; align-items: center; gap: 5px; }
+  .statusbar .batt {
+    width: 18px; height: 9px; border: 1.2px solid rgba(36,59,74,0.6);
+    border-radius: 2px; padding: 1px; display: flex; align-items: center;
+  }
+  .statusbar .batt span { display: block; height: 100%; width: 100%; background: var(--ink); border-radius: 1px; }
+
+  /* sticky app header */
+  .app-header {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--sea); color: #fff;
+    padding: 7px 12px;
+  }
+  .pill {
+    background: rgba(255,255,255,0.16);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 8px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+  }
+  .pill.lang { display: inline-flex; align-items: center; gap: 4px; letter-spacing: 0.4px; }
+
+  .app-body { padding: 10px 9px 0; }
+
+  /* gradient hero card inside the app */
+  .guide-hero {
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, var(--sea) 0%, var(--sea-deep) 100%);
+    border-radius: 20px;
+    padding: 15px 15px 16px;
+    color: #fff;
+    box-shadow: 0 8px 18px -10px rgba(30,78,104,0.5);
+  }
+  .guide-hero .gh-waves {
+    position: absolute; right: -8px; top: -6px; width: 78px; height: 78px;
+    color: rgba(255,255,255,0.10);
+  }
+  .guide-hero h4 {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 19px; font-weight: 700; line-height: 1.1;
+    position: relative; z-index: 1;
+  }
+  .guide-hero .gh-tag {
+    margin-top: 5px; font-size: 10.5px; line-height: 1.4;
+    color: #d9ecf3; position: relative; z-index: 1;
+  }
+  .guide-hero .welcome {
+    margin-top: 12px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 14px;
+    padding: 9px 10px;
+    font-size: 9.5px; line-height: 1.45;
+    color: rgba(255,255,255,0.92);
+    position: relative; z-index: 1;
+  }
+  .guide-hero .welcome b { color: #fff; }
+
+  .app-body h5 {
+    margin: 13px 4px 7px;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 12.5px; font-weight: 700; color: var(--sea-deep);
+  }
+  .tiles {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    padding-bottom: 12px;
+  }
+  .tile {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 7px;
+    background: #fff;
+    border: 1px solid rgba(36,59,74,0.07);
+    border-radius: 16px;
+    padding: 10px 10px;
+    box-shadow: 0 4px 10px -8px rgba(30,78,104,0.4);
+  }
+  .tile .chip {
+    width: 30px; height: 30px; border-radius: 10px;
+    background: var(--sea-50); color: var(--sea);
+    display: grid; place-items: center;
+  }
+  .tile .t-label { font-size: 10.5px; font-weight: 700; color: #44566b; }
+
+  /* bottom navigation */
+  .app-nav {
+    display: flex; align-items: stretch; justify-content: space-around;
+    border-top: 1px solid rgba(36,59,74,0.08);
+    background: #fff;
+    padding: 7px 6px 9px;
+  }
+  .app-nav .nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    color: #9aa7b1;
+  }
+  .app-nav .nav-item.active { color: var(--sea); }
+  .app-nav .nav-item span { font-size: 7.5px; font-weight: 700; }
+
+  /* ---- Subheadline (below phone) ---- */
   .sub {
-    padding: 18px 28px 2px;
+    padding: 22px 28px 2px;
+    text-align: center;
   }
   .sub p {
-    font-size: 15px;
+    font-size: 14.5px;
     line-height: 1.5;
     color: var(--ink-soft);
   }
+
+  /* ---- Social-proof line (trust for an unknown sender) ---- */
+  .proof {
+    margin: 12px 24px 0;
+    padding: 9px 14px;
+    background: var(--sea-50);
+    border: 1px solid rgba(46,111,142,0.18);
+    border-radius: 999px;
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--sea-deep);
+  }
+  .proof::before { content: "✓ "; color: var(--sea); font-weight: 800; }
 
   /* ---- Benefits ---- */
   .section-label {
@@ -129,6 +257,7 @@
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--sea);
+    text-align: center;
   }
   .grid {
     padding: 0 22px;
@@ -199,39 +328,69 @@
   }
   .cta-text .contact b { color: var(--ink); font-weight: 700; }
   .qr {
-    flex: 0 0 92px; width: 92px; height: 92px;
+    flex: 0 0 150px; width: 150px; height: 150px;
     border-radius: 12px;
-    background:
-      repeating-linear-gradient(0deg, var(--ink) 0 6px, transparent 6px 12px),
-      repeating-linear-gradient(90deg, var(--ink) 0 6px, transparent 6px 12px);
     background-color: #fff;
-    border: 3px solid #fff;
+    border: 4px solid #fff;
     box-shadow: 0 0 0 1px rgba(36,59,74,0.15);
-    position: relative;
-    opacity: 0.92;
-  }
-  .qr::after {
-    content: "QR";
-    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 800; letter-spacing: 1px; color: var(--sea-deep);
-    background: rgba(250,247,241,0.78); margin: 24px; border-radius: 6px;
+    object-fit: contain;
+    display: block;
   }
 
-  /* ---- Print: A5 (scale whole flyer to fit one page, nothing clipped) ---- */
+  /* ---- Print: A5 — reflow into a two-column poster that FILLS the page ----
+     Screen stays a tall single column (great for a WhatsApp screenshot); on
+     A5 the same content becomes: full-width hero on top, phone left + benefits
+     right, then the price banner and contact/QR as full-width bands. */
   @media print {
     @page { size: A5 portrait; margin: 0; }
     html, body { background: #fff; margin: 0; }
     /* force all colour backgrounds/photos to render */
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    .page {
-      width: 148mm; height: 210mm;
-      position: relative; overflow: hidden;
-    }
+    .page { width: 148mm; height: 210mm; position: relative; overflow: hidden; }
+
     .flyer {
-      position: absolute; top: 0; left: 0;
+      width: 148mm; height: 210mm;
       margin: 0; border-radius: 0; box-shadow: none;
-      transform-origin: top left;   /* JS sets the scale/translate to centre it */
+      transform: none !important;
+      display: grid;
+      grid-template-columns: 46% 54%;
+      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      grid-template-areas:
+        "hero  hero"
+        "phone info"
+        "price price"
+        "cta   cta";
+      align-items: start;
     }
+
+    .hero { grid-area: hero; padding: 9mm 11mm 9mm; }
+    .hero h1 { font-size: 25px; max-width: 100%; }
+    .hero .lede { display: none; }          /* phone + benefits convey this — keep the band clean */
+
+    /* Scale the phone down for print. transform: scale() is visual-only and
+       does NOT shrink the layout box, so we ALSO give the wrap an explicit
+       (already-scaled) width/height — otherwise the full-size phone overflows
+       its row and covers the price band. */
+    .phone-wrap {
+      grid-area: phone;
+      margin: 0;
+      width: 179px; height: 346px;
+      align-self: center; justify-self: center;
+    }
+    .phone-wrap .phone { transform: scale(0.76); transform-origin: top left; }
+
+    .info { grid-area: info; align-self: center; padding-right: 6mm; }
+    .info .sub { display: none; }            /* phone already shows this — save space */
+    .info .proof { margin: 0 0 10px; font-size: 11.5px; }
+    .info .section-label { text-align: left; padding: 0 0 8px 4px; }
+    .info .grid { padding: 0; gap: 8px; }
+    .info .card { padding: 11px 11px; }
+    .info .strip { margin: 12px 0 0; }
+
+    .price { grid-area: price; margin: 0 11mm; align-self: end; }
+    .cta   { grid-area: cta; margin: 5mm 11mm 8mm; align-self: end; }
+    .cta .qr { flex: 0 0 168px; width: 168px; height: 168px; }   /* ~44mm — big & easy to scan in print */
+
     .print-hint { display: none; }
   }
 
@@ -250,29 +409,132 @@
   <div class="page">
   <div class="flyer">
 
-    <!-- HERO PHOTO + HEADLINE -->
+    <!-- HERO: gradient band + headline, with the app phone as the centrepiece -->
     <div class="hero">
-      <img src="coast.png" alt="Apartman uz more na hrvatskoj obali" />
-      <div class="hero-text">
-        <div class="brand">
-          <svg class="mark" viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M16 9.5C13.8 7.6 10.3 7 6.5 7.8v15c3.8-.8 7.3-.2 9.5 1.7"/>
-            <path d="M16 9.5c2.2-1.9 5.7-2.5 9.5-1.7v15c-3.8-.8-7.3-.2-9.5 1.7"/>
-            <path d="M16 9.5v15"/>
-            <path d="M19.2 4.4l1 2.1 2.3.3-1.7 1.6.4 2.3-2-1.1-2 1.1.4-2.3-1.7-1.6 2.3-.3z" fill="#fff" stroke="none" opacity="0.9"/>
-          </svg>
-          <span class="wordmark">
-            <span class="name">Welcome Book</span>
-          </span>
+      <svg class="waves-deco" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M2 6c.8.6 1.6 1 3 1 2.7 0 2.7-2 5.3-2 2.6 0 2.6 2 5.3 2 1.4 0 2.2-.4 3-1"/>
+        <path d="M2 12c.8.6 1.6 1 3 1 2.7 0 2.7-2 5.3-2 2.6 0 2.6 2 5.3 2 1.4 0 2.2-.4 3-1"/>
+        <path d="M2 18c.8.6 1.6 1 3 1 2.7 0 2.7-2 5.3-2 2.6 0 2.6 2 5.3 2 1.4 0 2.2-.4 3-1"/>
+      </svg>
+
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M16 9.5C13.8 7.6 10.3 7 6.5 7.8v15c3.8-.8 7.3-.2 9.5 1.7"/>
+          <path d="M16 9.5c2.2-1.9 5.7-2.5 9.5-1.7v15c-3.8-.8-7.3-.2-9.5 1.7"/>
+          <path d="M16 9.5v15"/>
+          <path d="M19.2 4.4l1 2.1 2.3.3-1.7 1.6.4 2.3-2-1.1-2 1.1.4-2.3-1.7-1.6 2.3-.3z" fill="#fff" stroke="none" opacity="0.9"/>
+        </svg>
+        <span class="name">Welcome Book</span>
+      </div>
+
+      <h1>Sve što Vaši gosti trebaju, <em>na jednom mjestu.</em></h1>
+      <p class="lede">Elegantan digitalni vodič za Vaše apartmane — gosti ga otvore linkom ili skeniranjem QR koda.</p>
+    </div>
+
+    <!-- PHONE MOCKUP — the live app, exactly what guests see -->
+    <div class="phone-wrap">
+      <div class="phone">
+        <span class="btn l1"></span>
+        <span class="btn l2"></span>
+        <span class="btn r1"></span>
+
+        <div class="screen">
+          <div class="island"></div>
+
+          <!-- status bar -->
+          <div class="statusbar">
+            <span class="time">9:41</span>
+            <span class="right">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#243b4a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
+              </svg>
+              <span class="batt"><span></span></span>
+            </span>
+          </div>
+
+          <!-- app header -->
+          <div class="app-header">
+            <span class="pill">Demo</span>
+            <span class="pill lang">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              HR
+            </span>
+          </div>
+
+          <div class="app-body">
+            <!-- gradient hero card -->
+            <div class="guide-hero">
+              <svg class="gh-waves" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 6c.8.6 1.6 1 3 1 2.7 0 2.7-2 5.3-2 2.6 0 2.6 2 5.3 2 1.4 0 2.2-.4 3-1"/>
+                <path d="M2 12c.8.6 1.6 1 3 1 2.7 0 2.7-2 5.3-2 2.6 0 2.6 2 5.3 2 1.4 0 2.2-.4 3-1"/>
+                <path d="M2 18c.8.6 1.6 1 3 1 2.7 0 2.7-2 5.3-2 2.6 0 2.6 2 5.3 2 1.4 0 2.2-.4 3-1"/>
+              </svg>
+              <h4>Apartmani Mila</h4>
+              <div class="gh-tag">Vaš dom uz Jadran u Njivicama, na otoku Krku.</div>
+              <div class="welcome"><b>Dobrodošli! </b>Sve što vam treba za opušten boravak u Njivicama nalazi se ovdje — samo dotaknite gumb ispod.</div>
+            </div>
+
+            <!-- quick-access grid -->
+            <h5>Brzi pristup</h5>
+            <div class="tiles">
+              <div class="tile">
+                <span class="chip"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span>
+                <span class="t-label">Wi‑Fi</span>
+              </div>
+              <div class="tile">
+                <span class="chip"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 12h6"/><path d="M9 16h6"/></svg></span>
+                <span class="t-label">Kućni red</span>
+              </div>
+              <div class="tile">
+                <span class="chip"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12a10 10 0 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 4 0"/><path d="M12 2v2"/></svg></span>
+                <span class="t-label">Plaže</span>
+              </div>
+              <div class="tile">
+                <span class="chip"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v6a2 2 0 0 0 4 0V3"/><path d="M6 9v12"/><path d="M17 3c-1.7 0-3 2.2-3 5s1.3 5 3 5"/><path d="M17 13v8"/></svg></span>
+                <span class="t-label">Restorani</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- bottom navigation -->
+          <div class="app-nav">
+            <span class="nav-item active">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span>Početna</span>
+            </span>
+            <span class="nav-item">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <span>Info</span>
+            </span>
+            <span class="nav-item">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v3"/></svg>
+              <span>Apartmani</span>
+            </span>
+            <span class="nav-item">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+              <span>Otkrij</span>
+            </span>
+            <span class="nav-item">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>Kontakt</span>
+            </span>
+          </div>
         </div>
-        <h1>Digitalni vodič za Vaše apartmane</h1>
       </div>
     </div>
 
+    <!-- RIGHT-COLUMN INFO (single column on screen; right column in A5 print) -->
+    <div class="info">
+
     <!-- SUBHEADLINE -->
     <div class="sub">
-      <p>Sve informacije za goste na jednom mjestu — link prije dolaska i QR kod u apartmanu.</p>
+      <p>Točno ovo Vaši gosti vide — Wi‑Fi, kućni red, plaže i preporuke. Bez aplikacije, bez prijave.</p>
     </div>
+
+    <!-- SOCIAL PROOF -->
+    <div class="proof">Već u upotrebi kod vlasnika s 9 apartmana na Krku.</div>
 
     <!-- BENEFITS -->
     <div class="section-label">Gosti odmah vide</div>
@@ -308,23 +570,25 @@
       Bez aplikacije. Bez prijave za gosta.<br>Manje poruka Vama, bolji dojam za gosta.
     </div>
 
+    </div><!-- /.info -->
+
     <!-- PRICE -->
     <div class="price">
-      <strong>Izrada od €149 po sezoni</strong>
-      <small>Posebne cijene za kuće s više apartmana</small>
+      <strong>već od €99 godišnje</strong>
+      <small>1–3 apartmana €99 &nbsp;·&nbsp; 4–6 €149 &nbsp;·&nbsp; 7+ €199</small>
     </div>
 
     <!-- CTA + CONTACT -->
     <div class="cta">
       <div class="cta-text">
         <div class="lbl">Pogledajte demo vodič</div>
-        <div class="demo">[DEMO LINK]</div>
+        <div class="demo">welcomebook.eu</div>
         <div class="contact">
-          <b>[IME]</b><br>
-          [EMAIL ILI TELEFON]
+          <b>Tamara</b><br>
+          099 214 2439
         </div>
       </div>
-      <div class="qr" aria-label="QR placeholder"></div>
+      <img class="qr" src="qr.png" alt="Skenirajte za demo vodič" />
     </div>
 
   </div>
@@ -334,34 +598,6 @@
     Za WhatsApp: napravite screenshot na mobitelu. &nbsp;•&nbsp;
     Za A5 tisak: <code>Ctrl/Cmd + P</code> → spremi kao PDF (A5, bez margina).
   </p>
-
-  <script>
-    // Scale the whole flyer to fit one A5 page when printing — no clipping, centred.
-    function fitFlyerToA5() {
-      var flyer = document.querySelector('.flyer');
-      if (!flyer) return;
-      flyer.style.transform = '';                 // measure natural size first
-      var pxPerMm = 96 / 25.4;                     // CSS reference: 96dpi
-      var pageW = 148 * pxPerMm, pageH = 210 * pxPerMm;
-      var w = flyer.offsetWidth, h = flyer.offsetHeight;
-      var s = Math.min(pageW / w, pageH / h);      // fit inside the page
-      var x = (pageW - w * s) / 2;                 // centre horizontally
-      var y = (pageH - h * s) / 2;                 // centre vertically
-      flyer.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + s + ')';
-    }
-    function clearFit() {
-      var flyer = document.querySelector('.flyer');
-      if (flyer) flyer.style.transform = '';
-    }
-    window.addEventListener('beforeprint', fitFlyerToA5);
-    window.addEventListener('afterprint', clearFit);
-    // Safari / some PDF engines fire matchMedia instead of beforeprint
-    if (window.matchMedia) {
-      var mq = window.matchMedia('print');
-      mq.addEventListener ? mq.addEventListener('change', function (e) { e.matches ? fitFlyerToA5() : clearFit(); })
-                          : mq.addListener(function (e) { e.matches ? fitFlyerToA5() : clearFit(); });
-    }
-  </script>
 
 </body>
 </html>

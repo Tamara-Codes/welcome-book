@@ -12,7 +12,13 @@ dist/
 
 # Sales outreach lists — contain owners' personal phone numbers, keep local only
 /*-owners-outreach.md
+/*-owners-tracker.md
+/*-dashboard.html
+/*-owners.vcf
 /FB-groups-outreach-log.md
+
+# Generated Instagram post packs (images are regenerable; keep local)
+/marketing/
 
 # Dev artifacts
 .playwright-mcp/

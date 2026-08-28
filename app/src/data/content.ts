@@ -6,9 +6,11 @@ import { adria } from './properties/adria'
 import { selceDemo } from './properties/selce'
 import { sonia } from './properties/sonia'
 import { beachVillaSelce } from './properties/beachvillaselce'
+import { zdrelacDemo } from './properties/zdrelac'
 import { krk } from './islands/krk'
 import { crikvenica } from './islands/crikvenica'
 import { selce } from './islands/selce'
+import { zdrelac } from './islands/zdrelac'
 
 /* ============================================================================
  *  📖  GUEST GUIDE — TYPES & REGISTRIES
@@ -318,6 +320,7 @@ export const islands: Record<string, IslandContent> = {
   krk,
   crikvenica,
   selce,
+  zdrelac,
 }
 
 /**
@@ -331,6 +334,7 @@ export const properties: Record<string, Property> = {
   selce: selceDemo,
   'apartmani-sonia': sonia,
   'beach-villa-selce': beachVillaSelce,
+  zdrelac: zdrelacDemo,
 }
 
 /** Used at the bare root path (no slug) — handy during local development. */

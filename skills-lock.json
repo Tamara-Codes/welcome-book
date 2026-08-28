@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "marketing-ideas": {
+      "source": "ognjengt/founder-skills",
+      "sourceType": "github",
+      "skillPath": "skills/marketing-ideas/SKILL.md",
+      "computedHash": "7789e6c20901e27117fc99d30b3839d2b5d40e5fb86ba007fc01292cd0bdbfaa"
+    }
+  }
+}

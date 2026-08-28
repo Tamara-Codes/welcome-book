@@ -1,32 +1,15 @@
-import { Icon, type IconName } from '../components/Icon'
-import { demoGuide } from './content'
-
-/** Quick-access tiles, mirroring the real guest app's home grid (Home.tsx). */
-const TILES: { icon: IconName; label: string }[] = [
-  { icon: 'wifi', label: 'Wi-Fi' },
-  { icon: 'rules', label: 'Kućni red' },
-  { icon: 'bed', label: 'Apartmani' },
-  { icon: 'beach', label: 'Plaže' },
-  { icon: 'restaurant', label: 'Restorani' },
-  { icon: 'shop', label: 'Trgovine' },
-]
-
-/** Bottom-nav items, mirroring the real guest app (BottomNav.tsx). */
-const NAV: { icon: IconName; label: string; active?: boolean }[] = [
-  { icon: 'home', label: 'Početna', active: true },
-  { icon: 'info', label: 'Info' },
-  { icon: 'bed', label: 'Apartmani' },
-  { icon: 'compass', label: 'Otkrij' },
-  { icon: 'phone', label: 'Kontakt' },
-]
+import { Icon } from '../components/Icon'
+import { demoGuide, phonePreview } from './content'
+import { useLandingLang } from './i18n'
 
 /**
  * A realistic, full-height phone mockup used as the hero product visual — it
  * mirrors the real guest app's home screen (Home.tsx): a gradient hero card, a
- * "Brzi pristup" grid of tiles and the bottom navigation. It is NOT the
- * interactive demo; the live demo opens at /mila via the "Isprobaj demo" buttons.
+ * quick-access grid of tiles and the bottom navigation. It is NOT the
+ * interactive demo; the live demo opens at /mila via the "Try the demo" buttons.
  */
 export function PhonePreview() {
+  const { t, lang } = useLandingLang()
   return (
     <div className="w-[19rem] sm:w-[20.5rem]">
       <div className="relative rounded-[3rem] border-[11px] border-ink bg-ink shadow-[0_40px_70px_-25px_rgba(12,74,110,0.55)]">
@@ -56,7 +39,7 @@ export function PhonePreview() {
               Demo
             </span>
             <span className="flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-bold">
-              <Icon name="globe" className="h-3 w-3" /> HR
+              <Icon name="globe" className="h-3 w-3" /> {lang.toUpperCase()}
             </span>
           </div>
 
@@ -69,22 +52,22 @@ export function PhonePreview() {
                 {demoGuide.propertyName}
               </h4>
               <p className="mt-1.5 font-sans text-[12px] leading-relaxed text-sea-50">
-                {demoGuide.propertyTagline}
+                {t(demoGuide.propertyTagline)}
               </p>
               <div className="mt-4 rounded-2xl bg-white/10 p-3 ring-1 ring-white/15">
                 <p className="font-sans text-[11px] leading-relaxed text-white/90">
-                  <span className="font-bold text-white">Dobrodošli! </span>
-                  Drago nam je što ste tu. Sve što vam treba za opušten boravak u Njivicama nalazi se ovdje — samo dotaknite gumb ispod.
+                  <span className="font-bold text-white">{t(phonePreview.welcomeBold)}</span>
+                  {t(phonePreview.welcomeBody)}
                 </p>
               </div>
             </div>
 
             {/* quick-access grid */}
-            <h5 className="mb-2 mt-4 px-1 font-display text-sm font-bold text-sea-800">Brzi pristup</h5>
+            <h5 className="mb-2 mt-4 px-1 font-display text-sm font-bold text-sea-800">{t(phonePreview.quickAccess)}</h5>
             <div className="grid grid-cols-2 gap-2.5 pb-4">
-              {TILES.map((tile, i) => (
+              {phonePreview.tiles.map((tile, i) => (
                 <div
-                  key={tile.label}
+                  key={tile.label.en}
                   className={`flex-col items-start gap-2 rounded-2xl border border-sand-100/80 bg-white p-3 shadow-card ${
                     i >= 4 ? 'hidden sm:flex' : 'flex'
                   }`}
@@ -93,7 +76,7 @@ export function PhonePreview() {
                     <Icon name={tile.icon} className="h-5 w-5" />
                   </span>
                   <span className="font-sans text-[12px] font-bold leading-snug text-slate-700">
-                    {tile.label}
+                    {t(tile.label)}
                   </span>
                 </div>
               ))}
@@ -102,13 +85,13 @@ export function PhonePreview() {
 
           {/* bottom navigation */}
           <div className="flex items-stretch justify-around border-t border-sand-100 bg-white px-2 pb-4 pt-2.5">
-            {NAV.map((n) => (
+            {phonePreview.nav.map((n) => (
               <span
-                key={n.label}
+                key={n.label.en}
                 className={`flex flex-1 flex-col items-center gap-1 ${n.active ? 'text-sea-600' : 'text-slate-400'}`}
               >
                 <Icon name={n.icon} className={`h-5 w-5 ${n.active ? 'scale-110' : ''}`} strokeWidth={2} />
-                <span className="font-sans text-[9px] font-semibold">{n.label}</span>
+                <span className="font-sans text-[9px] font-semibold">{t(n.label)}</span>
               </span>
             ))}
           </div>

@@ -18,6 +18,8 @@ import {
   footer,
   inquiryConfig,
 } from './content'
+import { LandingLanguageProvider, useLandingLang, type LandingLang } from './i18n'
+import { Flag } from '../components/Flag'
 
 const DEMO_URL = inquiryConfig.demoUrl
 const CONTACT = '#kontakt'
@@ -91,9 +93,19 @@ function Reveal({
 }
 
 export default function Landing() {
+  return (
+    <LandingLanguageProvider>
+      <LandingPage />
+    </LandingLanguageProvider>
+  )
+}
+
+function LandingPage() {
+  const { t } = useLandingLang()
+
   useEffect(() => {
-    document.title = `${brand.name} · Digitalni vodič za goste`
-  }, [])
+    document.title = `${brand.name} · ${t(hero.eyebrow)}`
+  }, [t])
 
   // The landing is a lazy-loaded chunk, so when arriving from another page with
   // a hash (e.g. /#kontakt from the /mila guide), the target section doesn't
@@ -136,7 +148,25 @@ function Wordmark({ light = false }: { light?: boolean }) {
   )
 }
 
+/** Two-way EN/HR toggle — tap the flag to switch. */
+function LangSwitcher() {
+  const { lang, setLang } = useLandingLang()
+  const other: LandingLang = lang === 'en' ? 'hr' : 'en'
+  return (
+    <button
+      type="button"
+      onClick={() => setLang(other)}
+      aria-label={`Switch to ${other === 'en' ? 'English' : 'Hrvatski'}`}
+      className="flex shrink-0 items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1.5 text-xs font-bold text-ink shadow-sm ring-1 ring-ink/10 transition-all active:scale-95"
+    >
+      <Flag code={lang} />
+      <span className="uppercase">{lang}</span>
+    </button>
+  )
+}
+
 function Header() {
+  const { t } = useLandingLang()
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -160,20 +190,23 @@ function Header() {
               href={n.href}
               className="font-hanken text-sm font-medium text-ink/70 transition-colors hover:text-ink"
             >
-              {n.label}
+              {t(n.label)}
             </a>
           ))}
         </nav>
-        <a
-          href={DEMO_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => track('demo_opened', { location: 'header' })}
-          className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-ink px-4 py-2 font-hanken text-[13px] font-semibold text-shell transition-all hover:bg-ink-700 active:scale-[0.98] sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
-        >
-          {hero.primaryCta}
-          <Icon name="chevronRight" className="h-4 w-4" />
-        </a>
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <LangSwitcher />
+          <a
+            href={DEMO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => track('demo_opened', { location: 'header' })}
+            className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-ink px-4 py-2 font-hanken text-[13px] font-semibold text-shell transition-all hover:bg-ink-700 active:scale-[0.98] sm:gap-2 sm:px-5 sm:py-2.5 sm:text-sm"
+          >
+            {t(hero.primaryCta)}
+            <Icon name="chevronRight" className="h-4 w-4" />
+          </a>
+        </div>
       </Container>
     </header>
   )
@@ -182,6 +215,7 @@ function Header() {
 /* ---------- Hero ---------- */
 
 function Hero() {
+  const { t } = useLandingLang()
   return (
     <section id="top" className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
       {/* soft atmospheric background */}
@@ -199,20 +233,20 @@ function Hero() {
         {/* copy */}
         <div>
           <div className="lp-rise" style={{ animationDelay: '40ms' }}>
-            <Eyebrow>{hero.eyebrow}</Eyebrow>
+            <Eyebrow>{t(hero.eyebrow)}</Eyebrow>
           </div>
           <h1
             className="lp-rise mt-6 font-fraunces text-[2.6rem] font-medium leading-[1.05] tracking-[-0.01em] text-ink sm:text-6xl"
             style={{ animationDelay: '120ms' }}
           >
-            {hero.titleLead}{' '}
-            <span className="italic text-clay-600">{hero.titleEmphasis}</span>
+            {t(hero.titleLead)}{' '}
+            <span className="italic text-clay-600">{t(hero.titleEmphasis)}</span>
           </h1>
           <p
             className="lp-rise mt-6 max-w-xl font-hanken text-lg leading-relaxed text-ink/70"
             style={{ animationDelay: '220ms' }}
           >
-            {hero.subtitle}
+            {t(hero.subtitle)}
           </p>
 
           <div className="lp-rise mt-9 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: '320ms' }}>
@@ -223,13 +257,13 @@ function Hero() {
               onClick={() => track('demo_opened', { location: 'hero' })}
               className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-ink px-7 py-4 font-hanken text-base font-semibold text-shell shadow-[0_16px_30px_-12px_rgba(18,48,59,0.6)] transition-all hover:bg-ink-700 active:scale-[0.98]"
             >
-              <Icon name="link" className="h-5 w-5" /> {hero.primaryCta}
+              <Icon name="link" className="h-5 w-5" /> {t(hero.primaryCta)}
             </a>
             <a
               href={CONTACT}
               className="inline-flex items-center justify-center gap-2.5 rounded-full border border-ink/20 bg-transparent px-7 py-4 font-hanken text-base font-semibold text-ink transition-all hover:border-ink/40 hover:bg-ink/5 active:scale-[0.98]"
             >
-              <Icon name="mail" className="h-5 w-5" /> {hero.secondaryCta}
+              <Icon name="mail" className="h-5 w-5" /> {t(hero.secondaryCta)}
             </a>
           </div>
 
@@ -238,7 +272,7 @@ function Hero() {
             style={{ animationDelay: '420ms' }}
           >
             <Icon name="check" className="h-4 w-4 shrink-0 text-clay-500" strokeWidth={2.5} />
-            {hero.trust}
+            {t(hero.trust)}
           </p>
         </div>
 
@@ -267,18 +301,19 @@ function Hero() {
 /* ---------- Value ---------- */
 
 function ValueSection() {
+  const { t } = useLandingLang()
   return (
     <section className="bg-ink py-20 sm:py-24">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-16">
           <Reveal>
-            <Eyebrow light>{value.eyebrow}</Eyebrow>
+            <Eyebrow light>{t(value.eyebrow)}</Eyebrow>
             <h2 className="mt-5 font-fraunces text-3xl font-medium leading-tight text-shell sm:text-[2.6rem]">
-              {value.title}
+              {t(value.title)}
             </h2>
           </Reveal>
           <Reveal delay={100}>
-            <p className="font-hanken text-lg leading-relaxed text-shell/70">{value.intro}</p>
+            <p className="font-hanken text-lg leading-relaxed text-shell/70">{t(value.intro)}</p>
           </Reveal>
         </div>
 
@@ -286,7 +321,7 @@ function ValueSection() {
           {value.points.map((p, i) => (
             <Reveal
               as="li"
-              key={p.text}
+              key={p.text.en}
               delay={i * 90}
               className="group relative overflow-hidden rounded-2xl border border-ink/10 bg-white p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-sea-200 hover:shadow-[0_26px_44px_-22px_rgba(12,74,110,0.4)]"
             >
@@ -295,8 +330,8 @@ function ValueSection() {
               <span className="grid h-14 w-14 place-items-center rounded-2xl bg-sea-50 text-sea-600 transition-all duration-300 group-hover:scale-105 group-hover:bg-sea-600 group-hover:text-white">
                 <Icon name={p.icon} className="h-7 w-7" />
               </span>
-              <h3 className="mt-5 font-fraunces text-lg font-medium text-ink">{p.text}</h3>
-              <p className="mt-2 font-hanken text-sm leading-relaxed text-ink/60">{p.desc}</p>
+              <h3 className="mt-5 font-fraunces text-lg font-medium text-ink">{t(p.text)}</h3>
+              <p className="mt-2 font-hanken text-sm leading-relaxed text-ink/60">{t(p.desc)}</p>
             </Reveal>
           ))}
         </ul>
@@ -308,26 +343,27 @@ function ValueSection() {
 /* ---------- How it works ---------- */
 
 function HowItWorks() {
+  const { t } = useLandingLang()
   return (
     <section id="kako" className="scroll-mt-24 py-20 sm:py-28">
       <Container>
         <Reveal className="max-w-2xl">
-          <Eyebrow>{howItWorks.eyebrow}</Eyebrow>
+          <Eyebrow>{t(howItWorks.eyebrow)}</Eyebrow>
           <h2 className="mt-5 font-fraunces text-3xl font-medium leading-tight text-ink sm:text-[2.6rem]">
-            {howItWorks.title}
+            {t(howItWorks.title)}
           </h2>
         </Reveal>
 
         <div className="mt-14 grid gap-8 md:grid-cols-3 md:gap-6">
           {howItWorks.steps.map((s, i) => (
-            <Reveal key={s.title} delay={i * 110} className="relative">
+            <Reveal key={s.title.en} delay={i * 110} className="relative">
               <span className="font-fraunces text-5xl font-medium text-clay-400">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <h3 className="mt-4 flex items-center gap-2.5 font-fraunces text-xl font-medium text-ink">
-                <Icon name={s.icon} className="h-5 w-5 text-sea-600" /> {s.title}
+                <Icon name={s.icon} className="h-5 w-5 text-sea-600" /> {t(s.title)}
               </h3>
-              <p className="mt-3 font-hanken text-[15px] leading-relaxed text-ink/65">{s.body}</p>
+              <p className="mt-3 font-hanken text-[15px] leading-relaxed text-ink/65">{t(s.body)}</p>
             </Reveal>
           ))}
         </div>
@@ -339,6 +375,7 @@ function HowItWorks() {
 /* ---------- Demo band (the demo = a button) ---------- */
 
 function DemoBand() {
+  const { t } = useLandingLang()
   return (
     <section id="demo" className="scroll-mt-24 pb-4">
       <Container>
@@ -356,11 +393,11 @@ function DemoBand() {
           />
           <div className="relative grid items-center gap-8 lg:grid-cols-[1.4fr_1fr]">
             <div>
-              <Eyebrow light>{demoCta.eyebrow}</Eyebrow>
+              <Eyebrow light>{t(demoCta.eyebrow)}</Eyebrow>
               <h2 className="mt-5 font-fraunces text-3xl font-medium leading-tight text-shell sm:text-[2.5rem]">
-                {demoCta.title}
+                {t(demoCta.title)}
               </h2>
-              <p className="mt-4 max-w-lg font-hanken text-[15px] leading-relaxed text-shell/70">{demoCta.body}</p>
+              <p className="mt-4 max-w-lg font-hanken text-[15px] leading-relaxed text-shell/70">{t(demoCta.body)}</p>
             </div>
             <div className="lg:justify-self-end">
               <a
@@ -370,7 +407,7 @@ function DemoBand() {
                 onClick={() => track('demo_opened', { location: 'demo_band' })}
                 className="group inline-flex items-center justify-center gap-3 rounded-full bg-white px-8 py-4 font-hanken text-base font-semibold text-ink shadow-[0_16px_30px_-12px_rgba(2,8,20,0.6)] transition-all hover:bg-clay-500 hover:text-white active:scale-[0.98]"
               >
-                <Icon name="link" className="h-5 w-5" /> {demoCta.button}
+                <Icon name="link" className="h-5 w-5" /> {t(demoCta.button)}
                 <Icon
                   name="chevronRight"
                   className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
@@ -387,15 +424,16 @@ function DemoBand() {
 /* ---------- Gallery ---------- */
 
 function Gallery() {
+  const { t } = useLandingLang()
   return (
     <section className="py-20 sm:py-28">
       <Container>
         <Reveal className="max-w-2xl">
-          <Eyebrow>{gallery.eyebrow}</Eyebrow>
+          <Eyebrow>{t(gallery.eyebrow)}</Eyebrow>
           <h2 className="mt-5 font-fraunces text-3xl font-medium leading-tight text-ink sm:text-[2.6rem]">
-            {gallery.title}
+            {t(gallery.title)}
           </h2>
-          <p className="mt-4 font-hanken text-lg leading-relaxed text-ink/70">{gallery.intro}</p>
+          <p className="mt-4 font-hanken text-lg leading-relaxed text-ink/70">{t(gallery.intro)}</p>
         </Reveal>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -407,12 +445,12 @@ function Gallery() {
             >
               <img
                 src={img.src}
-                alt={img.caption}
+                alt={t(img.caption)}
                 className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/5 to-transparent" />
               <span className="absolute bottom-4 left-4 font-hanken text-sm font-semibold text-shell">
-                {img.caption}
+                {t(img.caption)}
               </span>
             </Reveal>
           ))}
@@ -425,6 +463,7 @@ function Gallery() {
 /* ---------- Pricing ---------- */
 
 function Pricing() {
+  const { t } = useLandingLang()
   const ref = useRef<HTMLElement | null>(null)
   useEffect(() => {
     const el = ref.current
@@ -446,17 +485,17 @@ function Pricing() {
     <section ref={ref} id="cijene" className="scroll-mt-24 border-y border-ink/10 bg-shell-100 py-20 sm:py-28">
       <Container>
         <Reveal className="max-w-2xl">
-          <Eyebrow>{pricing.eyebrow}</Eyebrow>
+          <Eyebrow>{t(pricing.eyebrow)}</Eyebrow>
           <h2 className="mt-5 font-fraunces text-3xl font-medium leading-tight text-ink sm:text-[2.6rem]">
-            {pricing.title}
+            {t(pricing.title)}
           </h2>
-          <p className="mt-4 font-hanken text-lg leading-relaxed text-ink/70">{pricing.intro}</p>
+          <p className="mt-4 font-hanken text-lg leading-relaxed text-ink/70">{t(pricing.intro)}</p>
         </Reveal>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-3">
           {pricing.tiers.map((tier, i) => (
             <Reveal
-              key={tier.name}
+              key={tier.name.en}
               delay={i * 90}
               className={`group relative flex flex-col overflow-hidden rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1.5 ${
                 tier.highlight
@@ -482,12 +521,12 @@ function Pricing() {
                 </span>
                 {tier.highlight && (
                   <span className="rounded-full bg-clay-500 px-2.5 py-1 font-hanken text-[10px] font-bold uppercase tracking-wider text-white">
-                    Najčešći izbor
+                    {t(pricing.mostPopular)}
                   </span>
                 )}
               </div>
               <p className={`font-hanken text-sm font-semibold leading-snug ${tier.highlight ? 'text-shell/80' : 'text-ink/70'}`}>
-                {tier.name}
+                {t(tier.name)}
               </p>
               <p className="mt-3 flex items-baseline gap-1.5">
                 <span className={`font-fraunces text-3xl font-medium ${tier.highlight ? 'text-shell' : 'text-ink'}`}>
@@ -495,7 +534,7 @@ function Pricing() {
                 </span>
                 {tier.unit && (
                   <span className={`font-hanken text-xs font-medium ${tier.highlight ? 'text-shell/55' : 'text-ink/40'}`}>
-                    {tier.unit}
+                    {t(tier.unit)}
                   </span>
                 )}
               </p>
@@ -505,7 +544,7 @@ function Pricing() {
 
         <p className="mt-6 flex items-start gap-2 font-hanken text-sm leading-relaxed text-ink/55">
           <Icon name="info" className="mt-0.5 h-4 w-4 shrink-0 text-clay-500" />
-          {pricing.note}
+          {t(pricing.note)}
         </p>
       </Container>
     </section>
@@ -515,6 +554,7 @@ function Pricing() {
 /* ---------- Review reminder ---------- */
 
 function ReviewBand() {
+  const { t } = useLandingLang()
   return (
     <section className="py-16 sm:py-20">
       <Container>
@@ -523,9 +563,9 @@ function ReviewBand() {
             <Icon name="star" className="h-6 w-6" />
           </span>
           <div>
-            <h3 className="font-fraunces text-xl font-medium text-ink">{reviewFeature.title}</h3>
+            <h3 className="font-fraunces text-xl font-medium text-ink">{t(reviewFeature.title)}</h3>
             <p className="mt-1.5 max-w-2xl font-hanken text-[15px] leading-relaxed text-ink/65">
-              {reviewFeature.body}
+              {t(reviewFeature.body)}
             </p>
           </div>
         </Reveal>
@@ -575,20 +615,21 @@ function ContactMethod({
 }
 
 function Contact() {
+  const { t } = useLandingLang()
   return (
     <section id="kontakt" className="scroll-mt-24 bg-ink py-20 sm:py-28">
       <Container>
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           {/* left: invitation + direct methods */}
           <Reveal>
-            <Eyebrow light>{contact.eyebrow}</Eyebrow>
+            <Eyebrow light>{t(contact.eyebrow)}</Eyebrow>
             <h2 className="mt-5 font-fraunces text-3xl font-medium leading-tight text-shell sm:text-[2.7rem]">
-              {contact.title}
+              {t(contact.title)}
             </h2>
 
             <div className="mt-8 divide-y divide-shell/10 border-y border-shell/10">
               {contact.methods.map((m) => (
-                <ContactMethod key={m.label} icon={m.icon} label={m.label} value={m.value} href={m.href} />
+                <ContactMethod key={m.label.en} icon={m.icon} label={t(m.label)} value={m.value} href={m.href} />
               ))}
               {socials.map((s) => (
                 <ContactMethod key={s.label} icon={s.icon} label={s.label} value={s.value} href={s.href} />
@@ -614,24 +655,29 @@ function Contact() {
 /* ---------- Footer ---------- */
 
 function Footer() {
+  const { t } = useLandingLang()
   const year = new Date().getFullYear()
+  const contactIcons = [
+    ...contact.methods.map((m) => ({ icon: m.icon, label: t(m.label), value: m.value, href: m.href })),
+    ...socials.map((s) => ({ icon: s.icon, label: s.label, value: s.value, href: s.href })),
+  ]
   return (
     <footer className="border-t border-shell/10 bg-ink pb-10 pt-12">
       <Container>
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <Wordmark light />
-            <p className="mt-3 max-w-xs font-hanken text-sm leading-relaxed text-shell/45">{footer.tagline}</p>
+            <p className="mt-3 max-w-xs font-hanken text-sm leading-relaxed text-shell/45">{t(footer.tagline)}</p>
           </div>
           <nav className="flex flex-wrap gap-x-7 gap-y-2 font-hanken text-sm text-shell/60">
             {nav.map((n) => (
               <a key={n.href} href={n.href} className="transition-colors hover:text-shell">
-                {n.label}
+                {t(n.label)}
               </a>
             ))}
           </nav>
           <div className="flex items-center gap-2.5">
-            {[...contact.methods, ...socials].map((c) => {
+            {contactIcons.map((c) => {
               const external = c.href.startsWith('http')
               return (
                 <a
@@ -649,9 +695,9 @@ function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-2 border-t border-shell/10 pt-6 font-hanken text-xs text-shell/40 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {year} {brand.name}. Sva prava pridržana.</p>
+          <p>© {year} {brand.name}. {t(footer.copyright)}</p>
           <a href={footer.webHref} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-shell/70">
-            Izrađuje Tamara · {footer.web}
+            {t(footer.madeBy)} {footer.web}
           </a>
         </div>
       </Container>

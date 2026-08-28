@@ -1,4 +1,5 @@
 import { inquiryConfig, buildEmailBody, emailSubject, type InquiryData } from './content'
+import type { LandingLang } from './i18n'
 
 /** How the inquiry was delivered, so the UI can tailor the success copy. */
 export type SubmitMode = 'endpoint' | 'mailto'
@@ -9,14 +10,14 @@ export type SubmitMode = 'endpoint' | 'mailto'
  * fall back to opening the visitor's email client with a pre-filled message.
  * Throws on failure so the caller can show an error.
  */
-export async function submitInquiry(data: InquiryData): Promise<SubmitMode> {
+export async function submitInquiry(data: InquiryData, lang: LandingLang): Promise<SubmitMode> {
   if (inquiryConfig.accessKey) {
     const res = await fetch(inquiryConfig.endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({
         access_key: inquiryConfig.accessKey,
-        subject: emailSubject,
+        subject: emailSubject[lang],
         from_name: data.fullName,
         name: data.fullName,
         email: data.email,
@@ -33,8 +34,8 @@ export async function submitInquiry(data: InquiryData): Promise<SubmitMode> {
   // Fallback: open the user's email client with a pre-filled message.
   const href =
     `mailto:${inquiryConfig.email}` +
-    `?subject=${encodeURIComponent(emailSubject)}` +
-    `&body=${encodeURIComponent(buildEmailBody(data))}`
+    `?subject=${encodeURIComponent(emailSubject[lang])}` +
+    `&body=${encodeURIComponent(buildEmailBody(data, lang))}`
   window.location.href = href
   return 'mailto'
 }
